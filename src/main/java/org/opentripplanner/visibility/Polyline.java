@@ -49,34 +49,6 @@ class Polyline {
         return running_max;
     }
 
-    BoundingBox bbox() {
-        // Precondition: nonempty Polyline.
-        assert (vertices.size() > 0);
-
-        BoundingBox bounding_box = new BoundingBox();
-        double x_min = vertices.get(0).x, x_max = vertices.get(0).x, y_min = vertices.get(0).y, y_max = vertices
-                .get(0).y;
-        for (int i = 1; i < vertices.size(); i++) {
-            if (x_min > vertices.get(i).x) {
-                x_min = vertices.get(i).x;
-            }
-            if (x_max < vertices.get(i).x) {
-                x_max = vertices.get(i).x;
-            }
-            if (y_min > vertices.get(i).y) {
-                y_min = vertices.get(i).y;
-            }
-            if (y_max < vertices.get(i).y) {
-                y_max = vertices.get(i).y;
-            }
-        }
-        bounding_box.x_min = x_min;
-        bounding_box.x_max = x_max;
-        bounding_box.y_min = y_min;
-        bounding_box.y_max = y_max;
-        return bounding_box;
-    }
-
     void eliminate_redundant_vertices(double epsilon) {
         // Trivial case
         if (vertices.size() < 3)

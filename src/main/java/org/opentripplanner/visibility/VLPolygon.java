@@ -149,55 +149,6 @@ public class VLPolygon {
         return running_max;
     }
 
-    public BoundingBox bbox() {
-        // Precondition: nonempty Polygon.
-        assert (vertices.size() > 0);
-
-        BoundingBox bounding_box = new BoundingBox();
-        double x_min = vertices.get(0).x, x_max = vertices.get(0).x, y_min = vertices.get(0).y, y_max = vertices
-                .get(0).y;
-        for (int i = 1; i < vertices.size(); i++) {
-            if (x_min > vertices.get(i).x) {
-                x_min = vertices.get(i).x;
-            }
-            if (x_max < vertices.get(i).x) {
-                x_max = vertices.get(i).x;
-            }
-            if (y_min > vertices.get(i).y) {
-                y_min = vertices.get(i).y;
-            }
-            if (y_max < vertices.get(i).y) {
-                y_max = vertices.get(i).y;
-            }
-        }
-        bounding_box.x_min = x_min;
-        bounding_box.x_max = x_max;
-        bounding_box.y_min = y_min;
-        bounding_box.y_max = y_max;
-        return bounding_box;
-    }
-
-    ArrayList<VLPoint> random_points(int count, double epsilon) {
-        // Precondition: nonempty Polygon.
-        assert (vertices.size() > 0);
-
-        BoundingBox bounding_box = bbox();
-        ArrayList<VLPoint> pts_in_polygon = new ArrayList<VLPoint>(count);
-        VLPoint pt_temp = new VLPoint(
-                Util.uniform_random_sample(bounding_box.x_min, bounding_box.x_max),
-                Util.uniform_random_sample(bounding_box.y_min, bounding_box.y_max));
-        while (pts_in_polygon.size() < count) {
-            while (!pt_temp.in(this, epsilon)) {
-                pt_temp.set_x(Util.uniform_random_sample(bounding_box.x_min, bounding_box.x_max));
-                pt_temp.set_y(Util.uniform_random_sample(bounding_box.y_min, bounding_box.y_max));
-            }
-            pts_in_polygon.add(pt_temp);
-            pt_temp.set_x(Util.uniform_random_sample(bounding_box.x_min, bounding_box.x_max));
-            pt_temp.set_y(Util.uniform_random_sample(bounding_box.y_min, bounding_box.y_max));
-        }
-        return pts_in_polygon;
-    }
-
     public void enforce_standard_form() {
         int point_count = vertices.size();
         if (point_count > 1) { // if more than one point in the polygon.
