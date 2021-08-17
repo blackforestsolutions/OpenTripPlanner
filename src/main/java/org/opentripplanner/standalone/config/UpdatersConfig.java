@@ -2,21 +2,17 @@ package org.opentripplanner.standalone.config;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-import org.opentripplanner.standalone.config.updaters.BikeParkUpdaterConfig;
 import org.opentripplanner.standalone.config.updaters.BikeRentalUpdaterConfig;
 import org.opentripplanner.standalone.config.updaters.GtfsRealtimeAlertsUpdaterConfig;
 import org.opentripplanner.standalone.config.updaters.MqttGtfsRealtimeUpdaterConfig;
 import org.opentripplanner.standalone.config.updaters.PollingStoptimeUpdaterConfig;
-import org.opentripplanner.standalone.config.updaters.WFSNotePollingGraphUpdaterConfig;
 import org.opentripplanner.standalone.config.updaters.WebsocketGtfsRealtimeUpdaterConfig;
 import org.opentripplanner.updater.UpdatersParameters;
 import org.opentripplanner.updater.alerts.GtfsRealtimeAlertsUpdaterParameters;
-import org.opentripplanner.updater.bike_park.BikeParkUpdaterParameters;
 import org.opentripplanner.updater.bike_rental.BikeRentalUpdaterParameters;
 import org.opentripplanner.updater.stoptime.MqttGtfsRealtimeUpdaterParameters;
 import org.opentripplanner.updater.stoptime.PollingStoptimeUpdaterParameters;
 import org.opentripplanner.updater.stoptime.WebsocketGtfsRealtimeUpdaterParameters;
-import org.opentripplanner.updater.street_notes.WFSNotePollingGraphUpdaterParameters;
 import org.opentripplanner.util.OtpAppException;
 
 import java.net.URI;
@@ -37,19 +33,15 @@ public class UpdatersConfig implements UpdatersParameters {
   private static final String WEBSOCKET_GTFS_RT_UPDATER = "websocket-gtfs-rt-updater";
   private static final String MQTT_GTFS_RT_UPDATER = "mqtt-gtfs-rt-updater";
   private static final String REAL_TIME_ALERTS = "real-time-alerts";
-  private static final String BIKE_PARK = "bike-park";
-  private static final String WINKKI_POLLING_UPDATER = "winkki-polling-updater";
 
   private static final Map<String, BiFunction<String, NodeAdapter, ?>> CONFIG_CREATORS = new HashMap<>();
 
   static {
     CONFIG_CREATORS.put(BIKE_RENTAL, BikeRentalUpdaterConfig::create);
-    CONFIG_CREATORS.put(BIKE_PARK, BikeParkUpdaterConfig::create);
     CONFIG_CREATORS.put(STOP_TIME_UPDATER, PollingStoptimeUpdaterConfig::create);
     CONFIG_CREATORS.put(WEBSOCKET_GTFS_RT_UPDATER, WebsocketGtfsRealtimeUpdaterConfig::create);
     CONFIG_CREATORS.put(MQTT_GTFS_RT_UPDATER, MqttGtfsRealtimeUpdaterConfig::create);
     CONFIG_CREATORS.put(REAL_TIME_ALERTS, GtfsRealtimeAlertsUpdaterConfig::create);
-    CONFIG_CREATORS.put(WINKKI_POLLING_UPDATER, WFSNotePollingGraphUpdaterConfig::create);
   }
 
   private final Multimap<String, Object> configList = ArrayListMultimap.create();
@@ -103,16 +95,6 @@ public class UpdatersConfig implements UpdatersParameters {
   @Override
   public List<MqttGtfsRealtimeUpdaterParameters> getMqttGtfsRealtimeUpdaterParameters() {
     return getParameters(MQTT_GTFS_RT_UPDATER);
-  }
-
-  @Override
-  public List<BikeParkUpdaterParameters> getBikeParkUpdaterParameters() {
-    return getParameters(BIKE_PARK);
-  }
-
-  @Override
-  public List<WFSNotePollingGraphUpdaterParameters> getWinkkiPollingGraphUpdaterParameters() {
-    return getParameters(WINKKI_POLLING_UPDATER);
   }
 
   private <T> List<T> getParameters(String key) {
