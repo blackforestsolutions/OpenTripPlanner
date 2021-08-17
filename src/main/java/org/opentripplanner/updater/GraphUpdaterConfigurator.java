@@ -1,12 +1,5 @@
 package org.opentripplanner.updater;
 
-import org.opentripplanner.ext.bikerentalservicedirectory.BikeRentalServiceDirectoryFetcher;
-import org.opentripplanner.ext.siri.updater.SiriETUpdater;
-import org.opentripplanner.ext.siri.updater.SiriETUpdaterParameters;
-import org.opentripplanner.ext.siri.updater.SiriSXUpdater;
-import org.opentripplanner.ext.siri.updater.SiriSXUpdaterParameters;
-import org.opentripplanner.ext.siri.updater.SiriVMUpdater;
-import org.opentripplanner.ext.siri.updater.SiriVMUpdaterParameters;
 import org.opentripplanner.routing.graph.Graph;
 import org.opentripplanner.updater.alerts.GtfsRealtimeAlertsUpdater;
 import org.opentripplanner.updater.alerts.GtfsRealtimeAlertsUpdaterParameters;
@@ -49,11 +42,6 @@ public abstract class GraphUpdaterConfigurator {
         updaters.addAll(
             createUpdatersFromConfig(updatersParameters)
         );
-        updaters.addAll(
-            fetchBikeRentalServicesFromOnlineDirectory(
-                updatersParameters.bikeRentalServiceDirectoryUrl()
-            )
-        );
 
         setupUpdaters(graph, updaters);
         GraphUpdaterManager updaterManager = new GraphUpdaterManager(graph, updaters);
@@ -91,14 +79,6 @@ public abstract class GraphUpdaterConfigurator {
     /* private methods */
 
     /**
-     * Use the online UpdaterDirectoryService to fetch BikeRental updaters.
-     */
-    private static List<GraphUpdater> fetchBikeRentalServicesFromOnlineDirectory(URI endpoint) {
-        if (endpoint == null) { return List.of(); }
-        return BikeRentalServiceDirectoryFetcher.createUpdatersFromEndpoint(endpoint);
-    }
-
-    /**
      * @return a list of GraphUpdaters created from the configuration
      */
     private static List<GraphUpdater> createUpdatersFromConfig(
@@ -114,15 +94,6 @@ public abstract class GraphUpdaterConfigurator {
         }
         for (PollingStoptimeUpdaterParameters configItem : config.getPollingStoptimeUpdaterParameters()) {
             updaters.add(new PollingStoptimeUpdater(configItem));
-        }
-        for (SiriETUpdaterParameters configItem : config.getSiriETUpdaterParameters()) {
-            updaters.add(new SiriETUpdater(configItem));
-        }
-        for (SiriSXUpdaterParameters configItem : config.getSiriSXUpdaterParameters()) {
-            updaters.add(new SiriSXUpdater(configItem));
-        }
-        for (SiriVMUpdaterParameters configItem : config.getSiriVMUpdaterParameters()) {
-            updaters.add(new SiriVMUpdater(configItem));
         }
         for (WebsocketGtfsRealtimeUpdaterParameters configItem : config.getWebsocketGtfsRealtimeUpdaterParameters()) {
             updaters.add(new WebsocketGtfsRealtimeUpdater(configItem));

@@ -8,7 +8,6 @@ import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.opentripplanner.common.MinMap;
 import org.opentripplanner.common.geometry.GeometryUtils;
-import org.opentripplanner.ext.flex.trip.FlexTrip;
 import org.opentripplanner.model.FlexStopLocation;
 import org.opentripplanner.model.Stop;
 import org.opentripplanner.model.StopLocation;
@@ -95,9 +94,6 @@ public class NearbyStopFinder {
         /* Track the closest stop on each pattern passing nearby. */
         MinMap<TripPattern, StopAtDistance> closestStopForPattern = new MinMap<TripPattern, StopAtDistance>();
 
-        /* Track the closest stop on each flex trip nearby. */
-        MinMap<FlexTrip, StopAtDistance> closestStopForFlexTrip = new MinMap<>();
-
         /* Iterate over nearby stops via the street network or using straight-line distance, depending on the graph. */
         for (StopAtDistance stopAtDistance : findNearbyStops(vertex, reverseDirection)) {
             StopLocation ts1 = stopAtDistance.stop;
@@ -107,16 +103,11 @@ public class NearbyStopFinder {
                 for (TripPattern pattern : graph.index.getPatternsForStop(ts1)) {
                     closestStopForPattern.putMin(pattern, stopAtDistance);
                 }
-            } if (OTPFeature.FlexRouting.isOn()) {
-                for (FlexTrip trip : graph.index.getFlexIndex().flexTripsByStop.get(ts1)) {
-                    closestStopForFlexTrip.putMin(trip, stopAtDistance);
-                }
             }
         }
 
         /* Make a transfer from the origin stop to each destination stop that was the closest stop on any pattern. */
         Set<StopAtDistance> uniqueStops = Sets.newHashSet();
-        uniqueStops.addAll(closestStopForFlexTrip.values());
         uniqueStops.addAll(closestStopForPattern.values());
         return uniqueStops;
 
@@ -181,15 +172,6 @@ public class NearbyStopFinder {
                 if (originVertices.contains(targetVertex)) continue;
                 if (targetVertex instanceof TransitStopVertex && state.isFinal()) {
                     stopsFound.add(StopAtDistance.stopAtDistanceForState(state, ((TransitStopVertex) targetVertex).getStop()));
-                }
-                if (OTPFeature.FlexRouting.isOn() && targetVertex instanceof StreetVertex
-                    && ((StreetVertex) targetVertex).flexStopLocations != null) {
-                    for (FlexStopLocation flexStopLocation : ((StreetVertex) targetVertex).flexStopLocations) {
-                        // This is for a simplification, so that we only return one vertex from each
-                        // stop location. All vertices are added to the multimap, which is filtered
-                        // below, so that only the closest vertex is added to stopsFound
-                        locationsMap.put(flexStopLocation, state);
-                    }
                 }
             }
         }

@@ -1,6 +1,5 @@
 package org.opentripplanner.routing.impl;
 
-import org.opentripplanner.ext.siri.updater.SiriSXUpdater;
 import org.opentripplanner.model.FeedScopedId;
 import org.opentripplanner.routing.alertpatch.TransitAlert;
 import org.opentripplanner.routing.graph.Graph;
@@ -17,12 +16,6 @@ public class DelegatingTransitAlertServiceImpl implements TransitAlertService {
 
   public DelegatingTransitAlertServiceImpl(Graph graph) {
     if (graph.updaterManager != null) {
-      graph.updaterManager.getUpdaterList().stream()
-          .filter(SiriSXUpdater.class::isInstance)
-          .map(SiriSXUpdater.class::cast)
-          .map(SiriSXUpdater::getTransitAlertService)
-          .forEach(transitAlertServices::add);
-
       graph.updaterManager.getUpdaterList().stream()
           .filter(GtfsRealtimeAlertsUpdater.class::isInstance)
           .map(GtfsRealtimeAlertsUpdater.class::cast)

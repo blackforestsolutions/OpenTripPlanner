@@ -5,7 +5,6 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.FileAppender;
-import org.opentripplanner.ext.transmodelapi.TransmodelAPI;
 import org.opentripplanner.inspector.TileRendererManager;
 import org.opentripplanner.routing.algorithm.raptor.transit.TransitLayer;
 import org.opentripplanner.routing.algorithm.raptor.transit.TripSchedule;
@@ -109,14 +108,6 @@ public class Router {
             LOG.info("Computed ellipsoid/geoid offset at (" + lat + ", " + lon + ") as " + graph.ellipsoidToGeoidDifference);
         } catch (Exception e) {
             LOG.error("Error computing ellipsoid/geoid difference");
-        }
-
-        if(OTPFeature.SandboxAPITransmodelApi.isOn()) {
-            TransmodelAPI.setUp(
-                routerConfig.transmodelApiHideFeedId(),
-                graph,
-                defaultRoutingRequest
-            );
         }
     }
 

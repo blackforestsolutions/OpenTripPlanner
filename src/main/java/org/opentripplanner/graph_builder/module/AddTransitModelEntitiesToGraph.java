@@ -1,6 +1,5 @@
 package org.opentripplanner.graph_builder.module;
 
-import org.opentripplanner.ext.flex.trip.FlexTrip;
 import org.opentripplanner.gtfs.GtfsContext;
 import org.opentripplanner.model.Agency;
 import org.opentripplanner.model.BoardingArea;
@@ -91,20 +90,11 @@ public class AddTransitModelEntitiesToGraph {
 
         // Although pathways are loaded from GTFS they are street data, so we will put them in the street graph.
         createPathwayEdgesAndAddThemToGraph(graph);
-        if (OTPFeature.FlexRouting.isOn()) {
-            addLocationsToGraph(graph);
-            addLocationGroupsToGraph(graph);
-        }
         addFeedInfoToGraph(graph);
         addAgenciesToGraph(graph);
 
         /* Interpret the transfers explicitly defined in transfers.txt. */
         addTransfersToGraph(graph);
-
-        if (OTPFeature.FlexRouting.isOn()) {
-            addFlexTripsToGraph(graph);
-        }
-
     }
 
     private void addStopsToGraphAndGenerateStopVertexes(Graph graph) {
@@ -359,11 +349,6 @@ public class AddTransitModelEntitiesToGraph {
         for (Transfer sourceTransfer : transfers) {
             transferTable.addTransfer(sourceTransfer);
         }
-    }
-
-    private void addFlexTripsToGraph(Graph graph) {
-        for(FlexTrip flexTrip : transitService.getAllFlexTrips())
-        graph.flexTripsById.put(flexTrip.getId(), flexTrip);
     }
 
 }
