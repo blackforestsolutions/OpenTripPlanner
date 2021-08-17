@@ -10,7 +10,6 @@ import org.opentripplanner.routing.graph.Graph;
 import org.opentripplanner.routing.graph.GraphIndex;
 import org.opentripplanner.routing.graphfinder.StopAtDistance;
 import org.opentripplanner.routing.vertextype.TransitStopVertex;
-import org.opentripplanner.util.OTPFeature;
 import org.opentripplanner.util.ProgressTracker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

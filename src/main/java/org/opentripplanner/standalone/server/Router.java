@@ -16,7 +16,6 @@ import org.opentripplanner.standalone.config.RouterConfig;
 import org.opentripplanner.transit.raptor.rangeraptor.configure.RaptorConfig;
 import org.opentripplanner.updater.GraphUpdaterConfigurator;
 import org.opentripplanner.util.ElevationUtils;
-import org.opentripplanner.util.OTPFeature;
 import org.opentripplanner.util.WorldEnvelope;
 import org.slf4j.LoggerFactory;
 

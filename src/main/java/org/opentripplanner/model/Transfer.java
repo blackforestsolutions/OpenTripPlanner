@@ -2,9 +2,6 @@
 package org.opentripplanner.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
 public final class Transfer implements Serializable {
 

@@ -1,10 +1,6 @@
 package org.opentripplanner;
 
 import com.google.common.collect.Lists;
-import org.opentripplanner.datastore.CompositeDataSource;
-import org.opentripplanner.datastore.DataSource;
-import org.opentripplanner.datastore.FileType;
-import org.opentripplanner.datastore.file.ZipFileDataSource;
 import org.opentripplanner.graph_builder.module.AddTransitModelEntitiesToGraph;
 import org.opentripplanner.graph_builder.module.StreetLinkerModule;
 import org.opentripplanner.graph_builder.module.geometry.GeometryAndBlockProcessor;
@@ -14,14 +10,10 @@ import org.opentripplanner.gtfs.GtfsContext;
 import org.opentripplanner.model.calendar.CalendarServiceData;
 import org.opentripplanner.openstreetmap.BinaryOpenStreetMapProvider;
 import org.opentripplanner.routing.graph.Graph;
-import org.opentripplanner.standalone.config.ConfigLoader;
-import org.opentripplanner.standalone.config.BuildConfig;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 
 import static org.opentripplanner.gtfs.GtfsContextBuilder.contextBuilder;
 

@@ -4,7 +4,6 @@ import org.geotools.geometry.Envelope2D;
 import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.util.AffineTransformation;
 import org.opentripplanner.analyst.request.TileRequest;
-import org.opentripplanner.api.resource.GraphInspectorTileResource;
 import org.opentripplanner.inspector.TileRenderer.TileRenderContext;
 import org.opentripplanner.routing.graph.Graph;
 import org.slf4j.Logger;

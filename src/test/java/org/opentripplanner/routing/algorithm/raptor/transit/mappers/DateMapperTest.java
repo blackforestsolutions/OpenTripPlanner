@@ -1,7 +1,6 @@
 package org.opentripplanner.routing.algorithm.raptor.transit.mappers;
 
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.time.Instant;

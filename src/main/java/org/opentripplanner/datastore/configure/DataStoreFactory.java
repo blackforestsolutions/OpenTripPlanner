@@ -6,7 +6,6 @@ import org.opentripplanner.datastore.FileType;
 import org.opentripplanner.datastore.OtpDataStore;
 import org.opentripplanner.datastore.base.DataSourceRepository;
 import org.opentripplanner.datastore.file.FileDataSourceRepository;
-import org.opentripplanner.util.OTPFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
