@@ -70,22 +70,6 @@ public class VLPoint implements Comparable<VLPoint>, Cloneable {
         return projection_onto(seg_approx);
     }
 
-    public VLPoint projection_onto(Polyline polyline_temp) {
-
-        VLPoint running_projection = polyline_temp.get(0);
-        double running_min = distance(running_projection);
-        VLPoint point_temp;
-        for (int i = 0; i <= polyline_temp.size() - 1; i++) {
-            point_temp = projection_onto(new LineSegment(polyline_temp.get(i),
-                    polyline_temp.get(i + 1)));
-            if (distance(point_temp) < running_min) {
-                running_projection = point_temp;
-                running_min = distance(running_projection);
-            }
-        }
-        return running_projection;
-    }
-
     public VLPoint projection_onto_vertices_of(VLPolygon polygon_temp) {
         VLPoint running_projection = polygon_temp.get(0);
         double running_min = distance(running_projection);
@@ -328,18 +312,6 @@ public class VLPoint implements Comparable<VLPoint>, Cloneable {
 
     public double distance(Ray ray_temp) {
         return distance(projection_onto(ray_temp));
-    }
-
-    public double distance(Polyline polyline_temp) {
-
-        double running_min = distance(polyline_temp.get(0));
-        double distance_temp;
-        for (int i = 0; i < polyline_temp.size() - 1; i++) {
-            distance_temp = distance(new LineSegment(polyline_temp.get(i), polyline_temp.get(i + 1)));
-            if (distance_temp < running_min)
-                running_min = distance_temp;
-        }
-        return running_min;
     }
 
     public double boundary_distance(VLPolygon polygon_temp) {

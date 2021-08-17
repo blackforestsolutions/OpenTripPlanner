@@ -1,14 +1,7 @@
 package org.opentripplanner.routing.graph;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.*;
 import gnu.trove.list.TDoubleList;
 import gnu.trove.list.linked.TDoubleLinkedList;
 import org.apache.commons.math3.stat.descriptive.rank.Median;
@@ -23,27 +16,7 @@ import org.opentripplanner.common.geometry.SphericalDistanceLibrary;
 import org.opentripplanner.common.model.T2;
 import org.opentripplanner.graph_builder.DataImportIssueStore;
 import org.opentripplanner.graph_builder.issues.NoFutureDates;
-import org.opentripplanner.model.Agency;
-import org.opentripplanner.model.FeedInfo;
-import org.opentripplanner.model.FeedScopedId;
-import org.opentripplanner.model.GraphBundle;
-import org.opentripplanner.model.GroupOfStations;
-import org.opentripplanner.model.FlexStopLocation;
-import org.opentripplanner.model.FlexLocationGroup;
-import org.opentripplanner.model.MultiModalStation;
-import org.opentripplanner.model.Notice;
-import org.opentripplanner.model.Operator;
-import org.opentripplanner.model.SimpleTransfer;
-import org.opentripplanner.model.Station;
-import org.opentripplanner.model.Stop;
-import org.opentripplanner.model.StopLocation;
-import org.opentripplanner.model.TimetableSnapshot;
-import org.opentripplanner.model.TimetableSnapshotProvider;
-import org.opentripplanner.model.TransitEntity;
-import org.opentripplanner.model.TransitMode;
-import org.opentripplanner.model.Trip;
-import org.opentripplanner.model.TripPattern;
-import org.opentripplanner.model.WgsCoordinate;
+import org.opentripplanner.model.*;
 import org.opentripplanner.model.calendar.CalendarService;
 import org.opentripplanner.model.calendar.CalendarServiceData;
 import org.opentripplanner.model.calendar.ServiceDate;
@@ -71,19 +44,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.prefs.Preferences;
@@ -106,13 +67,6 @@ public class Graph implements Serializable {
     private final Map<Edge, List<TurnRestriction>> turnRestrictions = Maps.newHashMap();
 
     public final StreetNotesService streetNotesService = new StreetNotesService();
-
-    /**
-     * Allows a notice element to be attached to an object in the OTP model by its id and then
-     * retrieved by the API when navigating from that object. The map key is entity id:
-     * {@link TransitEntity#getId()}. The notice is part of the static transit data.
-     */
-    private final Multimap<TransitEntity<?>, Notice> noticesByElement = HashMultimap.create();
 
     // transit feed validity information in seconds since epoch
     private long transitServiceStarts = Long.MAX_VALUE;
@@ -840,14 +794,6 @@ public class Graph implements Serializable {
         return transitServiceEnds;
     }
 
-    public Multimap<TransitEntity<?>, Notice> getNoticesByElement() {
-        return noticesByElement;
-    }
-
-    public void addNoticeAssignments(Multimap<TransitEntity<?>, Notice> noticesByElement) {
-        this.noticesByElement.putAll(noticesByElement);
-    }
-
     public double getDistanceBetweenElevationSamples() {
         return distanceBetweenElevationSamples;
     }
@@ -922,21 +868,12 @@ public class Graph implements Serializable {
         return getService(BikeRentalStationService.class);
     }
 
-    public Collection<Notice> getNoticesByEntity(TransitEntity<?> entity) {
-        Collection<Notice> res = getNoticesByElement().get(entity);
-        return res == null ? Collections.emptyList() : res;
-    }
-
     public TripPattern getTripPatternForId(FeedScopedId id) {
         return tripPatternForId.get(id);
     }
 
     public Collection<TripPattern> getTripPatterns() {
         return tripPatternForId.values();
-    }
-
-    public Collection<Notice> getNotices() {
-        return getNoticesByElement().values();
     }
 
     /** Get all stops within a given bounding box. */

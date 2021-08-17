@@ -4,9 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Map;
-
-
 /**
  * This class is an object representation of the 'otp-config.json'.
  */

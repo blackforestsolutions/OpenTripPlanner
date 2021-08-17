@@ -1,11 +1,11 @@
 package org.opentripplanner.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The purpose of Properties is to easily read a ResourceBundel (set of localized .properties files), and get the named contents.
@@ -84,23 +84,6 @@ public class Properties {
         return retVal;
     }
     public boolean get(String name, boolean def) {
-        return get(name, def, Locale.getDefault());
-    }
-
-    
-    public int get(String name, int def, Locale l) {
-        String tmp = get(name, Integer.toString(def), l);
-        return IntUtils.getIntFromString(tmp);
-    }
-    public int get(String name, int def) {
-        return get(name, def, Locale.getDefault());
-    }
-
-    public long get(String name, long def, Locale l) {
-        String tmp = get(name, Long.toString(def), l);
-        return IntUtils.getLongFromString(tmp);
-    }
-    public long get(String name, long def) {
         return get(name, def, Locale.getDefault());
     }
 

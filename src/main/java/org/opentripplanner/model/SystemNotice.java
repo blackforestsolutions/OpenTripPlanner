@@ -12,7 +12,6 @@ import org.opentripplanner.routing.alertpatch.TransitAlert;
  * or alerts.
  *
  * @see TransitAlert for end user alerts
- * @see Notice for end user notices
  */
 public class SystemNotice {
 

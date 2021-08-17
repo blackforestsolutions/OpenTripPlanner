@@ -1,7 +1,5 @@
 package org.opentripplanner.model;
 
-import com.google.common.collect.Multimap;
-
 import java.util.Collection;
 import java.util.List;
 
@@ -29,12 +27,6 @@ public interface OtpTransitService {
     Collection<GroupOfStations> getAllGroupsOfStations();
 
     Collection<MultiModalStation> getAllMultiModalStations();
-
-    /**
-     * This is equivalent to a Transmodel Notice Assignments. The map key may reference entity ids of
-     * any type (Serializable).
-     */
-    Multimap<TransitEntity<?>, Notice> getNoticeAssignments();
 
     Collection<Pathway> getAllPathways();
 
