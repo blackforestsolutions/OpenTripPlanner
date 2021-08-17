@@ -18,7 +18,6 @@ import org.opentripplanner.updater.GraphUpdaterConfigurator;
 import org.opentripplanner.util.ElevationUtils;
 import org.opentripplanner.util.OTPFeature;
 import org.opentripplanner.util.WorldEnvelope;
-import org.opentripplanner.visualizer.GraphVisualizer;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -49,9 +48,6 @@ public class Router {
      * request.
      */
     public RoutingRequest defaultRoutingRequest;
-
-    /** A graphical window that is used for visualizing search progress (debugging). */
-    public GraphVisualizer graphVisualizer = null;
 
     public Router(Graph graph, RouterConfig routerConfig) {
         this.graph = graph;
