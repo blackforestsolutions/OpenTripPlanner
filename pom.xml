@@ -92,10 +92,6 @@
                 <filtering>true</filtering>
             </resource>
             <resource>
-                <directory>src/ext/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-            <resource>
                 <directory>src/client</directory>
                 <targetPath>client</targetPath>
                 <filtering>false</filtering>
@@ -104,9 +100,6 @@
         <testResources>
             <testResource>
                 <directory>src/test/resources</directory>
-            </testResource>
-            <testResource>
-                <directory>src/ext-test/resources</directory>
             </testResource>
             <testResource>
                 <!-- Shell scripts to start up OTP, need to be filtered to insert the JAR file name. -->
@@ -264,7 +257,6 @@
                         <configuration>
                             <sources>
                                 <source>src/main/java</source>
-                                <source>src/ext/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -277,7 +269,6 @@
                         <configuration>
                             <sources>
                                 <source>src/test/java</source>
-                                <source>src/ext-test/java</source>
                             </sources>
                         </configuration>
                     </execution>

@@ -7,7 +7,6 @@ import org.opentripplanner.api.resource.PlannerResource;
 import org.opentripplanner.api.resource.Routers;
 import org.opentripplanner.api.resource.ServerInfo;
 import org.opentripplanner.api.resource.UpdaterStatusResource;
-import org.opentripplanner.ext.readiness_endpoint.ActuatorAPI;
 import org.opentripplanner.index.IndexAPI;
 import org.opentripplanner.util.OTPFeature;
 
@@ -21,7 +20,6 @@ import static org.opentripplanner.util.OTPFeature.APIExternalGeocoder;
 import static org.opentripplanner.util.OTPFeature.APIGraphInspectorTile;
 import static org.opentripplanner.util.OTPFeature.APIServerInfo;
 import static org.opentripplanner.util.OTPFeature.APIUpdaterStatus;
-import static org.opentripplanner.util.OTPFeature.ActuatorAPI;
 
 /**
  * Configure API resource endpoints.
@@ -43,9 +41,6 @@ public class APIEndpoints {
         addIfEnabled(APIServerInfo, ServerInfo.class);
         addIfEnabled(APIGraphInspectorTile, GraphInspectorTileResource.class);
         addIfEnabled(APIUpdaterStatus, UpdaterStatusResource.class);
-
-        // Sandbox extension APIs
-        addIfEnabled(ActuatorAPI, ActuatorAPI.class);
     }
 
     /**

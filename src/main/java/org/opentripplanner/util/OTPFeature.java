@@ -18,10 +18,7 @@ public enum OTPFeature {
     APIBikeRental(true),
     APIServerInfo(true),
     APIGraphInspectorTile(true),
-    APIUpdaterStatus(true),
-
-    // Sandbox extension features - Must be turned OFF by default
-    ActuatorAPI(false);
+    APIUpdaterStatus(true);
 
     private static final Logger LOG = LoggerFactory.getLogger(OTPFeature.class);
 
