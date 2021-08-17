@@ -273,11 +273,6 @@ public class BuildConfig {
     public LocalDate transitServiceEnd;
 
     /**
-     * Netex specific build parameters.
-     */
-    public final NetexConfig netex;
-
-    /**
      * Otp auto detect input and output files using the command line supplied paths. This parameter
      * make it possible to override this by specifying a path for each file. All parameters in the
      * storage section is optional, and the fallback is to use the auto detection. It is OK to
@@ -335,7 +330,6 @@ public class BuildConfig {
         // List of complex parameters
         fareServiceFactory = DefaultFareServiceFactory.fromConfig(c.asRawNode("fares"));
         customNamer = CustomNamer.CustomNamerFactory.fromConfig(c.asRawNode("osmNaming"));
-        netex = new NetexConfig(c.path("netex"));
         storage = new StorageConfig(c.path("storage"));
 
         if(logUnusedParams) {

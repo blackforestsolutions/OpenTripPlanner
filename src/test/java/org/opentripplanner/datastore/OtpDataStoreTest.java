@@ -28,7 +28,6 @@ import static org.opentripplanner.datastore.FileType.CONFIG;
 import static org.opentripplanner.datastore.FileType.DEM;
 import static org.opentripplanner.datastore.FileType.GRAPH;
 import static org.opentripplanner.datastore.FileType.GTFS;
-import static org.opentripplanner.datastore.FileType.NETEX;
 import static org.opentripplanner.datastore.FileType.OSM;
 import static org.opentripplanner.datastore.FileType.OTP_STATUS;
 import static org.opentripplanner.datastore.FileType.REPORT;
@@ -41,7 +40,6 @@ public class OtpDataStoreTest {
     private static final String ROUTER_CONFIG_FILENAME = "router-config.json";
     private static final String OSM_FILENAME = "osm.pbf";
     private static final String DEM_FILENAME = "dem.tif";
-    private static final String NETEX_FILENAME = "netex.zip";
     private static final String GTFS_FILENAME = "gtfs.zip";
     private static final String GRAPH_FILENAME = "graph.obj";
     private static final String STREET_GRAPH_FILENAME = "streetGraph.obj";
@@ -76,7 +74,6 @@ public class OtpDataStoreTest {
         assertEquals("[]", store.listExistingSourcesFor(OSM).toString());
         assertEquals("[]", store.listExistingSourcesFor(DEM).toString());
         assertEquals("[]", store.listExistingSourcesFor(GTFS).toString());
-        assertEquals("[]", store.listExistingSourcesFor(NETEX).toString());
         assertEquals("[]", store.listExistingSourcesFor(GRAPH).toString());
         assertEquals("[]", store.listExistingSourcesFor(REPORT).toString());
         assertEquals("[]", store.listExistingSourcesFor(UNKNOWN).toString());
@@ -90,7 +87,6 @@ public class OtpDataStoreTest {
         write(baseDir, OSM_FILENAME, "Data");
         write(baseDir, DEM_FILENAME, "Data");
         writeZip(baseDir, GTFS_FILENAME);
-        writeZip(baseDir, NETEX_FILENAME);
         write(baseDir, STREET_GRAPH_FILENAME, "Data");
         write(baseDir, GRAPH_FILENAME, "Data");
         writeToDir(baseDir, REPORT_FILENAME, "index.json");
@@ -103,7 +99,6 @@ public class OtpDataStoreTest {
         assertExistingSources(store.listExistingSourcesFor(OSM), OSM_FILENAME);
         assertExistingSources(store.listExistingSourcesFor(DEM), DEM_FILENAME);
         assertExistingSources(store.listExistingSourcesFor(GTFS), GTFS_FILENAME);
-        assertExistingSources(store.listExistingSourcesFor(NETEX), NETEX_FILENAME);
         assertExistingSources(
                 store.listExistingSourcesFor(CONFIG),
                 BUILD_CONFIG_FILENAME,

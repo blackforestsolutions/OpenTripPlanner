@@ -13,7 +13,6 @@ public enum FileType {
   OSM("🌍", "OpenStreetMap data"),
   DEM("🏔", "Elevation data"),
   GTFS("🚌", "GTFS data"),
-  NETEX("🚌", "NeTEx data"),
   GRAPH("🦠", "OTP Graph file"),
   REPORT("📈", "Issue report"),
   OTP_STATUS("⏳", "OTP build status"),
@@ -39,13 +38,13 @@ public enum FileType {
   }
 
   /**
-   * Return {@code true} if the the file is an INPUT data file. This is GTFS, Netex, OpenStreetMap,
+   * Return {@code true} if the the file is an INPUT data file. This is GTFS, OpenStreetMap,
    * and elevation data files. Config files and graphs are not considered input data files.
    * <p>
    * At least one input data file must be present to build a graph.
    */
   public boolean isInputDataSource() {
-    return EnumSet.of(GTFS, NETEX, OSM, DEM).contains(this);
+    return EnumSet.of(GTFS, OSM, DEM).contains(this);
   }
 
   /**
@@ -57,9 +56,9 @@ public enum FileType {
   }
 
   /**
-   * @return true if GTFS or NETEX file type.
+   * @return true if GTFS file type.
    */
   public boolean isTransit() {
-    return EnumSet.of(GTFS, NETEX).contains(this);
+    return EnumSet.of(GTFS).contains(this);
   }
 }

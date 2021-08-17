@@ -12,9 +12,6 @@ import org.opentripplanner.graph_builder.module.osm.OpenStreetMapModule;
 import org.opentripplanner.graph_builder.services.GraphBuilderModule;
 import org.opentripplanner.gtfs.GtfsContext;
 import org.opentripplanner.model.calendar.CalendarServiceData;
-import org.opentripplanner.netex.NetexModule;
-import org.opentripplanner.netex.configure.NetexConfig;
-import org.opentripplanner.netex.loader.NetexBundle;
 import org.opentripplanner.openstreetmap.BinaryOpenStreetMapProvider;
 import org.opentripplanner.routing.graph.Graph;
 import org.opentripplanner.standalone.config.ConfigLoader;
@@ -32,8 +29,6 @@ public class ConstantsForTests {
 
     public static final String CALTRAIN_GTFS = "src/test/resources/caltrain_gtfs.zip";
 
-    public static final String NETEX_MINIMAL = "src/test/resources/netex/netex_minimal.zip";
-
     private static final String PORTLAND_GTFS = "src/test/resources/google_transit.zip";
 
     private static final String PORTLAND_CENTRAL_OSM = "src/test/resources/portland-central-filtered.osm.pbf";
@@ -46,20 +41,9 @@ public class ConstantsForTests {
 
     public static final String FARE_COMPONENT_GTFS = "src/test/resources/farecomponent_gtfs.zip";
 
-    private static final String NETEX_DIR = "src/test/resources/netex";
-
-    private static final String NETEX_FILENAME = "netex_minimal.zip";
-
-    private static final CompositeDataSource NETEX_MINIMAL_DATA_SOURCE = new ZipFileDataSource(
-            new File(NETEX_DIR, NETEX_FILENAME),
-            FileType.NETEX
-    );
-
     private static ConstantsForTests instance = null;
 
     private Graph portlandGraph = null;
-
-    private Graph minNetexGraph = null;
 
     private GtfsContext portlandContext = null;
 
@@ -86,20 +70,6 @@ public class ConstantsForTests {
             setupPortland();
         }
         return portlandGraph;
-    }
-
-    public Graph getMinimalNetexGraph() {
-        if (minNetexGraph == null) {
-            setupMinNetex();
-        }
-        return minNetexGraph;
-    }
-
-    public static NetexBundle createMinimalNetexBundle() {
-        return NetexConfig.netexBundleForTest(
-                createNetexBuilderParameters(),
-                new File(ConstantsForTests.NETEX_DIR, ConstantsForTests.NETEX_FILENAME)
-        );
     }
 
     private void setupPortland() {
@@ -139,36 +109,6 @@ public class ConstantsForTests {
         }
     }
 
-    private void setupMinNetex() {
-        try {
-            minNetexGraph = new Graph();
-            // Add street data from OSM
-            {
-                File osmFile = new File(OSLO_EAST_OSM);
-
-                BinaryOpenStreetMapProvider osmProvider = new BinaryOpenStreetMapProvider(osmFile, false);
-                OpenStreetMapModule osmModule = new OpenStreetMapModule(Lists.newArrayList(osmProvider));
-                osmModule.skipVisibility = true;
-                osmModule.buildGraph(minNetexGraph, new HashMap<>());
-            }
-            // Add transit data from Netex
-            {
-                BuildConfig buildParameters = createNetexBuilderParameters();
-                List<DataSource> dataSources = Collections.singletonList(NETEX_MINIMAL_DATA_SOURCE);
-                NetexModule module = NetexConfig.netexModule(buildParameters, dataSources);
-                module.buildGraph(minNetexGraph, null);
-            }
-            // Link transit stops to streets
-            {
-                GraphBuilderModule streetTransitLinker = new StreetLinkerModule();
-                streetTransitLinker.buildGraph(minNetexGraph, new HashMap<>());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
     public static Graph buildGraph(String path) {
         Graph graph = new Graph();
         GtfsContext context;
@@ -186,10 +126,5 @@ public class ConstantsForTests {
                 CalendarServiceData.class, context.getCalendarServiceData()
         );
         return graph;
-    }
-
-
-    private static BuildConfig createNetexBuilderParameters() {
-        return new ConfigLoader(new File(ConstantsForTests.NETEX_DIR)).loadBuildConfig();
     }
 }

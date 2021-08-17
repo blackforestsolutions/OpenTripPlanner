@@ -59,11 +59,6 @@ class OtpDataStoreConfigAdapter implements OtpDataStoreConfig {
     }
 
     @Override
-    public List<URI> netexFiles() {
-        return config.netex;
-    }
-
-    @Override
     public URI graph() {
         return config.graph;
     }
@@ -76,11 +71,6 @@ class OtpDataStoreConfigAdapter implements OtpDataStoreConfig {
     @Override
     public Pattern gtfsLocalFilePattern() {
         return config.localFileNamePatterns.gtfs;
-    }
-
-    @Override
-    public Pattern netexLocalFilePattern() {
-        return config.localFileNamePatterns.netex;
     }
 
     @Override

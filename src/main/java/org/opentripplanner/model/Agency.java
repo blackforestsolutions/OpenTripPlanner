@@ -3,7 +3,7 @@ package org.opentripplanner.model;
 
 
 /**
- * This class is tha same as a GTFS Agency and Netex Authority.
+ * This class is tha same as a GTFS Agency.
  */
 public final class Agency extends TransitEntity<FeedScopedId> {
 

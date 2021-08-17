@@ -64,7 +64,6 @@ public class DataStoreFactory {
             new FileDataSourceRepository(
                 config.baseDirectory(),
                 config.gtfsLocalFilePattern(),
-                config.netexLocalFilePattern(),
                 config.osmLocalFilePattern(),
                 config.demLocalFilePattern()
             )

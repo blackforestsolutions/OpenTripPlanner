@@ -33,9 +33,7 @@ import java.util.List;
 
 import static org.opentripplanner.datastore.FileType.DEM;
 import static org.opentripplanner.datastore.FileType.GTFS;
-import static org.opentripplanner.datastore.FileType.NETEX;
 import static org.opentripplanner.datastore.FileType.OSM;
-import static org.opentripplanner.netex.configure.NetexConfig.netexModule;
 
 /**
  * This makes a Graph out of various inputs like GTFS and OSM.
@@ -97,8 +95,6 @@ public class GraphBuilder implements Runnable {
         boolean hasOsm  = dataSources.has(OSM);
         boolean hasDem  = dataSources.has(DEM);
         boolean hasGtfs = dataSources.has(GTFS);
-        boolean hasNetex = dataSources.has(NETEX);
-        boolean hasTransitData = hasGtfs || hasNetex;
 
         GraphBuilder graphBuilder = new GraphBuilder(baseGraph);
 
@@ -154,11 +150,7 @@ public class GraphBuilder implements Runnable {
             graphBuilder.addModule(gtfsModule);
         }
 
-        if( hasNetex ) {
-            graphBuilder.addModule(netexModule(config, dataSources.get(NETEX)));
-        }
-
-        if(hasTransitData && (hasOsm || graphBuilder.graph.hasStreets)) {
+        if(hasGtfs && (hasOsm || graphBuilder.graph.hasStreets)) {
             if (config.matchBusRoutesToStreets) {
                 graphBuilder.addModule(new BusRouteStreetMatcher());
             }
@@ -206,7 +198,7 @@ public class GraphBuilder implements Runnable {
                 )
             );
         }
-        if ( hasTransitData ) {
+        if (hasGtfs) {
             // The stops can be linked to each other once they are already linked to the street network.
             if ( ! config.useTransfersTxt) {
                 // This module will use streets or straight line distance depending on whether OSM data is found in the graph.

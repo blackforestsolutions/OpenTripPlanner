@@ -20,12 +20,6 @@ public interface OtpDataStoreConfig {
     String DEFAULT_GTFS_PATTERN = "(?i)gtfs";
 
     /**
-     * Match all filenames that contain "netex".
-     * The pattern is NOT Case sensitive.
-     */
-    String DEFAULT_NETEX_PATTERN = "(?i)netex";
-
-    /**
      * Match all filenames that ends with suffix {@code .pbf}, {@code .osm} or {@code .osm.xml}.
      * The pattern is NOT Case sensitive.
      */
@@ -86,14 +80,6 @@ public interface OtpDataStoreConfig {
     @NotNull List<URI> gtfsFiles();
 
     /**
-     * Array of URIs to Netex data files.
-     * <p>
-     * This parameter is optional. If {@code null} Netex files are loaded from
-     * {@link #baseDirectory()}.
-     */
-    @NotNull List<URI> netexFiles();
-
-    /**
      * The URI to the graph object file to load and/or save.
      */
     URI graph();
@@ -110,14 +96,6 @@ public interface OtpDataStoreConfig {
      * @see #DEFAULT_GTFS_PATTERN for default value.
      */
     Pattern gtfsLocalFilePattern();
-
-    /**
-     * Patterns for matching NeTEx zip files or directories. If the filename contains the
-     * given pattern it is considered a match. Any legal Java Regular expression is allowed.
-     * <p>
-     * @see #DEFAULT_NETEX_PATTERN for default value.
-     */
-    Pattern netexLocalFilePattern();
 
     /**
      * Pattern for matching Open Street Map input files. If the filename contains the

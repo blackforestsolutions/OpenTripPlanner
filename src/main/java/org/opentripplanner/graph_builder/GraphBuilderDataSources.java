@@ -6,8 +6,8 @@ import org.opentripplanner.datastore.CompositeDataSource;
 import org.opentripplanner.datastore.DataSource;
 import org.opentripplanner.datastore.FileType;
 import org.opentripplanner.datastore.OtpDataStore;
-import org.opentripplanner.standalone.config.CommandLineParameters;
 import org.opentripplanner.standalone.config.BuildConfig;
+import org.opentripplanner.standalone.config.CommandLineParameters;
 import org.opentripplanner.util.OtpAppException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,10 +16,7 @@ import java.io.File;
 import java.util.EnumSet;
 import java.util.Set;
 
-import static org.opentripplanner.datastore.FileType.DEM;
-import static org.opentripplanner.datastore.FileType.GTFS;
-import static org.opentripplanner.datastore.FileType.NETEX;
-import static org.opentripplanner.datastore.FileType.OSM;
+import static org.opentripplanner.datastore.FileType.*;
 
 
 /**
@@ -60,7 +57,6 @@ public class GraphBuilderDataSources {
         include(cli.doBuildStreet() && bc.streets, OSM);
         include(cli.doBuildStreet() && bc.streets, DEM);
         include(cli.doBuildTransit() && bc.transit, GTFS);
-        include(cli.doBuildTransit() && bc.transit, NETEX);
 
         selectFilesToImport();
 
@@ -148,7 +144,7 @@ public class GraphBuilderDataSources {
 
     private void validateCliMatchesInputData(CommandLineParameters cli) {
         if (cli.build) {
-            if (!hasOneOf(OSM, GTFS, NETEX)) {
+            if (!hasOneOf(OSM, GTFS)) {
                 throw new OtpAppException("Unable to build graph, no transit data available.");
             }
         }

@@ -31,7 +31,7 @@ public class DirectoryDataSource extends AbstractFileDataSource implements Compo
                 if (file.isDirectory()) { continue; }
                 // In general the file type at a child level is not used, but we tag
                 // each file with the same type as the parent directory.
-                // Examples: GTFS or NETEX.
+                // Examples: GTFS.
                 content.add(new FileDataSource(file, type));
             }
         }

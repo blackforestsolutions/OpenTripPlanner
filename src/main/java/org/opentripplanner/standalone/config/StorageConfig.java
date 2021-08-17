@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 
 import static org.opentripplanner.datastore.OtpDataStoreConfig.DEFAULT_DEM_PATTERN;
 import static org.opentripplanner.datastore.OtpDataStoreConfig.DEFAULT_GTFS_PATTERN;
-import static org.opentripplanner.datastore.OtpDataStoreConfig.DEFAULT_NETEX_PATTERN;
 import static org.opentripplanner.datastore.OtpDataStoreConfig.DEFAULT_OSM_PATTERN;
 
 /**
@@ -40,7 +39,7 @@ import static org.opentripplanner.datastore.OtpDataStoreConfig.DEFAULT_OSM_PATTE
  * In the example above, the Google cloud service credentials file resolved using an environment
  * variable. The OSM and GTFS data is streamed from Google Cloud Storage, the elevation data is
  * fetched from the local file system and the build report is stored in the cloud. All other
- * artifacts like the loaded graph, saved graph and NeTEx files are loaded and written from/to the local
+ * artifacts like the loaded graph, saved graph files are loaded and written from/to the local
  * base directory - it they exist.
  */
 public class StorageConfig {
@@ -109,16 +108,6 @@ public class StorageConfig {
     public final List<URI> gtfs = new ArrayList<>();
 
     /**
-     * Array of URIs to Netex data files.
-     * <p>
-     * Example: {@code "transit" : [ "file:///Users/kelvin/otp/netex.zip", "gs://my-bucket/netex.zip" ]" }
-     * <p>
-     * This parameter is optional.
-     */
-    @NotNull
-    public final List<URI> netex = new ArrayList<>();
-
-    /**
      * URI to the directory where the graph build report should be written to. The html report is
      * written into this directory. If the directory exist, any existing files are deleted.
      * If it does not exist, it is created.
@@ -144,7 +133,6 @@ public class StorageConfig {
        this.osm.addAll(config.asUris("osm"));
        this.dem.addAll(config.asUris("dem"));
        this.gtfs.addAll(config.asUris("gtfs"));
-       this.netex.addAll(config.asUris("netex"));
        this.buildReportDir = config.asUri("buildReportDir", null);
        this.localFileNamePatterns = new LocalFilenamePatterns(config.path("localFileNamePatterns"));
     }
@@ -165,17 +153,6 @@ public class StorageConfig {
          * is NOT case sensitive.
          */
         public final Pattern gtfs;
-
-        /**
-         * Patterns for matching NeTEx zip files or directories. If the filename contains the
-         * given pattern it is considered a match. Any legal Java Regular expression is allowed.
-         * <p>
-         * This parameter is optional.
-         * <p>
-         * Default: {@code (?i)netex} - Match all filenames that contain "netex". The default
-         * pattern is NOT case sensitive.
-         */
-        public final Pattern netex;
 
         /**
          * Pattern for matching Open Street Map input files. If the filename contains the
@@ -202,7 +179,6 @@ public class StorageConfig {
 
         public LocalFilenamePatterns(NodeAdapter c) {
             this.gtfs = c.asPattern("gtfs", DEFAULT_GTFS_PATTERN);
-            this.netex = c.asPattern("netex", DEFAULT_NETEX_PATTERN);
             this.osm = c.asPattern("osm", DEFAULT_OSM_PATTERN);
             this.dem = c.asPattern("dem", DEFAULT_DEM_PATTERN);
         }
