@@ -1,6 +1,5 @@
 package org.opentripplanner.routing.edgetype;
 
-import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.LineString;
 import org.opentripplanner.common.TurnRestriction;
 import org.opentripplanner.routing.graph.Edge;

@@ -12,7 +12,6 @@ import org.opentripplanner.openstreetmap.BinaryOpenStreetMapProvider;
 import org.opentripplanner.routing.graph.Graph;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 
 import static org.opentripplanner.gtfs.GtfsContextBuilder.contextBuilder;

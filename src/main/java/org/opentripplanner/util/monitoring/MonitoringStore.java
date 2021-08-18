@@ -5,7 +5,6 @@ import com.google.common.collect.ListMultimap;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 
 /**
  * This supports the monitoring of various system properties, such as free memory.

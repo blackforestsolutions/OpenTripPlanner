@@ -7,9 +7,7 @@ import org.opentripplanner.routing.graph.Graph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * {@link org.opentripplanner.graph_builder.services.GraphBuilderModule} plugin that links various objects

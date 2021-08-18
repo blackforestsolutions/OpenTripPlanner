@@ -4,10 +4,7 @@ import org.opentripplanner.model.TransitMode;
 import org.opentripplanner.routing.core.TraverseMode;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class TraverseModeMapper {
 

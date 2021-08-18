@@ -1,6 +1,5 @@
 package org.opentripplanner.graph_builder.module.ned;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.geotools.geometry.DirectPosition2D;

@@ -16,7 +16,6 @@ import org.opentripplanner.routing.core.WrappedCurrency;
 import org.opentripplanner.graph_builder.module.geometry.GeometryAndBlockProcessor;
 import org.opentripplanner.routing.graph.Graph;
 import org.opentripplanner.routing.impl.SeattleFareServiceFactory;
-import org.opentripplanner.routing.services.FareService;
 import org.opentripplanner.routing.spt.GraphPath;
 import org.opentripplanner.routing.spt.ShortestPathTree;
 import org.opentripplanner.util.TestUtils;

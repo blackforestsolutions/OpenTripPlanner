@@ -1,8 +1,6 @@
 package org.opentripplanner.util;
 
 import java.util.AbstractList;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.opentripplanner.util.model.EncodedPolylineBean;
 

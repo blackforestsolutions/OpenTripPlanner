@@ -1,7 +1,5 @@
 package org.opentripplanner.model;
 
-import org.locationtech.jts.geom.Envelope;
-import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryCollection;
 import org.locationtech.jts.geom.Point;
 import org.opentripplanner.common.geometry.GeometryUtils;

@@ -1,10 +1,8 @@
 package org.opentripplanner.index;
 
-import org.opentripplanner.api.mapping.FeedScopedIdMapper;
 import org.opentripplanner.api.mapping.StopMapper;
 import org.opentripplanner.api.model.ApiStopShort;
 import org.opentripplanner.model.*;
-import org.opentripplanner.model.calendar.ServiceDate;
 import org.opentripplanner.routing.RoutingService;
 import org.opentripplanner.standalone.server.OTPServer;
 
@@ -12,7 +10,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
-import java.text.ParseException;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;

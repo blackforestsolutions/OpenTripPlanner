@@ -5,7 +5,6 @@ import java.io.Serializable;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.opentripplanner.model.FeedScopedId;
-import org.opentripplanner.model.Route;
 import org.opentripplanner.model.Trip;
 
 /**

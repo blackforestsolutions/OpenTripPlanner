@@ -40,10 +40,6 @@ public class BikeRentalStationVertex extends Vertex {
         this.isCarStation = station.isCarStation;
     }
 
-    public BikeRentalStation getStation() {
-        return station;
-    }
-
     public int getBikesAvailable() {
         return bikesAvailable;
     }

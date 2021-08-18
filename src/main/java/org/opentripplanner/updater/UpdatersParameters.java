@@ -6,7 +6,6 @@ import org.opentripplanner.updater.stoptime.MqttGtfsRealtimeUpdaterParameters;
 import org.opentripplanner.updater.stoptime.PollingStoptimeUpdaterParameters;
 import org.opentripplanner.updater.stoptime.WebsocketGtfsRealtimeUpdaterParameters;
 
-import java.net.URI;
 import java.util.List;
 
 public interface UpdatersParameters {

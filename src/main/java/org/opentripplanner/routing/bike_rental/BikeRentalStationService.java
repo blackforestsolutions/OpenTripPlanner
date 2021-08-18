@@ -1,7 +1,6 @@
 package org.opentripplanner.routing.bike_rental;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 

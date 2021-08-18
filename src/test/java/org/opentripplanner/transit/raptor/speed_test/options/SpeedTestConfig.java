@@ -4,11 +4,9 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.MissingNode;
-import org.opentripplanner.routing.algorithm.raptor.transit.TransitTuningParameters;
 import org.opentripplanner.routing.api.request.RoutingRequest;
 import org.opentripplanner.standalone.config.NodeAdapter;
 import org.opentripplanner.standalone.config.TransitRoutingConfig;
-import org.opentripplanner.transit.raptor.api.request.RaptorTuningParameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

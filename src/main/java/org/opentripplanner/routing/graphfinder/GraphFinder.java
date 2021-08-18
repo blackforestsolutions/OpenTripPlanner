@@ -1,8 +1,5 @@
 package org.opentripplanner.routing.graphfinder;
 
-import org.opentripplanner.model.FeedScopedId;
-import org.opentripplanner.model.TransitMode;
-import org.opentripplanner.routing.RoutingService;
 import org.opentripplanner.routing.graph.Graph;
 
 import java.util.List;

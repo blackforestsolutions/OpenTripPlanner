@@ -16,14 +16,6 @@ public class AttributeFeatureConverter<T> implements SimpleFeatureConverter<T> {
     public AttributeFeatureConverter(String attributeName) {
         this.attributeName = attributeName;
     }
-    
-    public AttributeFeatureConverter() {
-        
-    }
-    
-    public String getAttributeName() {
-        return attributeName;
-    }
 
     @SuppressWarnings({ "unchecked", "deprecation" })
     @Override

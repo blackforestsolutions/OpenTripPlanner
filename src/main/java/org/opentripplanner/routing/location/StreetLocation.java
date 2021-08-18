@@ -3,7 +3,6 @@ package org.opentripplanner.routing.location;
 import org.locationtech.jts.geom.Coordinate;
 import org.opentripplanner.routing.vertextype.StreetVertex;
 import org.opentripplanner.util.I18NString;
-import org.opentripplanner.util.NonLocalizedString;
 
 /**
  * Represents a location on a street, somewhere between the two corners. This is used when computing the first and last segments of a trip, for trips

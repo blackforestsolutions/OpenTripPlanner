@@ -1,7 +1,6 @@
 package org.opentripplanner.model.plan;
 
 import org.opentripplanner.model.Agency;
-import org.opentripplanner.model.Operator;
 import org.opentripplanner.model.Route;
 import org.opentripplanner.model.StreetNote;
 import org.opentripplanner.model.Trip;
@@ -15,7 +14,6 @@ import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TimeZone;
 
 /**
 * One leg of a trip -- that is, a temporally continuous piece of the journey that takes place on a

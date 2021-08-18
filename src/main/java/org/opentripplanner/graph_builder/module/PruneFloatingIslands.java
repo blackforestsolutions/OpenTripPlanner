@@ -6,10 +6,7 @@ import org.opentripplanner.graph_builder.services.GraphBuilderModule;
 import org.opentripplanner.routing.graph.Graph;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * this module is part of the  {@link org.opentripplanner.graph_builder.services.GraphBuilderModule} process. it design to remove small isolated

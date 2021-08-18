@@ -2,13 +2,8 @@ package org.opentripplanner.routing;
 
 import lombok.experimental.Delegate;
 import org.opentripplanner.model.Stop;
-import org.opentripplanner.model.StopTimesInPattern;
-import org.opentripplanner.model.Timetable;
 import org.opentripplanner.model.TimetableSnapshot;
-import org.opentripplanner.model.Trip;
 import org.opentripplanner.model.TripPattern;
-import org.opentripplanner.model.TripTimeShort;
-import org.opentripplanner.model.calendar.ServiceDate;
 import org.opentripplanner.routing.algorithm.RoutingWorker;
 import org.opentripplanner.routing.api.request.RoutingRequest;
 import org.opentripplanner.routing.api.response.RoutingResponse;
@@ -17,9 +12,7 @@ import org.opentripplanner.routing.graph.GraphIndex;
 import org.opentripplanner.routing.graphfinder.GraphFinder;
 import org.opentripplanner.standalone.server.Router;
 
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * This is the entry point of all API requests towards the OTP graph. A new instance of this class

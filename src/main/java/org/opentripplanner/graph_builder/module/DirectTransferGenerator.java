@@ -14,9 +14,7 @@ import org.opentripplanner.util.ProgressTracker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * {@link org.opentripplanner.graph_builder.services.GraphBuilderModule} module that links up the stops of a transit

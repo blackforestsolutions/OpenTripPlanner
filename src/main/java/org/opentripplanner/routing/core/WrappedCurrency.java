@@ -1,7 +1,6 @@
 package org.opentripplanner.routing.core;
 
 import java.util.Currency;
-import java.util.Locale;
 
 /**
  * A Bean wrapper class for java.util.Currency 

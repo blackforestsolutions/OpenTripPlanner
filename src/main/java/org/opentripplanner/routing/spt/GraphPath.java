@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import org.opentripplanner.routing.core.RoutingContext;
 import org.opentripplanner.routing.core.State;
 import org.opentripplanner.routing.graph.Edge;
-import org.opentripplanner.routing.graph.Vertex;
 
 /**
  * A shortest path on the graph.

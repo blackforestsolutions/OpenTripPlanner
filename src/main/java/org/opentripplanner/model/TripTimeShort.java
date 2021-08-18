@@ -5,7 +5,6 @@ import org.opentripplanner.routing.trippattern.RealTimeState;
 import org.opentripplanner.routing.trippattern.TripTimes;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 // TODO OTP2 - Convert all fields to get-methods and keep reference to TripTimes and let

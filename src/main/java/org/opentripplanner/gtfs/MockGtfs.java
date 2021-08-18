@@ -1,9 +1,7 @@
 package org.opentripplanner.gtfs;
 
 import org.opentripplanner.graph_builder.DataImportIssueStore;
-import org.opentripplanner.gtfs.mapping.AgencyAndIdMapper;
 import org.opentripplanner.gtfs.mapping.GTFSToOtpTransitServiceMapper;
-import org.opentripplanner.model.FeedScopedId;
 
 import org.opentripplanner.model.impl.OtpTransitServiceBuilder;
 

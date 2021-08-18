@@ -1,9 +1,6 @@
 package org.opentripplanner.routing.graphfinder;
 
-import org.opentripplanner.model.FeedScopedId;
 import org.opentripplanner.model.GenericLocation;
-import org.opentripplanner.model.TransitMode;
-import org.opentripplanner.routing.RoutingService;
 import org.opentripplanner.routing.algorithm.astar.AStar;
 import org.opentripplanner.routing.algorithm.astar.TraverseVisitor;
 import org.opentripplanner.routing.algorithm.astar.strategies.SearchTerminationStrategy;
@@ -13,10 +10,7 @@ import org.opentripplanner.routing.core.TraverseMode;
 import org.opentripplanner.routing.graph.Graph;
 import org.opentripplanner.routing.spt.DominanceFunction;
 
-import java.util.Comparator;
 import java.util.List;
-
-import static java.lang.Integer.min;
 
 /**
  * A GraphFinder which uses the street network to traverse the graph in order to find the nearest

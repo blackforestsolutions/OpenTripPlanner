@@ -1,14 +1,10 @@
 package org.opentripplanner.util;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * This is for translated strings for which translations are read from OSM or GTFS alerts.
