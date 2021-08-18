@@ -119,8 +119,4 @@ public class StopsCursor<T extends RaptorTripSchedule> {
                 ? new Transfer<>(round, stop, state, this)
                 : new Transit<>(round, stop, state, this);
     }
-
-    int departureTime(int arrivalTime, int legDuration) {
-        return transitCalculator.minusDuration(arrivalTime, legDuration);
-    }
 }

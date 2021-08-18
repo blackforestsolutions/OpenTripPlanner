@@ -40,21 +40,8 @@ public class DebugRequestBuilder<T extends RaptorTripSchedule> {
         return stops;
     }
 
-    public DebugRequestBuilder<T> addStops(Collection<Integer> stops) {
-        this.stops.addAll(stops);
-        return this;
-    }
-
     public List<Integer> path() {
         return path;
-    }
-
-    public DebugRequestBuilder<T> addPath(Collection<Integer> path) {
-        if(!path.isEmpty()) {
-            throw new IllegalStateException("The API support only one debug path. Existing: " + this.path + ", new: " + path);
-        }
-        this.path.addAll(path);
-        return this;
     }
 
     public int debugPathFromStopIndex() {

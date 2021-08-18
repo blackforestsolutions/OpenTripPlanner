@@ -46,10 +46,6 @@ public class XmlDataListDownloader<T> {
     // if true, read attributes of elements, instead of the text of their child elements
     private boolean readAttributes = false;
 
-    public void setReadAttributes(boolean readAttributes) {
-        this.readAttributes = readAttributes;
-    }
-
     public void setPath(String path) {
         this.path = path;
         XPathFactory factory = XPathFactory.newInstance();

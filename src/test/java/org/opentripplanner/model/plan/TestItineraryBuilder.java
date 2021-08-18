@@ -117,11 +117,6 @@ public class TestItineraryBuilder {
   }
 
 
-  public Itinerary egress(int walkDuration) {
-    walk(walkDuration, null);
-    return build();
-  }
-
   public Itinerary build() {
     Itinerary itinerary = new Itinerary(legs);
     itinerary.generalizedCost = cost;

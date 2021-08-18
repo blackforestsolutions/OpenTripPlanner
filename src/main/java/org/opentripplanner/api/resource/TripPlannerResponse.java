@@ -53,17 +53,8 @@ public class TripPlannerResponse {
         this.plan = plan;
     }
 
-    public ApiTripSearchMetadata getMetadata() {
-        return metadata;
-    }
-
     public void setMetadata(ApiTripSearchMetadata metadata) {
         this.metadata = metadata;
-    }
-
-    /** The error (if any) that this response raised. */
-    public PlannerError getError() {
-        return error;
     }
 
     public void setError(PlannerError error) {

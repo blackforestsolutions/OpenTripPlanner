@@ -46,13 +46,6 @@ public class AreaEdgeList implements Serializable {
         return edges;
     }
 
-    public void setEdges(ArrayList<AreaEdge> edges) {
-        this.edges = edges;
-        for (AreaEdge edge : edges) {
-            vertices.add((IntersectionVertex) edge.getFromVertex());
-        }
-    }
-
     public void addEdge(AreaEdge edge) {
         edges.add(edge);
         vertices.add((IntersectionVertex) edge.getFromVertex());
@@ -65,36 +58,6 @@ public class AreaEdgeList implements Serializable {
         for (Edge e : edges) {
             vertices.add((IntersectionVertex) e.getFromVertex());
         }
-    }
-
-    /**
-     * Safely add a vertex to this area. This creates edges to all other vertices unless those edges would cross one of the original edges.
-     */
-    public void addVertex(IntersectionVertex newVertex, Graph graph) {
-        GeometryFactory geometryFactory = GeometryUtils.getGeometryFactory();
-        if (edges.size() == 0) {
-            throw new RuntimeException("Can't add a vertex to an empty area");
-        }
-
-        @SuppressWarnings("unchecked")
-        HashSet<IntersectionVertex> verticesCopy = (HashSet<IntersectionVertex>) vertices.clone();
-        VERTEX: for (IntersectionVertex v : verticesCopy) {
-            LineString newGeometry = geometryFactory.createLineString(new Coordinate[] {
-                    newVertex.getCoordinate(), v.getCoordinate() });
-
-            // ensure that new edge does not leave the bounds of the original area, or
-            // fall into any holes
-            if (!originalEdges.union(originalEdges.getBoundary()).contains(newGeometry)) {
-                continue VERTEX;
-            }
-
-            // check to see if this splits multiple NamedAreas. This code is rather similar to
-            // code in OSMGBI, but the data structures are different
-
-            createSegments(newVertex, v, areas, graph);
-        }
-
-        vertices.add(newVertex);
     }
 
     private void createSegments(IntersectionVertex from, IntersectionVertex to,
@@ -166,10 +129,6 @@ public class AreaEdgeList implements Serializable {
                 }
             }
         }
-    }
-
-    public Polygon getOriginalEdges() {
-        return originalEdges;
     }
 
     public void setOriginalEdges(Polygon polygon) {

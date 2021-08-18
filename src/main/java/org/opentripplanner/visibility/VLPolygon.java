@@ -31,43 +31,12 @@ public class VLPolygon {
         vertices = new ArrayList<VLPoint>();
     }
 
-    double boundary_distance(VLPoint point_temp) {
-        return point_temp.boundary_distance(this);
-    }
-
-    double boundary_distance(LineSegment line_segment) {
-        return line_segment.boundary_distance(this);
-    }
-
     public VLPolygon(List<VLPoint> vertices_temp) {
         vertices = new ArrayList<VLPoint>(vertices_temp);
     }
 
     public int n() {
         return vertices.size();
-    }
-
-    public VLPolygon(VLPoint point0, VLPoint point1, VLPoint point2) {
-        vertices = new ArrayList<VLPoint>();
-        vertices.add(point0);
-        vertices.add(point1);
-        vertices.add(point2);
-    }
-
-    public int r() {
-        int r_count = 0;
-        if (vertices.size() > 1) {
-            // Use cross product to count right turns.
-            for (int i = 0; i <= n() - 1; i++)
-                if ((get(i + 1).x - get(i).x) * (get(i + 2).y - get(i).y)
-
-                - (get(i + 1).y - get(i).y) * (get(i + 2).x - get(i).x) < 0)
-                    r_count++;
-            if (area() < 0) {
-                r_count = n() - r_count;
-            }
-        }
-        return r_count;
     }
 
     public boolean is_simple(double epsilon) {
@@ -100,16 +69,6 @@ public class VLPolygon {
         return true;
     }
 
-    public double boundary_length() {
-        double length_temp = 0;
-        if (n() == 0 || n() == 1)
-            return 0;
-        for (int i = 0; i < n() - 1; i++)
-            length_temp += vertices.get(i).distance(vertices.get(i + 1));
-        length_temp += vertices.get(n() - 1).distance(vertices.get(0));
-        return length_temp;
-    }
-
     public double area() {
         double area_temp = 0;
         if (n() == 0)
@@ -117,36 +76,6 @@ public class VLPolygon {
         for (int i = 0; i <= n() - 1; i++)
             area_temp += get(i).x * get(i + 1).y - get(i + 1).x * get(i).y;
         return area_temp / 2.0;
-    }
-
-    public VLPoint centroid() {
-        assert (vertices.size() > 0);
-
-        double area_temp = area();
-        assert (area_temp != 0);
-        double x_temp = 0;
-        for (int i = 0; i <= n() - 1; i++)
-            x_temp += (get(i).x + get(i + 1).x)
-                    * (get(i).x * get(i + 1).y - get(i + 1).x * get(i).y);
-        double y_temp = 0;
-        for (int i = 0; i <= n() - 1; i++)
-            y_temp += (get(i).y + get(i + 1).y)
-                    * (get(i).x * get(i + 1).y - get(i + 1).x * get(i).y);
-        return new VLPoint(x_temp / (6 * area_temp), y_temp / (6 * area_temp));
-    }
-
-    public double diameter() {
-        // Precondition: nonempty Polygon.
-        assert (n() > 0);
-
-        double running_max = 0;
-        for (int i = 0; i < n() - 1; i++) {
-            for (int j = i + 1; j < n(); j++) {
-                if (get(i).distance(get(j)) > running_max)
-                    running_max = get(i).distance(get(j));
-            }
-        }
-        return running_max;
     }
 
     public void enforce_standard_form() {
@@ -238,27 +167,6 @@ public class VLPolygon {
 
     public VLPoint get(int i) {
         return vertices.get(i % vertices.size());
-    }
-
-    boolean equivalent(VLPolygon polygon2, double epsilon) {
-        if (n() == 0 || polygon2.n() == 0)
-            return false;
-        if (n() != polygon2.n())
-            return false;
-        // Try all cyclic matches
-        int n = n();// =polygon2.n()
-        for (int offset = 0; offset < n; offset++) {
-            boolean successful_match = true;
-            for (int i = 0; i < n; i++) {
-                if (get(i).distance(polygon2.get(i + offset)) > epsilon) {
-                    successful_match = false;
-                    break;
-                }
-            }
-            if (successful_match)
-                return true;
-        }
-        return false;
     }
 
     double boundary_distance(VLPolygon polygon2) {

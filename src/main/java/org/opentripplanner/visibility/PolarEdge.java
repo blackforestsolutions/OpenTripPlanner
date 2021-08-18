@@ -14,9 +14,6 @@ class PolarEdge {
 
     PolarPoint second;
 
-    PolarEdge() {
-    }
-
     PolarEdge(PolarPoint ppoint1, PolarPoint ppoint2) {
         first = ppoint1.clone();
         second = ppoint2.clone();

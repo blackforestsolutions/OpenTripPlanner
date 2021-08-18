@@ -79,10 +79,6 @@ public class TransitStopVertex extends Vertex {
         LOG.debug("Stop {} access time from street level set to {}", this, streetToStopTime);
     }
 
-    public Set<TransitMode> getModes() {
-        return modes;
-    }
-
     public void addMode(TransitMode mode) {
         modes.add(mode);
     }

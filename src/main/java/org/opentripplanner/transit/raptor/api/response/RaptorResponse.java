@@ -38,13 +38,6 @@ public class RaptorResponse<T extends RaptorTripSchedule> {
     }
 
     /**
-     * The original request issued to perform the travel search.
-     */
-    public RaptorRequest<T> requestOriginal() {
-        return requestOriginal;
-    }
-
-    /**
      * The actual request used to perform the travel search. In the case of a multi-criteria
      * search, heuristics is used to optimize the search and the request is changed to account
      * for this. Also, different optimization may add filters (stop filter) to the request.

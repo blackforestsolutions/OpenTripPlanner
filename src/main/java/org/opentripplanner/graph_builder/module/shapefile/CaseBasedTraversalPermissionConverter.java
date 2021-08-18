@@ -77,37 +77,12 @@ public class CaseBasedTraversalPermissionConverter implements
         this.attributeName = attributeName;
         this.defaultPermission = P2.createPair(defaultPermission, defaultPermission);
     }
-    
-    /**
-     * The name of the feature attribute to use when calculating the traversal permissions.
-     */
-    public void setAttributeName(String attributeName) {
-        this.attributeName = attributeName;
-    }
 
     /**
      * The default permission to use when no matching case is found for a street.
      */
     public void setDefaultPermission(StreetTraversalPermission permission) {
         defaultPermission = P2.createPair(permission, permission);
-    }
-
-    /**
-     * The mapping from attribute values to permissions to use when determining a street's traversal
-     * permission.
-     */
-    public void setPermissions(Map<String, String> permissions) {
-        for (Map.Entry<String, String> entry : permissions.entrySet()) {
-            String attributeValue = entry.getKey();
-            String perms = entry.getValue();
-            String[] tokens = perms.split(",");
-            if (tokens.length != 2)
-                throw new IllegalArgumentException("invalid street traversal permissions: " + perms);
-
-            StreetTraversalPermission forward = StreetTraversalPermission.valueOf(tokens[0]);
-            StreetTraversalPermission reverse = StreetTraversalPermission.valueOf(tokens[1]);
-            addPermission(attributeValue, forward, reverse);
-        }
     }
 
     public void addPermission(String attributeValue, StreetTraversalPermission forward,

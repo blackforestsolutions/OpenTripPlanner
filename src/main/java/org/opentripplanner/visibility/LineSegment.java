@@ -29,27 +29,6 @@ public class LineSegment {
         }
     }
 
-    LineSegment(LineSegment line_segment_temp) {
-        switch (line_segment_temp.size()) {
-        case 0:
-            endpoints = null;
-            break;
-        case 1:
-            endpoints = new VLPoint[1];
-            endpoints[0] = line_segment_temp.endpoints[0].clone();
-            break;
-        case 2:
-            endpoints = new VLPoint[2];
-            endpoints[0] = line_segment_temp.endpoints[0].clone();
-            endpoints[1] = line_segment_temp.endpoints[1].clone();
-        }
-    }
-
-    LineSegment(VLPoint point_temp) {
-        endpoints = new VLPoint[1];
-        endpoints[0] = point_temp;
-    }
-
     LineSegment(VLPoint first_point_temp, VLPoint second_point_temp) {
         this(first_point_temp, second_point_temp, 0);
     }
@@ -80,24 +59,10 @@ public class LineSegment {
             return endpoints[0];
     }
 
-    VLPoint midpoint() {
-        assert (size() > 0);
-
-        return first().plus(second()).times(0.5);
-    }
-
     double length() {
         assert (size() > 0);
 
         return first().distance(second());
-    }
-
-    boolean is_in_standard_form() {
-        assert (size() > 0);
-
-        if (size() < 2)
-            return true;
-        return first().compareTo(second()) <= 0;
     }
 
     /*
@@ -173,15 +138,6 @@ public class LineSegment {
         endpoints[1] = point_temp;
     }
 
-    void enforce_standard_form() {
-        if (first().compareTo(second()) > 0)
-            reverse();
-    }
-
-    void clear() {
-        endpoints = null;
-    }
-
     public boolean equals(Object o) {
         if (!(o instanceof LineSegment)) {
             return false;
@@ -192,16 +148,6 @@ public class LineSegment {
         else
             return (first().equals(line_segment2.first()) && second()
                     .equals(line_segment2.second()));
-    }
-
-    boolean equivalent(LineSegment line_segment2, double epsilon) {
-        if (size() != line_segment2.size() || size() == 0 || line_segment2.size() == 0)
-            return false;
-        else
-            return (first().distance(line_segment2.first()) <= epsilon && second().distance(
-                    line_segment2.second()) <= epsilon)
-                    || (first().distance(line_segment2.second()) <= epsilon && second().distance(
-                            line_segment2.first()) <= epsilon);
     }
 
     double distance(LineSegment line_segment2) {
@@ -356,14 +302,6 @@ public class LineSegment {
             return line_segment_temp;
         }
         return line_segment_temp;
-    }
-
-    LineSegment intersection(Ray ray_temp, double epsilon) {
-        return ray_temp.intersection(this, epsilon);
-    }
-
-    LineSegment intersection(Ray ray_temp) {
-        return ray_temp.intersection(this, 0);
     }
 
     public String toString() {

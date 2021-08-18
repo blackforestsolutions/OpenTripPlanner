@@ -71,19 +71,6 @@ public final class StopTime implements Comparable<StopTime> {
         this.continuousDropOff = st.continuousDropOff;
     }
 
-    /**
-     * The id is used to navigate/link StopTime to other entities (Map from StopTime.id -> Entity.id).
-     * There is no need to navigate in the opposite direction. The StopTime id is NOT stored in a
-     * StopTime field.
-     * <p/>
-     * New ids should only be created when a travel search result is mapped to an itinerary, so even
-     * if creating new objects are expensive, the few extra objects created during the mapping process
-     * is ok.
-     */
-    public StopTimeKey getId() {
-        return new StopTimeKey(trip.getId(), stopSequence);
-    }
-
     public Trip getTrip() {
         return trip;
     }
@@ -123,10 +110,6 @@ public final class StopTime implements Comparable<StopTime> {
         this.arrivalTime = arrivalTime;
     }
 
-    public void clearArrivalTime() {
-        this.arrivalTime = MISSING_VALUE;
-    }
-
     public boolean isDepartureTimeSet() {
         return departureTime != MISSING_VALUE;
     }
@@ -142,10 +125,6 @@ public final class StopTime implements Comparable<StopTime> {
         this.departureTime = departureTime;
     }
 
-    public void clearDepartureTime() {
-        this.departureTime = MISSING_VALUE;
-    }
-
     public boolean isTimepointSet() {
         return timepoint != MISSING_VALUE;
     }
@@ -159,10 +138,6 @@ public final class StopTime implements Comparable<StopTime> {
 
     public void setTimepoint(int timepoint) {
         this.timepoint = timepoint;
-    }
-
-    public void clearTimepoint() {
-        this.timepoint = MISSING_VALUE;
     }
 
     public String getStopHeadsign() {
@@ -209,48 +184,12 @@ public final class StopTime implements Comparable<StopTime> {
         this.shapeDistTraveled = shapeDistTraveled;
     }
 
-    public void clearShapeDistTraveled() {
-        this.shapeDistTraveled = MISSING_VALUE;
-    }
-
     public String getFarePeriodId() {
         return farePeriodId;
     }
 
     public void setFarePeriodId(String farePeriodId) {
         this.farePeriodId = farePeriodId;
-    }
-
-    public void setMinArrivalTime(int minArrivalTime) {
-        this.minArrivalTime = minArrivalTime;
-    }
-
-    public int getMinArrivalTime() {
-        return minArrivalTime;
-    }
-
-    public void setMaxDepartureTime(int maxDepartureTime) {
-        this.maxDepartureTime = maxDepartureTime;
-    }
-
-    public int getMaxDepartureTime() {
-        return maxDepartureTime;
-    }
-
-    public int getContinuousPickup() {
-        return continuousPickup;
-    }
-
-    public void setContinuousPickup(int continuousPickup) {
-        this.continuousPickup = continuousPickup;
-    }
-
-    public int getContinuousDropOff() {
-        return continuousDropOff;
-    }
-
-    public void setContinuousDropOff(int continuousDropOff) {
-        this.continuousDropOff = continuousDropOff;
     }
 
     public int compareTo(StopTime o) {

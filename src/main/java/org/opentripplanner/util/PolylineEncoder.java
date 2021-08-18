@@ -13,19 +13,6 @@ import org.locationtech.jts.geom.MultiLineString;
 
 public class PolylineEncoder {
 
-    public static EncodedPolylineBean createEncodings(double[] lat, double[] lon) {
-        return createEncodings(new PointAdapterList(lat, lon));
-    }
-
-    public static EncodedPolylineBean createEncodings(double[] lat, double[] lon, int level) {
-        return createEncodings(new PointAdapterList(lat, lon), level);
-    }
-
-    public static EncodedPolylineBean createEncodings(double[] lat, double[] lon, int offset,
-            int length, int level) {
-        return createEncodings(new PointAdapterList(lat, lon, offset, length), level);
-    }
-
     public static EncodedPolylineBean createEncodings(Iterable<Coordinate> points) {
         return createEncodings(points, -1);
     }
@@ -82,32 +69,6 @@ public class PolylineEncoder {
         return new EncodedPolylineBean(pointsString, levelsString, count);
     }
 
-    public static List<Coordinate> decode(EncodedPolylineBean polyline) {
-
-        String pointString = polyline.getPoints();
-
-        double lat = 0;
-        double lon = 0;
-
-        int strIndex = 0;
-        List<Coordinate> points = new ArrayList<Coordinate>();
-
-        while (strIndex < pointString.length()) {
-
-            int[] rLat = decodeSignedNumberWithIndex(pointString, strIndex);
-            lat = lat + rLat[0] * 1e-5;
-            strIndex = rLat[1];
-
-            int[] rLon = decodeSignedNumberWithIndex(pointString, strIndex);
-            lon = lon + rLon[0] * 1e-5;
-            strIndex = rLon[1];
-
-            points.add(new Coordinate(lon, lat));
-        }
-
-        return points;
-    }
-
     /*****************************************************************************
      * Private Methods
      ****************************************************************************/
@@ -122,21 +83,6 @@ public class PolylineEncoder {
             sgn_num = ~(sgn_num);
         }
         return (encodeNumber(sgn_num));
-    }
-
-    public static int decodeSignedNumber(String value) {
-        int[] r = decodeSignedNumberWithIndex(value, 0);
-        return r[0];
-    }
-
-    public static int[] decodeSignedNumberWithIndex(String value, int index) {
-        int[] r = decodeNumberWithIndex(value, index);
-        int sgn_num = r[0];
-        if ((sgn_num & 0x01) > 0) {
-            sgn_num = ~(sgn_num);
-        }
-        r[0] = sgn_num >> 1;
-        return r;
     }
 
     public static String encodeNumber(int num) {
@@ -155,11 +101,6 @@ public class PolylineEncoder {
         return encodeString.toString();
     }
 
-    public static int decodeNumber(String value) {
-        int[] r = decodeNumberWithIndex(value, 0);
-        return r[0];
-    }
-
     public static int[] decodeNumberWithIndex(String value, int index) {
 
         if (value.length() == 0)
@@ -176,35 +117,6 @@ public class PolylineEncoder {
         } while (v >= 0x20);
 
         return new int[] { num, index };
-    }
-
-    private static class PointAdapterList extends AbstractList<Coordinate> {
-
-        private double[] lat;
-        private double[] lon;
-        private int offset;
-        private int length;
-
-        public PointAdapterList(double[] lat, double[] lon) {
-            this(lat, lon, 0, lat.length);
-        }
-
-        public PointAdapterList(double[] lat, double[] lon, int offset, int length) {
-            this.lat = lat;
-            this.lon = lon;
-            this.offset = offset;
-            this.length = length;
-        }
-
-        @Override
-        public Coordinate get(int index) {
-            return new Coordinate(lon[offset + index], lat[offset + index]);
-        }
-
-        @Override
-        public int size() {
-            return length;
-        }
     }
 
     private static class CoordinateList extends AbstractList<Coordinate> {

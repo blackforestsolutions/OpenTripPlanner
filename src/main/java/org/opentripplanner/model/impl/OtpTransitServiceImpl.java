@@ -161,11 +161,6 @@ class OtpTransitServiceImpl implements OtpTransitService {
     }
 
     @Override
-    public Collection<Operator> getAllOperators() {
-        return operators;
-    }
-
-    @Override
     public Collection<FeedScopedId> getAllServiceIds() {
         return serviceIds;
     }
@@ -208,16 +203,6 @@ class OtpTransitServiceImpl implements OtpTransitService {
     @Override
     public Collection<BoardingArea> getAllBoardingAreas() {
         return immutableList(boardingAreasById.values());
-    }
-
-    @Override
-    public Collection<FlexStopLocation> getAllLocations() {
-        return immutableList(locationsById.values());
-    }
-
-    @Override
-    public Collection<FlexLocationGroup> getAllLocationGroups() {
-        return immutableList(locationGroupsById.values());
     }
 
     @Override

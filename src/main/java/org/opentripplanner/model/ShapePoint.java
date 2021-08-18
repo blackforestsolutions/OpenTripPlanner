@@ -56,10 +56,6 @@ public final class ShapePoint implements Serializable, Comparable<ShapePoint> {
         this.distTraveled = distTraveled;
     }
 
-    public void clearDistTraveled() {
-        this.distTraveled = MISSING_VALUE;
-    }
-
     public double getLat() {
         return lat;
     }

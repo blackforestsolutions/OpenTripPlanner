@@ -59,10 +59,6 @@ public class BikeRentalSourceFactory {
     return c.asText("apiKey", null);
   }
 
-  private String namePrefix() {
-    return c.asText("namePrefix", null);
-  }
-
   private boolean routeAsCar() {
     return c.asBoolean("routeAsCar", false);
   }

@@ -303,24 +303,6 @@ public class RaptorPathToItineraryMapper {
         }
     }
 
-    private Place mapOriginTargetToPlace(Vertex vertex, GenericLocation location) {
-        return vertex instanceof TransitStopVertex ?
-                mapTransitVertexToPlace((TransitStopVertex) vertex) :
-                mapLocationToPlace(location);
-    }
-
-    private Place mapLocationToPlace(GenericLocation location) {
-        if (location.label == null || location.label.isEmpty()) {
-            return new Place(location.lat, location.lng, String.format("%.6f, %.6f", location.lat, location.lng));
-        } else {
-            return new Place(location.lat, location.lng, location.label);
-        }
-    }
-
-    private Place mapTransitVertexToPlace(TransitStopVertex vertex) {
-        return mapStopToPlace(vertex.getStop(), null);
-    }
-
     private Place mapStopToPlace(Stop stop, Integer stopIndex) {
         Place place = new Place(stop.getLat(), stop.getLon(), stop.getName());
         place.stopId = stop.getId();

@@ -32,16 +32,8 @@ public class TripPatternForDate {
         this.localDate = localDate;
     }
 
-    public TripTimes[] tripTimes() {
-        return tripTimes;
-    }
-
     public TripPatternWithRaptorStopIndexes getTripPattern() {
         return tripPattern;
-    }
-
-    public int stopIndex(int i) {
-        return this.tripPattern.stopIndex(i);
     }
 
     public TripTimes getTripTimes(int i) {

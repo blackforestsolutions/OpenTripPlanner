@@ -11,8 +11,6 @@ import java.util.List;
 
 public interface UpdatersParameters {
 
-  URI bikeRentalServiceDirectoryUrl();
-
   List<BikeRentalUpdaterParameters> getBikeRentalParameters();
 
   List<GtfsRealtimeAlertsUpdaterParameters> getGtfsRealtimeAlertsUpdaterParameters();

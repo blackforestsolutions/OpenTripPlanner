@@ -73,29 +73,6 @@ public class VerticalDatum {
                 * (1 - gridYFraction) + datum[y1 + 1][x1 + 1] * (1 - gridXFraction)
                 * (1 - gridYFraction);
     }
-
-    boolean covers(double longitude, double latitude) {
-        double lowerLeftAdjusted = lowerLeftLongitude;
-        if (lowerLeftLongitude + deltaLongitude > 180) {
-            // then lowerLeftLongitude must be left of 180
-            if (longitude < lowerLeftLongitude) {
-                // lowerLeftLongitude is right of 180 (probablY)
-                lowerLeftAdjusted -= 360; // this transforms lowerLeft so that interpolation will
-                                          // work
-                if (longitude < lowerLeftLongitude) {
-                    return false;
-                }
-            }
-        }
-
-        if (longitude > lowerLeftAdjusted + deltaLongitude || longitude < lowerLeftAdjusted) {
-            return false;
-        }
-        if (latitude < lowerLeftLatitude || latitude > lowerLeftLatitude + deltaLatitude) {
-            return false;
-        }
-        return true;
-    }
         
     public static VerticalDatum fromGTX (InputStream inputStream) throws IOException {
         DataInputStream stream = new DataInputStream(new BufferedInputStream(inputStream));

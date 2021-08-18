@@ -219,27 +219,6 @@ public class DateUtils implements DateConstants {
         return retVal;
     }
 
-    public static String formatDate(String sdfFormat, Date date, TimeZone tz) {
-        return formatDate(sdfFormat, date, null, tz);
-    }
-
-    public static String formatDate(String sdfFormat, Date date, String defValue, TimeZone tz) {
-        String retVal = defValue;
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat(sdfFormat);
-            sdf.setTimeZone(tz);
-            retVal = sdf.format(date);
-        } catch (Exception e) {
-            retVal = defValue;
-        }
-
-        return retVal;
-    }
-
-    public static Date parseDate(String sdf, String string) {
-        return parseDate(new SimpleDateFormat(sdf), string);
-    }
-
     public synchronized static Date parseDate(SimpleDateFormat sdf, String string) {
         sdf.setLenient(false);
         try {

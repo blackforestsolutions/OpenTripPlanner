@@ -46,14 +46,6 @@ class Angle implements Comparable<Angle>, Cloneable {
             angle_radians = 2 * Math.PI + angle_radians;
     }
 
-    void set(double data_temp) {
-        angle_radians = data_temp;
-    }
-
-    void randomize() {
-        angle_radians = Util.uniform_random_sample(0, 2 * Math.PI) % (2 * Math.PI);
-    }
-
     public boolean equals(Object other) {
         if (!(other instanceof Angle)) {
             return false;
@@ -64,37 +56,6 @@ class Angle implements Comparable<Angle>, Cloneable {
 
     public int compareTo(Angle angle2) {
         return (int) Math.signum(get() - angle2.get());
-    }
-
-    Angle plus(Angle angle2) {
-        return new Angle(get() + angle2.get());
-    }
-
-    Angle minus(Angle angle2) {
-        return new Angle(get() - angle2.get());
-    }
-
-    double geodesic_distance(Angle angle2) {
-        double distance1 = Math.abs(get() - angle2.get());
-        double distance2 = 2 * Math.PI - distance1;
-        if (distance1 < distance2)
-            return distance1;
-        return distance2;
-    }
-
-    double geodesic_direction(Angle angle2) {
-
-        double distance1 = Math.abs(get() - angle2.get());
-        double distance2 = 2 * Math.PI - distance1;
-        if (get() <= angle2.get()) {
-            if (distance1 < distance2)
-                return 1.0;
-            return -1.0;
-        }
-        // Otherwise angle1 > angle2.
-        if (distance1 < distance2)
-            return -1.0;
-        return 1.0;
     }
 
     public String toString() {

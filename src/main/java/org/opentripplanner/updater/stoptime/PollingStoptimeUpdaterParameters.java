@@ -77,7 +77,6 @@ public class PollingStoptimeUpdaterParameters implements PollingGraphUpdaterPara
 
   GtfsRealtimeFileTripUpdateSource.Parameters fileSourceParameters() {
     return new GtfsRealtimeFileTripUpdateSource.Parameters() {
-      @Override public String getFeedId() { return feedId; }
       @Override public String getFile() { return fileSource; }
     };
   }

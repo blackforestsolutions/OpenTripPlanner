@@ -377,15 +377,6 @@ public class TimetableSnapshot {
         return String.format("Timetable snapshot: %d timetables (%s)", timetables.size(), d);
     }
 
-    /**
-     * @return all TripPatterns for which we have any updated timetables created by realtime messages, including both
-     *         patterns that were in the scheduled (static) transit data and those that were added to this snapshot by
-     *         rerouted or added trips.
-     */
-    public Collection<TripPattern> getAllRealtimeTripPatterns () {
-        return timetables.keySet();
-    }
-
     private void addPatternToIndex(TripPattern tripPattern) {
         for (Stop stop: tripPattern.getStops()) {
             patternsForStop.put(stop, tripPattern);

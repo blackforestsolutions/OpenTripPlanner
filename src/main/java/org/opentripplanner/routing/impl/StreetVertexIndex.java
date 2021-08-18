@@ -250,23 +250,6 @@ public class StreetVertexIndex {
     }
 
     /**
-     * Return the edges whose geometry intersect with the specified envelope. Warning: edges w/o
-     * geometry will not be indexed.
-     */
-    @SuppressWarnings("unchecked")
-    public Collection<Edge> getEdgesForEnvelope(Envelope envelope) {
-        List<Edge> edges = edgeTree.query(envelope);
-        for (Iterator<Edge> ie = edges.iterator(); ie.hasNext();) {
-            Edge e = ie.next();
-            Envelope eenv = e.getGeometry().getEnvelopeInternal();
-            //Envelope eenv = e.getEnvelope();
-            if (!envelope.intersects(eenv))
-                ie.remove();
-        }
-        return edges;
-    }
-
-    /**
      * @return The transit stops within an envelope.
      */
     @SuppressWarnings("unchecked")
@@ -278,34 +261,6 @@ public class StreetVertexIndex {
                 its.remove();
         }
         return stopVertices;
-    }
-
-    /**
-     * @param coordinate Location to search intersection at. Look in a MAX_CORNER_DISTANCE_METERS radius.
-     * @return The nearest intersection, null if none found.
-     */
-    public StreetVertex getIntersectionAt(Coordinate coordinate) {
-        double dLon = SphericalDistanceLibrary.metersToLonDegrees(MAX_CORNER_DISTANCE_METERS,
-                coordinate.y);
-        double dLat = SphericalDistanceLibrary.metersToDegrees(MAX_CORNER_DISTANCE_METERS);
-        Envelope envelope = new Envelope(coordinate);
-        envelope.expandBy(dLon, dLat);
-        List<Vertex> nearby = getVerticesForEnvelope(envelope);
-        StreetVertex nearest = null;
-        double bestDistanceMeter = Double.POSITIVE_INFINITY;
-        for (Vertex v : nearby) {
-            if (v instanceof StreetVertex) {
-                v.getLabel().startsWith("osm:");
-                double distanceMeter = SphericalDistanceLibrary.fastDistance(coordinate, v.getCoordinate());
-                if (distanceMeter < MAX_CORNER_DISTANCE_METERS) {
-                    if (distanceMeter < bestDistanceMeter) {
-                        bestDistanceMeter = distanceMeter;
-                        nearest = (StreetVertex) v;
-                    }
-                }
-            }
-        }
-        return nearest;
     }
 
     /**

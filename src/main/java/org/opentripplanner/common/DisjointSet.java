@@ -55,10 +55,6 @@ public class DisjointSet<T> {
             return sets.size() -1;
         }
     }
-
-    public boolean exists(T element) {
-        return setMapping.containsKey(element);
-    }
     
     public List<Set<T>> sets() {
         TLongObjectMap<Set<T>> out = new TLongObjectHashMap<>();

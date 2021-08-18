@@ -17,9 +17,7 @@ public class Money implements Comparable<Money> {
      * The actual currency value in decimal fixed-point, with the default number of fraction digits
      * from currency after the decimal point.
      */
-    private int cents; 
-
-    public Money() {}
+    private int cents;
     
     public Money(WrappedCurrency currency, int cents) {
         this.currency = currency;
@@ -55,17 +53,9 @@ public class Money implements Comparable<Money> {
     public void setCurrency(Currency currency) {
         this.currency = new WrappedCurrency(currency);
     }
-    
-    public void setCurrency(WrappedCurrency currency) {
-        this.currency = currency;
-    }
 
     public WrappedCurrency getCurrency() {
         return currency;
-    }
-
-    public void setCents(int cents) {
-        this.cents = cents;
     }
 
     public int getCents() {

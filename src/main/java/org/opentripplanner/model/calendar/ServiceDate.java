@@ -231,16 +231,6 @@ public final class ServiceDate implements Serializable, Comparable<ServiceDate> 
     }
 
     /**
-     * @param serviceDate
-     * @return the number of days between this service date and the specified
-     *         argument service date
-     */
-    public long difference(ServiceDate serviceDate) {
-        return (serviceDate.getAsDate(UTC_TIME_ZONE).getTime() - getAsDate(UTC_TIME_ZONE).getTime())
-                / (24 * 60 * 60 * 1000);
-    }
-
-    /**
      * The service date is either the minimum or maximum allowed value.
      * In practice this means unbounded.
      * */

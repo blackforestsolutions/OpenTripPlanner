@@ -123,14 +123,6 @@ public class StateEditor {
 
     /* PUBLIC METHODS TO MODIFY A STATE BEFORE IT IS USED */
 
-    /**
-     * Tell the stateEditor to return null when makeState() is called, no matter what other editing
-     * has been done. This allows graph patches to block traversals.
-     */
-    public void blockTraversal() {
-        this.defectiveTraversal = true;
-    }
-
     /* Incrementors */
 
     public void incrementWeight(double weight) {
@@ -200,10 +192,6 @@ public class StateEditor {
         child.stateData.backWalkingBike = walkingBike;
     }
 
-    public void setWalkDistance(double walkDistance) {
-        child.walkDistance = walkDistance;
-    }
-
     public void beginVehicleRenting(TraverseMode vehicleMode) {
         cloneStateDataAsNeeded();
         child.stateData.usingRentedBike = true;
@@ -246,11 +234,6 @@ public class StateEditor {
         child.time = seconds * 1000;
     }
 
-    public void setStartTimeSeconds(long seconds) {
-        cloneStateDataAsNeeded();
-        child.stateData.startTime = seconds;
-    }
-
     /**
      * Set non-incremental state values from an existing state.
      * Incremental values are not currently set.
@@ -285,24 +268,6 @@ public class StateEditor {
         }
     }
 
-    /* PUBLIC GETTER METHODS */
-
-    public long getTimeSeconds() {
-        return child.getTimeSeconds();
-    }
-
-    public long getElapsedTimeSeconds() {
-        return child.getElapsedTimeSeconds();
-    }
-
-    public boolean isRentingBike() {
-        return child.isBikeRenting();
-    }
-
-    public double getWalkDistance() {
-        return child.getWalkDistance();
-    }
-
     public Vertex getVertex() {
         return child.getVertex();
     }
@@ -317,11 +282,6 @@ public class StateEditor {
     private void cloneStateDataAsNeeded() {
         if (child.backState != null && child.stateData == child.backState.stateData)
             child.stateData = child.stateData.clone();
-    }
-
-    public void setOptions(RoutingRequest options) {
-        cloneStateDataAsNeeded();
-        child.stateData.opt = options;
     }
 
     public void setBikeRentalNetwork(Set<String> networks) {

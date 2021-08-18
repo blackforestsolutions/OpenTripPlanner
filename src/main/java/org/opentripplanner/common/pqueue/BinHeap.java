@@ -46,10 +46,6 @@ public class BinHeap<T> {
     	else 
     		return null;
     }
-    
-    public void insert_or_dec_key(T e, double p) {
-    	throw new UnsupportedOperationException("BinHeap has no decrease key operation.");
-    }
 
     public void rekey(T e, double p) {
         // Perform "inefficient" but straightforward linear search 
@@ -89,14 +85,6 @@ public class BinHeap<T> {
             elem[i] = e;
             prio[i] = p;
     	}
-    }
-
-    public void dump() {
-    	for (int i=0; i<=capacity; i++) {
-    		String topMarker = (i > size) ? "(UNUSED)" : ""; 
-        	System.out.printf("%d\t%f\t%s\t%s\n", i, prio[i], elem[i], topMarker);
-    	}
-    	System.out.printf("-----------------------\n");
     }
     
     public void reset() {

@@ -176,39 +176,7 @@ public class GraphUpdaterManager {
         }
     }
 
-    /**
-     * Just an example of fetching status information from the graph updater manager to expose it in a web service.
-     * More useful stuff should be added later.
-     */
-    public Map<Integer, String> getUpdaterDescriptions () {
-        Map<Integer, String> ret = Maps.newTreeMap();
-        int i = 0;
-        for (GraphUpdater updater : updaterList) {
-            ret.put(i++, updater.toString());
-        }
-        return ret;
-    }
-
-    /**
-     * Just an example of fetching status information from the graph updater manager to expose it in a web service.
-     * More useful stuff should be added later.
-     */
-    public GraphUpdater getUpdater (int id) {
-        if (id >= updaterList.size()) return null;
-        return updaterList.get(id);
-    }
-
     public List<GraphUpdater> getUpdaterList() {
         return updaterList;
-    }
-
-    public Collection<String> waitingUpdaters() {
-        Collection<String> waitingUpdaters = new ArrayList<>();
-        for (GraphUpdater updater : graph.updaterManager.getUpdaterList()) {
-            if (!(updater).isPrimed()) {
-                waitingUpdaters.add(updater.getConfigRef());
-            }
-        }
-        return waitingUpdaters;
     }
 }

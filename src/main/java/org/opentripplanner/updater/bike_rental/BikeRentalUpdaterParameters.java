@@ -27,10 +27,6 @@ public class BikeRentalUpdaterParameters implements PollingGraphUpdaterParameter
   // TODO OTP2 - What is the difference between this and the "network" in the source
   String getNetworks() { return networks; }
 
-  public String getUrl() {
-    return url;
-  }
-
   @Override
   public int getFrequencySec() {
     return frequencySec;

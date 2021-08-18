@@ -64,14 +64,6 @@ public final class LifeCycleSubscriptions implements WorkerLifeCycle {
         }
     }
 
-    @Override
-    public void onIterationComplete(Runnable iterationComplete) {
-        assertIsOpen();
-        if(iterationComplete != null) {
-            this.iterationCompleteListeners.add(iterationComplete);
-        }
-    }
-
     public void close() {
         this.openForSubscription = false;
     }

@@ -875,21 +875,9 @@ public class RoutingRequest implements Cloneable, Serializable {
         }
     }
 
-    public void setBannedAgencies(Collection<FeedScopedId> ids) {
-        if (ids != null) {
-            bannedAgencies = Set.copyOf(ids);
-        }
-    }
-
     public void setBannedAgenciesFromSting(String s) {
         if (!s.isEmpty()) {
             bannedAgencies = FeedScopedId.parseListOfIds(s);
-        }
-    }
-
-    public void setWhiteListedAgencies(Collection<FeedScopedId> ids) {
-        if (ids != null) {
-            whiteListedAgencies = Set.copyOf(ids);
         }
     }
 
@@ -930,10 +918,6 @@ public class RoutingRequest implements Cloneable, Serializable {
         }
     }
 
-    public void setBannedRoutes(List<FeedScopedId> routeIds) {
-        bannedRoutes = RouteMatcher.idMatcher(routeIds);
-    }
-
     public void setBannedRoutesFromSting(String s) {
         if (!s.isEmpty()) {
             bannedRoutes = RouteMatcher.parse(s);
@@ -950,19 +934,6 @@ public class RoutingRequest implements Cloneable, Serializable {
         else {
             whiteListedRoutes = RouteMatcher.emptyMatcher();
         }
-    }
-
-    public void setWhiteListedRoutes(List<FeedScopedId> routeIds) {
-        whiteListedRoutes = RouteMatcher.idMatcher(routeIds);
-    }
-
-
-    public void setFromString(String from) {
-        this.from = LocationStringParser.fromOldStyleString(from);
-    }
-
-    public void setToString(String to) {
-        this.to = LocationStringParser.fromOldStyleString(to);
     }
 
     /**
@@ -1366,21 +1337,6 @@ public class RoutingRequest implements Cloneable, Serializable {
             preferences_penalty += useUnpreferredRoutesPenalty;
         }
         return preferences_penalty;
-    }
-
-    /**
-     * Sets the bicycle triangle routing parameters -- the relative importance of safety, flatness, and speed.
-     * These three fields of the RoutingRequest should have values between 0 and 1, and should add up to 1.
-     * This setter function accepts any three numbers and will normalize them to add up to 1.
-     */
-    public void setTriangleNormalized (double safe, double slope, double time) {
-        double total = safe + slope + time;
-        safe /= total;
-        slope /= total;
-        time /= total;
-        this.bikeTriangleSafetyFactor = safe;
-        this.bikeTriangleSlopeFactor = slope;
-        this.bikeTriangleTimeFactor = time;
     }
 
     public static void assertTriangleParameters(

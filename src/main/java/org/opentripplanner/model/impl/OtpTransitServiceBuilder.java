@@ -162,8 +162,6 @@ public class OtpTransitServiceBuilder {
         return stopTimesByTrip;
     }
 
-    public EntityById<FeedScopedId, FareZone> getFareZonesById() { return fareZonesById; }
-
     public List<Transfer> getTransfers() {
         return transfers;
     }

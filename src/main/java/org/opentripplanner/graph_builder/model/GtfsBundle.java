@@ -67,10 +67,6 @@ public class GtfsBundle {
         this.dataSource = dataSource;
     }
 
-    public void setUrl(URL url) {
-        this.url = url;
-    }
-
     public CsvInputSource getCsvInputSource() {
         if (csvInputSource == null) {
             csvInputSource = new CsvInputSource() {
@@ -136,20 +132,6 @@ public class GtfsBundle {
         this.defaultBikesAllowed = defaultBikesAllowed;
     }
 
-    /**
-     * Transfers.txt usually specifies where the transit operator prefers people to transfer, 
-     * due to schedule structure and other factors.
-     * 
-     * However, in systems like the NYC subway system, transfers.txt can partially substitute 
-     * for the missing pathways.txt file.  In this case, transfer edges will be created between
-     * stops where transfers are defined.
-     * 
-     * @return
-     */
-    public boolean doesTransfersTxtDefineStationPaths() {
-        return transfersTxtDefinesStationPaths;
-    }
-
     public void setTransfersTxtDefinesStationPaths(boolean transfersTxtDefinesStationPaths) {
         this.transfersTxtDefinesStationPaths = transfersTxtDefinesStationPaths;
     }
@@ -177,9 +159,5 @@ public class GtfsBundle {
 
     public double getMaxStopToShapeSnapDistance() {
         return maxStopToShapeSnapDistance;
-    }
-
-    public void setMaxStopToShapeSnapDistance(double maxStopToShapeSnapDistance) {
-        this.maxStopToShapeSnapDistance = maxStopToShapeSnapDistance;
     }
 }

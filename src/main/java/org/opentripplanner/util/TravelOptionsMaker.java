@@ -25,10 +25,6 @@ public final class TravelOptionsMaker {
         staticTravelOptions.add(new TravelOption(TraverseMode.CAR.toString()));
     }
 
-    public static List<TravelOption> makeOptions(Graph graph) {
-        return makeOptions(graph.getTransitModes(), graph.hasBikeSharing, graph.hasBikeRide, graph.hasParkRide);
-    }
-
     public static List<TravelOption> makeOptions(HashSet<TransitMode> transitModes, boolean hasBikeSharing,
         boolean hasBikeRide, boolean hasParkRide) {
         List<TravelOption> travelOptions = new ArrayList<>(16);

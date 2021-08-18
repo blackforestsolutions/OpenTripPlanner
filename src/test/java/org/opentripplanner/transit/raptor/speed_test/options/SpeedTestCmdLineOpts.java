@@ -99,10 +99,6 @@ public class SpeedTestCmdLineOpts {
         return cmd.hasOption(VERBOSE);
     }
 
-    public int numOfItineraries() {
-        return Integer.parseInt(cmd.getOptionValue(NUM_OF_ITINERARIES, "3"));
-    }
-
     public int numberOfTestsSamplesToRun() {
         int dftLen = profiles().length - (compareHeuristics() ? 1 : 0);
         String dftLenAsStr = Integer.toString(dftLen);

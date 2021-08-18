@@ -85,7 +85,6 @@ public class GtfsRealtimeFileTripUpdateSource implements TripUpdateSource {
     }
 
     public interface Parameters {
-        String getFeedId();
         String getFile();
     }
 }

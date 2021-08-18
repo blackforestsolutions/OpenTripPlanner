@@ -14,33 +14,18 @@ public class WayPropertyPicker {
 
     private boolean safetyMixin;
 
-    public WayPropertyPicker() {
-    }
-
     public WayPropertyPicker(OSMSpecifier specifier, WayProperties properties, boolean mixin) {
         this.specifier = specifier;
         this.properties = properties;
         this.safetyMixin = mixin;
     }
 
-    public void setSpecifier(OSMSpecifier specifier) {
-        this.specifier = specifier;
-    }
-
     public OSMSpecifier getSpecifier() {
         return specifier;
     }
 
-    public void setProperties(WayProperties properties) {
-        this.properties = properties;
-    }
-
     public WayProperties getProperties() {
         return properties;
-    }
-
-    public void setSafetyMixin(boolean mixin) {
-        this.safetyMixin = mixin;
     }
 
     /**

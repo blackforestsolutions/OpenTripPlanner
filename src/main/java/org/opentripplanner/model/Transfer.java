@@ -23,17 +23,6 @@ public final class Transfer implements Serializable {
 
     private final int minTransferTimeSeconds;
 
-    public Transfer(Transfer obj) {
-        this.fromStop = obj.fromStop;
-        this.fromRoute = obj.fromRoute;
-        this.fromTrip = obj.fromTrip;
-        this.toStop = obj.toStop;
-        this.toRoute = obj.toRoute;
-        this.toTrip = obj.toTrip;
-        this.transferType = obj.transferType;
-        this.minTransferTimeSeconds = obj.minTransferTimeSeconds;
-    }
-
     public Transfer(
             Stop fromStop,
             Stop toStop,
@@ -58,10 +47,6 @@ public final class Transfer implements Serializable {
         return fromStop;
     }
 
-    public Route getFromRoute() {
-        return fromRoute;
-    }
-
     public Trip getFromTrip() {
         return fromTrip;
     }
@@ -70,20 +55,8 @@ public final class Transfer implements Serializable {
         return toStop;
     }
 
-    public Route getToRoute() {
-        return toRoute;
-    }
-
     public Trip getToTrip() {
         return toTrip;
-    }
-
-    public TransferType getTransferType() {
-        return transferType;
-    }
-
-    public int getMinTransferTimeSeconds() {
-        return minTransferTimeSeconds;
     }
 
     public String toString() {

@@ -68,10 +68,6 @@ public final class Route extends TransitEntity<FeedScopedId> {
         return operator;
     }
 
-    public void setOperator(Operator operator) {
-        this.operator = operator;
-    }
-
     public String getShortName() {
         return shortName;
     }

@@ -24,28 +24,8 @@ public class CompositeStreetTraversalPermissionConverter implements SimpleFeatur
     public CompositeStreetTraversalPermissionConverter() {
     }
 
-    /**
-     * Is the or combination strategy being used?
-     * 
-     * @return whether the or combination strategy is used
-     */
-    public boolean isOrPermissions() {
-        return orPermissions;
-    }
-
     public void setOrPermissions(boolean orPermissions) {
         this.orPermissions = orPermissions;
-    }
-
-    /**
-     * set the list of converters used to the passed in parameter
-     * 
-     * @param converters
-     *            list of converters to use
-     */
-    public void setConverters(
-            Collection<SimpleFeatureConverter<P2<StreetTraversalPermission>>> converters) {
-        this.converters = converters;
     }
 
     /**

@@ -35,8 +35,4 @@ public class AreaEdge extends StreetWithElevationEdge implements EdgeWithCleanup
     public void detach() {
         area.removeEdge(this);
     }
-
-    public void setArea(AreaEdgeList area) {
-        this.area = area;
-    }
 }

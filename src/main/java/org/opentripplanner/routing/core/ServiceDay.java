@@ -54,13 +54,6 @@ public class ServiceDay implements Serializable {
     public boolean anyServiceRunning(BitSet serviceCodes) {
         return this.serviceIdsRunning.intersects(serviceCodes);
     }
-
-    /**
-     * Return the ServiceDate for this ServiceDay.
-     */
-    public ServiceDate getServiceDate() {
-        return serviceDate;
-    }
     
     /* 
      * Return number of seconds after midnight on this ServiceDay

@@ -101,11 +101,6 @@ public class Router {
         }
     }
 
-    /** Shut down this router when evicted or (auto-)reloaded. Stop any real-time updater threads. */
-    public void shutdown() {
-        GraphUpdaterConfigurator.shutdownGraph(this.graph);
-    }
-
     /**
      * Programmatically (i.e. not in XML) create a Logback logger for requests happening on this router.
      * http://stackoverflow.com/a/17215011/778449

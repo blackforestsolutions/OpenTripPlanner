@@ -25,10 +25,6 @@ public class NamedArea implements Serializable {
 
     private StreetTraversalPermission permission;
 
-    public String getName() {
-        return name.toString();
-    }
-
     public I18NString getRawName() {
         return name;
     }

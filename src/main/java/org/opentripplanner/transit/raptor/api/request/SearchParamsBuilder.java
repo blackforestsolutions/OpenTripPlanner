@@ -110,11 +110,6 @@ public class SearchParamsBuilder<T extends RaptorTripSchedule> {
         return relaxCostAtDestination;
     }
 
-    public SearchParamsBuilder<T> relaxCostAtDestination(double relaxCostAtDestination) {
-        this.relaxCostAtDestination = relaxCostAtDestination;
-        return this;
-    }
-
     public boolean timetableEnabled() {
         return timetableEnabled;
     }

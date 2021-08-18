@@ -60,14 +60,6 @@ public class TestHalfEdges {
 
     private TransitStopVertex station2;
 
-    public LineString createGeometry(Vertex a, Vertex b) {
-        GeometryFactory factory = new GeometryFactory();
-        Coordinate[] cs = new Coordinate[2];
-        cs[0] = a.getCoordinate();
-        cs[1] = b.getCoordinate();
-        return factory.createLineString(cs);
-    }
-
     @Rule
     public final ExpectedException exception = ExpectedException.none();
 

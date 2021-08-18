@@ -195,16 +195,6 @@ public class Leg {
         streetNotes.add(streetNote);
     }
 
-    public void setTimeZone(TimeZone timeZone) {
-        Calendar calendar = Calendar.getInstance(timeZone);
-        calendar.setTime(startTime.getTime());
-        startTime = calendar;
-        calendar = Calendar.getInstance(timeZone);
-        calendar.setTime(endTime.getTime());
-        endTime = calendar;
-        agencyTimeZoneOffset = timeZone.getOffset(startTime.getTimeInMillis());
-    }
-
     public void addAlert(TransitAlert alert) {
         transitAlerts.add(alert);
     }
@@ -231,15 +221,6 @@ public class Leg {
   /** For transit legs, the route agency. For non-transit legs {@code null}. */
   public Agency getAgency() {
     return isTransitLeg() ? getRoute().getAgency() : null;
-  }
-
-  /**
-   * For transit legs, the trip operator, fallback to route operator.
-   * For non-transit legs {@code null}.
-   * @see Trip#getOperator()
-   */
-  public Operator getOperator() {
-    return isTransitLeg() ? trip.getOperator() : null;
   }
 
   /** For transit legs, the the route. For non-transit legs, null. */

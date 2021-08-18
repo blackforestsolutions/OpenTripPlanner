@@ -76,8 +76,4 @@ public abstract class StreetVertex extends Vertex {
         return this.getOutgoing().stream().anyMatch(edge ->
             edge instanceof StreetEdge && ((StreetEdge) edge).getPermission().allows(TraverseMode.CAR));
     }
-
-    public boolean isEligibleForCarPickupDropoff() {
-        return isConnectedToDriveableEdge() && isConnectedToWalkingEdge();
-    }
 }

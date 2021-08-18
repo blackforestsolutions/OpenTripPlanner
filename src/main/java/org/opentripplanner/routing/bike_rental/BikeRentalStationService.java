@@ -14,10 +14,6 @@ public class BikeRentalStationService implements Serializable {
 
     private Set<BikePark> bikeParks = new HashSet<>();
 
-    public Collection<BikeRentalStation> getBikeRentalStations() {
-        return bikeRentalStations;
-    }
-
     public void addBikeRentalStation(BikeRentalStation bikeRentalStation) {
         // Remove old reference first, as adding will be a no-op if already present
         bikeRentalStations.remove(bikeRentalStation);
@@ -28,17 +24,9 @@ public class BikeRentalStationService implements Serializable {
         bikeRentalStations.remove(bikeRentalStation);
     }
 
-    public Collection<BikePark> getBikeParks() {
-        return bikeParks;
-    }
-
     public void addBikePark(BikePark bikePark) {
         // Remove old reference first, as adding will be a no-op if already present
         bikeParks.remove(bikePark);
         bikeParks.add(bikePark);
-    }
-
-    public void removeBikePark(BikePark bikePark) {
-        bikeParks.remove(bikePark);
     }
 }

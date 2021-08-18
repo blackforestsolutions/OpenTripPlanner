@@ -293,63 +293,12 @@ public class TripTimes implements Serializable, Comparable<TripTimes>, Cloneable
         return getDepartureTime(stop) - (scheduledDepartureTimes[stop] + timeShift);
     }
 
-    public void setRecorded(int stop, boolean recorded) {
-        checkCreateTimesArrays();
-        isRecordedStop[stop] = recorded;
-    }
-
-    // TODO OTP2 - Unused, but will be used by Transmodel API
-    public boolean isRecordedStop(int stop) {
-        if (isRecordedStop == null) {
-            return false;
-        }
-        return isRecordedStop[stop];
-    }
-
-    //Is single stop cancelled
-    public void setCancelledStop(int stop, boolean isCancelled) {
-        checkCreateTimesArrays();
-        isCancelledStop[stop] = isCancelled;
-    }
-
-    // TODO OTP2 - Unused, but will be used by Transmodel API
-    public boolean isCancelledStop(int stop) {
-        if (isCancelledStop == null) {
-            return false;
-        }
-        return isCancelledStop[stop];
-    }
-
-    //Is prediction for single stop inaccurate
-    public void setPredictionInaccurate(int stop, boolean predictionInaccurate) {
-        checkCreateTimesArrays();
-        isPredictionInaccurate[stop] = predictionInaccurate;
-    }
-
-    // TODO OTP2 - Unused, but will be used by Transmodel API
-    public boolean isPredictionInaccurate(int stop) {
-        if (isPredictionInaccurate == null) {
-            return false;
-        }
-        return isPredictionInaccurate[stop];
-    }
-
-    public void setPickupType(int stop, int pickupType) {
-        checkCreateTimesArrays();
-        pickups[stop] = pickupType;
-    }
-
     // TODO OTP2 - Unused, but will be used by Transmodel API
     public int getPickupType(int stop) {
         if (pickups == null) {
             return -999;
         }
         return pickups[stop];
-    }
-
-    public void setDropoffType(int stop, int dropoffType) {
-        checkCreateTimesArrays();
-        dropoffs[stop] = dropoffType;
     }
 
     // TODO OTP2 - Unused, but will be used by Transmodel API

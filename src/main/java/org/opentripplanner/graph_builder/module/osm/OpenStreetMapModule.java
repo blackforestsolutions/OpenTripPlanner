@@ -143,14 +143,6 @@ public class OpenStreetMapModule implements GraphBuilderModule {
      */
     public boolean staticBikeParkAndRide;
 
-    public List<String> provides() {
-        return Arrays.asList("streets", "turns");
-    }
-
-    public List<String> getPrerequisites() {
-        return Collections.emptyList();
-    }
-
     /**
      * The source for OSM map data
      */

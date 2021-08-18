@@ -40,43 +40,6 @@ public class Histogram {
         }
     }
 
-    private static String makeBar (int value, int max) {
-        final int WIDTH = 20;
-        int n = value * WIDTH / max;
-        String bar = Strings.repeat("#", n);
-        String space = Strings.repeat("_", WIDTH - n);
-        return bar + space + "  ";
-    }
-
-    public void display () {
-        int[] lessEqual = new int[maxBin + 1];
-        System.out.println("--- Histogram: " + title + " ---");
-        System.out.println(" n       ==      <=       >");
-        int sum = 0;
-        int maxCount = 0;
-        for (int i = minBin; i <= maxBin; i++) {
-            int n = bins.get(i);
-            if (n > maxCount) {
-                maxCount = n;
-            }
-            sum += n;
-            lessEqual[i] = sum;
-        }
-        // Sum now equals the sum of all bins.
-        for (int i = 0; i <= maxBin; i++) {
-            if (((double)lessEqual[i]) / sum > 0.999) {
-                System.out.println("Ending display at 99.9% of total objects.");
-                break;
-            }
-            System.out.printf("%2d: %7d %7d %7d ", i, bins.get(i), lessEqual[i], sum - lessEqual[i]);
-            System.out.print(makeBar(bins.get(i), maxCount));
-            System.out.print(makeBar(lessEqual[i], sum));
-            System.out.print(makeBar(sum - lessEqual[i], sum));
-            System.out.println();
-        }
-        System.out.println();
-    }
-
     public void displayHorizontal () {
         System.out.println("--- Histogram: " + title + " ---");
 

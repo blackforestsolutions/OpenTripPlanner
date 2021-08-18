@@ -156,15 +156,6 @@ public class State implements Cloneable {
                 + (isBikeRenting() ? "BIKE_RENT " : "") + (isCarParked() ? "CAR_PARKED " : "")
                 + vertex + ">";
     }
-    
-    public String toStringVerbose() {
-        return "<State " + new Date(getTimeInMillis()) + 
-                " w=" + this.getWeight() + 
-                " t=" + this.getElapsedTimeSeconds() + 
-                " d=" + this.getWalkDistance() + 
-                " br=" + this.isBikeRenting() +
-                " pr=" + this.isCarParked() + ">";
-    }
 
     public CarPickupState getCarPickupState() {
         return stateData.carPickupState;
@@ -353,16 +344,6 @@ public class State implements Cloneable {
         return newState;
     }
 
-    public void dumpPath() {
-        System.out.printf("---- FOLLOWING CHAIN OF STATES ----\n");
-        State s = this;
-        while (s != null) {
-            System.out.printf("%s via %s by %s\n", s, s.backEdge, s.getBackMode());
-            s = s.backState;
-        }
-        System.out.printf("---- END CHAIN OF STATES ----\n");
-    }
-
     public long getTimeInMillis() {
         return time;
     }
@@ -466,13 +447,6 @@ public class State implements Cloneable {
         }
 
         return ret;
-    }
-
-    /**
-     * Reverse-optimize a path after it is complete, by default
-     */
-    public State optimize() {
-        return reverse();
     }
 
     boolean hasEnteredNoThruTrafficArea() {

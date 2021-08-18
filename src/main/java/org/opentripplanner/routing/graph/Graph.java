@@ -77,8 +77,6 @@ public class Graph implements Serializable {
 
     private TransferTable transferTable = new TransferTable();
 
-    private GraphBundle bundle;
-
     /* Ideally we could just get rid of vertex labels, but they're used in tests and graph building. */
     private Map<String, Vertex> vertices = new ConcurrentHashMap<>();
 
@@ -221,11 +219,6 @@ public class Graph implements Serializable {
      * going to fail as soon as we load a base OSM graph and build transit on top of it.
      */
     public long nextSplitNumber = 0;
-
-    public Graph(Graph basedOn) {
-        this();
-        this.bundle = basedOn.getBundle();
-    }
 
     // Constructor for deserialization.
     public Graph() { }
@@ -424,10 +417,6 @@ public class Graph implements Serializable {
         return (T) services.put(serviceType, service);
     }
 
-    public boolean hasService(Class<? extends Serializable> serviceType) {
-        return services.containsKey(serviceType);
-    }
-
     @SuppressWarnings("unchecked")
     public <T extends Serializable> T getService(Class<T> serviceType) {
         return (T) services.get(serviceType);
@@ -471,14 +460,6 @@ public class Graph implements Serializable {
         this.remove(vertex);
     }
 
-    public Envelope getExtent() {
-        Envelope env = new Envelope();
-        for (Vertex v : getVertices()) {
-            env.expandToInclude(v.getCoordinate());
-        }
-        return env;
-    }
-
     public TransferTable getTransferTable() {
         return transferTable;
     }
@@ -518,14 +499,6 @@ public class Graph implements Serializable {
     // Check to see if we have transit information for a given date
     public boolean transitFeedCovers(long t) {
         return t >= this.transitServiceStarts && t < this.transitServiceEnds;
-    }
-
-    public GraphBundle getBundle() {
-        return bundle;
-    }
-
-    public void setBundle(GraphBundle bundle) {
-        this.bundle = bundle;
     }
 
     public int countVertices() {
@@ -647,10 +620,6 @@ public class Graph implements Serializable {
         return agencies;
     }
 
-    public FeedInfo getFeedInfo(String feedId) {
-        return feedInfoForId.get(feedId);
-    }
-
     public void addAgency(String feedId, Agency agency) {
         agencies.add(agency);
         this.feedIds.add(feedId);
@@ -721,14 +690,6 @@ public class Graph implements Serializable {
     }
 
     /**
-     * @return calculated convexHull;
-     */
-    public Geometry getConvexHull() {
-        return convexHull;
-
-    }
-
-    /**
      * Expands envelope to include given point
      *
      * If envelope is empty it creates it (This can happen with a graph without OSM data)
@@ -780,18 +741,6 @@ public class Graph implements Serializable {
 
             this.center = new Coordinate(medianLongitude, medianLatitude);
         }
-    }
-
-    public Optional<Coordinate> getCenter() {
-        return Optional.ofNullable(center);
-    }
-
-    public long getTransitServiceStarts() {
-        return transitServiceStarts;
-    }
-
-    public long getTransitServiceEnds() {
-        return transitServiceEnds;
     }
 
     public double getDistanceBetweenElevationSamples() {
@@ -864,18 +813,6 @@ public class Graph implements Serializable {
         return services;
     }
 
-    public BikeRentalStationService getBikerentalStationService() {
-        return getService(BikeRentalStationService.class);
-    }
-
-    public TripPattern getTripPatternForId(FeedScopedId id) {
-        return tripPatternForId.get(id);
-    }
-
-    public Collection<TripPattern> getTripPatterns() {
-        return tripPatternForId.values();
-    }
-
     /** Get all stops within a given bounding box. */
     public Collection<Stop> getStopsByBoundingBox(double minLat, double minLon, double maxLat, double maxLon) {
         Envelope envelope = new Envelope(
@@ -898,23 +835,7 @@ public class Graph implements Serializable {
                 .collect(Collectors.toList());
     }
 
-    public Station getStationById(FeedScopedId id) {
-        return stationById.get(id);
-    }
-
-    public MultiModalStation getMultiModalStation(FeedScopedId id) {
-        return multiModalStationById.get(id);
-    }
-
-    public Collection<Station> getStations() {
-        return stationById.values();
-    }
-
     public Map<FeedScopedId, Integer> getServiceCodes() {
         return serviceCodes;
-    }
-
-    public Collection<SimpleTransfer> getTransfersByStop(StopLocation stop) {
-        return transfersByStop.get(stop);
     }
 }

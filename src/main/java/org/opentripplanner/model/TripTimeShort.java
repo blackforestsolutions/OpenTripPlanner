@@ -62,19 +62,6 @@ public class TripTimeShort {
 
     /**
      * must pass in both table and trip, because tripTimes do not have stops.
-     */
-    public static List<TripTimeShort> fromTripTimes (Timetable table, Trip trip) {
-        TripTimes times = table.getTripTimes(table.getTripIndex(trip.getId()));        
-        List<TripTimeShort> out = new ArrayList<>();
-        // one per stop, not one per hop, thus the <= operator
-        for (int i = 0; i < times.getNumStops(); ++i) {
-            out.add(new TripTimeShort(times, i, table.pattern.getStop(i)));
-        }
-        return out;
-    }
-
-    /**
-     * must pass in both table and trip, because tripTimes do not have stops.
      * @param serviceDay service day to set, if null none is set
      */
     public static List<TripTimeShort> fromTripTimes(Timetable table, Trip trip,
@@ -86,9 +73,5 @@ public class TripTimeShort {
             out.add(new TripTimeShort(times, i, table.pattern.getStop(i), serviceDay));
         }
         return out;
-    }
-
-    public static Comparator<TripTimeShort> compareByDeparture() {
-        return Comparator.comparing(t -> t.serviceDay + t.realtimeDeparture);
     }
 }

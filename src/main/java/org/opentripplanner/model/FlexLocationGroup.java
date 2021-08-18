@@ -34,10 +34,6 @@ public class FlexLocationGroup extends TransitEntity<FeedScopedId> implements St
     return id;
   }
 
-  public void setName(String name) {
-    this.name = name;
-  }
-
   @Override
   public String getName() {
     return name;
@@ -55,38 +51,5 @@ public class FlexLocationGroup extends TransitEntity<FeedScopedId> implements St
   public WgsCoordinate getCoordinate() {
     Point centroid = geometry.getCentroid();
     return new WgsCoordinate(centroid.getY(), centroid.getX());
-  }
-
-  /**
-   * Adds a new location to the location group.
-   * This should ONLY be used during the graph build process.
-   */
-  public void addLocation(StopLocation location) {
-    stopLocations.add(location);
-
-    int numGeometries = geometry.getNumGeometries();
-    Geometry[] newGeometries = new Geometry[numGeometries + 1];
-    for (int i = 0; i < numGeometries; i++) {
-      newGeometries[i] = geometry.getGeometryN(i);
-    }
-    if (location instanceof Stop) {
-      WgsCoordinate coordinate = location.getCoordinate();
-      Envelope envelope = new Envelope(coordinate.asJtsCoordinate());
-      double xscale = Math.cos(coordinate.latitude() * Math.PI / 180);
-      envelope.expandBy(100 / xscale, 100);
-      newGeometries[numGeometries] = GeometryUtils.getGeometryFactory().toGeometry(envelope);
-    } else if (location instanceof FlexStopLocation) {
-      newGeometries[numGeometries] = ((FlexStopLocation) location).getGeometry();
-    } else {
-      throw new RuntimeException("Unknown location type");
-    }
-    geometry = new GeometryCollection(newGeometries, GeometryUtils.getGeometryFactory());
-  }
-
-  /**
-   * Returns all the locations belonging to this location group.
-   */
-  public Set<StopLocation> getLocations() {
-    return stopLocations;
   }
 }

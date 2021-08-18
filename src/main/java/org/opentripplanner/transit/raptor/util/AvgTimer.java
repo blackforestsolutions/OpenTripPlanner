@@ -160,17 +160,6 @@ public abstract class AvgTimer {
         }
     }
 
-    public <T> T timeAndReturn(Supplier<T> body) {
-        try {
-            start();
-            T result = body.get();
-            stop();
-            return result;
-        } finally {
-            failIfStarted();
-        }
-    }
-
     public long lapTime() {
         return lapTime;
     }
@@ -315,7 +304,6 @@ public abstract class AvgTimer {
         @Override public void stop() { }
         @Override public void failIfStarted() { }
         @Override public void time(Runnable body) { body.run(); }
-        @Override public <T> T timeAndReturn(Supplier<T> body) { return body.get();  }
         @Override public long lapTime() { return 0; }
         @Override long currentTime() { return 0; }
         @Override String unit() { return "ms"; }

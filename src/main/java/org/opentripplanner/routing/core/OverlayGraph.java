@@ -86,13 +86,6 @@ public class OverlayGraph implements Serializable {
         }
     }
 
-    public void addEdge(Edge e) {
-        Vertex fromv = e.getFromVertex();
-        Vertex tov = e.getToVertex();
-        addOutgoing(fromv, e);
-        addIncoming(tov, e);
-    }
-
     public void removeEdge(Edge e) {
         Vertex fromv = e.getFromVertex();
         Vertex tov = e.getToVertex();
@@ -148,41 +141,6 @@ public class OverlayGraph implements Serializable {
      */
     public int countVertices() {
         return getVertices().size();
-    }
-
-    // need to make sure lists are never null - Vertex
-    // beware concurrentModification of lists.
-    // public void removeVertex(Vertex vertex) {
-    // List<Edge> toRemove = outgoing.remove(vertex);
-    // toRemove.addAll(incoming.remove(vertex));
-    // for (Edge e : toRemove)
-    // if (e instanceof Edge)
-    // removeEdge((Edge)e);
-    // }
-
-    public void removeVertex(Vertex vertex) {
-        outgoing.remove(vertex);
-        incoming.remove(vertex);
-    }
-
-    public int getDegreeIn(Vertex v) {
-        List<Edge> l = incoming.get(v);
-        if (l == null)
-            return 0;
-        else
-            return l.size();
-    }
-
-    public int getDegreeOut(Vertex v) {
-        List<Edge> l = outgoing.get(v);
-        if (l == null)
-            return 0;
-        else
-            return l.size();
-    }
-
-    public boolean containsVertex(Vertex vertex) {
-        return outgoing.containsKey(vertex) || incoming.containsKey(vertex);
     }
 
     private void writeObject(ObjectOutputStream out) throws IOException {

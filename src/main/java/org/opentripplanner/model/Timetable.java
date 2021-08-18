@@ -387,32 +387,6 @@ public class Timetable implements Serializable {
         frequencyEntries.add(freq);
     }
 
-    /**
-     * Check that all dwell times at the given stop are zero, which allows removing the dwell edge.
-     * TODO we should probably just eliminate dwell-deletion. It won't be important if we get rid of transit edges.
-     */
-    boolean allDwellsZero(int hopIndex) {
-        for (TripTimes tt : tripTimes) {
-            if (tt.getDwellTime(hopIndex) != 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /** Returns the shortest possible running time for this stop */
-    public int getBestRunningTime(int stopIndex) {
-        return minRunningTimes[stopIndex];
-    }
-
-    /** Returns the shortest possible dwell time at this stop */
-    public int getBestDwellTime(int stopIndex) {
-        if (minDwellTimes == null) {
-            return 0;
-        }
-        return minDwellTimes[stopIndex];
-    }
-
     public boolean isValidFor(ServiceDate serviceDate) {
         return this.serviceDate == null || this.serviceDate.equals(serviceDate);
     }

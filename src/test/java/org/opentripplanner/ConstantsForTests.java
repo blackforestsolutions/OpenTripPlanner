@@ -50,13 +50,6 @@ public class ConstantsForTests {
         return instance;
     }
 
-    public GtfsContext getPortlandContext() {
-        if (portlandGraph == null) {
-            setupPortland();
-        }
-        return portlandContext;
-    }
-
     public Graph getPortlandGraph() {
         if (portlandGraph == null) {
             setupPortland();
@@ -99,24 +92,5 @@ public class ConstantsForTests {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-    }
-
-    public static Graph buildGraph(String path) {
-        Graph graph = new Graph();
-        GtfsContext context;
-        try {
-            context = contextBuilder(path).build();
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-        AddTransitModelEntitiesToGraph.addToGraph(context, graph);
-
-        GeometryAndBlockProcessor factory = new GeometryAndBlockProcessor(context);
-        factory.run(graph);
-        graph.putService(
-                CalendarServiceData.class, context.getCalendarServiceData()
-        );
-        return graph;
     }
 }

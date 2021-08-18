@@ -41,17 +41,6 @@ public class FakeGraph {
     }
 
     /**
-     * Add many transit lines to a lot of stops. This is only used by InitialStopsTest.
-     */
-    public static void addTransitMultipleLines (Graph g) {
-        GtfsModule gtfs = new GtfsModule(
-                Arrays.asList(new GtfsBundle(getFileForResource("addTransitMultipleLines.gtfs.zip"))),
-                ServiceDateInterval.unbounded()
-        );
-        gtfs.buildGraph(g, new HashMap<>());
-    }
-
-    /**
      * This introduces a 1MB test resource but is only used by TestIntermediatePlaces.
      */
     public static void addPerpendicularRoutes (Graph graph) {

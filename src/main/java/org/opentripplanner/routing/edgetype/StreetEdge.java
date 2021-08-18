@@ -517,23 +517,6 @@ public class StreetEdge extends Edge implements Cloneable {
         return s1;
     }
 
-    private double calculateOverageWeight(double firstValue, double secondValue, double maxValue,
-            double softPenalty, double overageRate) {
-        // apply penalty if we stepped over the limit on this traversal
-        boolean applyPenalty = false;
-        double overageValue;
-
-        if(firstValue <= maxValue && secondValue > maxValue){
-            applyPenalty = true;
-            overageValue = secondValue - maxValue;
-        } else {
-            overageValue = secondValue - firstValue;
-        }
-
-        // apply overage and add penalty if necessary
-        return (overageRate * overageValue) + (applyPenalty ? softPenalty : 0.0);
-    }
-
     /**
      * Calculate the average automobile traversal speed of this segment, given
      * the RoutingRequest, and return it in meters per second.

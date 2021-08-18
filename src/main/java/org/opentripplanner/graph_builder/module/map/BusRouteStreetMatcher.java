@@ -30,19 +30,7 @@ import java.util.List;
 public class BusRouteStreetMatcher implements GraphBuilderModule {
     private static final Logger log = LoggerFactory.getLogger(BusRouteStreetMatcher.class);
 
-    public List<String> provides() {
-        return List.of("edge matching");
-    }
-
-    public List<String> getPrerequisites() {
-        return Arrays.asList("streets", "transit");
-    }
-
-    public void buildGraph(
-            Graph graph,
-            HashMap<Class<?>, Object> extra,
-            DataImportIssueStore issueStore
-    ) {
+    public void buildGraph(Graph graph, HashMap<Class<?>, Object> extra, DataImportIssueStore issueStore) {
 
         // Mapbuilder needs transit index
         graph.index();

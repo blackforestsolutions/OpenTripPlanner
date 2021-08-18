@@ -110,7 +110,7 @@ public abstract class Vertex implements Serializable, Cloneable {
      */
     private static Edge[] removeEdge(Edge[] existing, Edge e) {
         int nfound = 0;
-        for (int i = 0, j = 0; i < existing.length; i++) {
+        for (int i = 0; i < existing.length; i++) {
             if (existing[i] == e) nfound++;
         }
         if (nfound == 0) {
@@ -235,11 +235,6 @@ public abstract class Vertex implements Serializable, Cloneable {
     /** Get the bearing, in degrees, between this vertex and another coordinate. */
     public double azimuthTo(Coordinate other) {
         return DirectionUtils.getAzimuth(getCoordinate(), other);
-    }
-
-    /** Get the bearing, in degrees, between this vertex and another. */
-    public double azimuthTo(Vertex other) {
-        return azimuthTo(other.getCoordinate());
     }
 
     /* SERIALIZATION METHODS */

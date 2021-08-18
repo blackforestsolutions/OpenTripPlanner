@@ -26,12 +26,6 @@ public class QualifiedModeSet implements Serializable {
     
     public Set<QualifiedMode> qModes = Sets.newHashSet();
 
-    public QualifiedModeSet(String s) {
-        for (String qMode : s.split(",")) {
-            qModes.add(new QualifiedMode(qMode));
-        }
-    }
-
     public RequestModes getRequestModes() {
         StreetMode accessMode = null;
         StreetMode egressMode = null;

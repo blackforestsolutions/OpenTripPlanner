@@ -98,10 +98,6 @@ public class TraverseModeSet implements Cloneable, Serializable {
         return 0;
     }
 
-    public TraverseModeSet(Collection<TraverseMode> modeList) {
-        this(modeList.toArray(new TraverseMode[0]));
-    }
-
     public void setMode(TraverseMode mode, boolean value) {
         int mask = getMaskForMode(mode);
         if (value) {
@@ -127,20 +123,8 @@ public class TraverseModeSet implements Cloneable, Serializable {
         return (modes & MODE_TRAM) != 0;
     }
     
-    public boolean getBus() {
-        return (modes & MODE_BUS) != 0;
-    }
-    
     public boolean getGondola() {
         return (modes & MODE_GONDOLA) != 0;
-    }
-    
-    public boolean getFerry() {
-        return (modes & MODE_FERRY) != 0;
-    }
-    
-    public boolean getCableCar() {
-        return (modes & MODE_CABLE_CAR) != 0;
     }
 
     public boolean getFunicular() {
@@ -153,10 +137,6 @@ public class TraverseModeSet implements Cloneable, Serializable {
     
     public boolean getSubway() {
         return (modes & MODE_SUBWAY) != 0;
-    }
-
-    public boolean getAirplane() {
-        return (modes & MODE_AIRPLANE) != 0;
     }
 
     public void setBicycle(boolean bicycle) {
@@ -182,80 +162,6 @@ public class TraverseModeSet implements Cloneable, Serializable {
             modes &= ~MODE_CAR;
         }
     }
-    
-    public void setTram(boolean tram) {
-        if (tram) {
-            modes |= MODE_TRAM;
-        } else {
-            modes &= ~MODE_TRAM;
-        }
-    }
-    
-    public void setBus(boolean bus) {
-        if (bus) {
-            modes |= MODE_BUS;
-        } else {
-            modes &= ~MODE_BUS;
-        }
-    }
-   
-    public void setFerry(boolean ferry) {
-        if (ferry) {
-            modes |= MODE_FERRY;
-        } else {
-            modes &= ~MODE_FERRY;
-        }
-    }
-
-
-    public void setCableCar(boolean cableCar) {
-        if (cableCar) {
-            modes |= MODE_CABLE_CAR;
-        } else {
-            modes &= ~MODE_CABLE_CAR;
-        }
-    }
-
-    public void setGondola(boolean gondola) {
-        if (gondola) {
-            modes |= MODE_GONDOLA;
-        } else {
-            modes &= ~MODE_GONDOLA;
-        }
-    }
-
-    public void setFunicular(boolean funicular) {
-        if (funicular) {
-            modes |= MODE_FUNICULAR;
-        } else {
-            modes &= ~MODE_FUNICULAR;
-        }
-    }
-
-    public void setSubway(boolean subway) {
-        if (subway) {
-            modes |= MODE_SUBWAY;
-        } else {
-            modes &= ~MODE_SUBWAY;
-        }
-    }
-    
-    public void setRail(boolean rail) {
-        if (rail) {
-            modes |= MODE_RAIL;
-        } else {
-            modes &= ~MODE_RAIL;
-        }
-    }
-
-    public void setAirplane(boolean airplane) {
-        if (airplane) {
-            modes |= MODE_AIRPLANE;
-        } else {
-            modes &= ~MODE_AIRPLANE;
-        }
-
-    }
 
     /** Returns true if the trip may use some transit mode */
     public boolean isTransit() {
@@ -270,14 +176,6 @@ public class TraverseModeSet implements Cloneable, Serializable {
         }
     }
 
-    /** Returns a TraverseModeSet containing only the non-transit modes set. */
-    public TraverseModeSet getNonTransitSet() {
-        TraverseModeSet retval = new TraverseModeSet();
-        retval.modes = modes;
-        retval.setTransit(false);
-        return retval;
-    }
-
     public List<TraverseMode> getModes() {
         ArrayList<TraverseMode> modeList = new ArrayList<TraverseMode>();
         for (TraverseMode mode : TraverseMode.values()) {
@@ -288,16 +186,8 @@ public class TraverseModeSet implements Cloneable, Serializable {
         return modeList;
     }
 
-    public boolean isValid() {
-        return modes != 0;
-    }
-
     public boolean contains(TraverseMode mode) {
         return (modes & getMaskForMode(mode)) != 0;
-    }
-
-    public boolean get(int modeMask) {
-        return (modes & modeMask) != 0;
     }
 
     public String toString() {
@@ -335,13 +225,6 @@ public class TraverseModeSet implements Cloneable, Serializable {
             /* this will never happen since our super is the cloneable object */
             throw new RuntimeException(e);
         }
-    }
-    
-    /**
-     * Clear the mode set so that no modes are included.
-     */
-    public void clear() {
-    	modes = 0;
     }
 
     public int hashCode() {

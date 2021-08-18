@@ -52,14 +52,6 @@ public abstract class GraphUpdaterConfigurator {
         }
     }
 
-    public static void shutdownGraph(Graph graph) {
-        GraphUpdaterManager updaterManager = graph.updaterManager;
-        if (updaterManager != null) {
-            LOG.info("Stopping updater manager with " + updaterManager.size() + " updaters.");
-            updaterManager.stop();
-        }
-    }
-
     public static void setupUpdaters(Graph graph, List<GraphUpdater> updaters) {
         for (GraphUpdater updater : updaters) {
             try {

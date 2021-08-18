@@ -110,20 +110,6 @@ public class TestRaptorTripSchedule implements RaptorTripSchedule {
             return this;
         }
 
-        /**
-         * 0 - 000 : No restriction
-         * 1 - 001 : No Boarding.
-         * 2 - 010 : No Alighting.
-         * 3 - 011 : No Boarding. No Alighting.
-         * 4 - 100 : No wheelchair.
-         * 5 - 101 : No wheelchair. No Boarding. No Alighting.
-         * 6 - 110 : No wheelchair. No Alighting.
-         * 7 - 111 : No wheelchair. No Boarding. No Alighting.
-         */
-        public void setBoardAlightRestrictions(int[] boardAlightRestrictions) {
-            this.boardAlightRestrictions = boardAlightRestrictions;
-        }
-
         public TestRaptorTripSchedule build() {
             if(arrivalTimes == null && departureTimes == null) {
                 throw new IllegalArgumentException("Either arrival or departure time must be set.");

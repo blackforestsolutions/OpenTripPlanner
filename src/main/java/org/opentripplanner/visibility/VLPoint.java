@@ -209,54 +209,6 @@ public class VLPoint implements Comparable<VLPoint>, Cloneable {
         return true;
     }
 
-    public boolean is_endpoint_of(LineSegment line_segment_temp, double epsilon) {
-
-        if (distance(line_segment_temp.first()) <= epsilon
-                || distance(line_segment_temp.second()) <= epsilon)
-            return true;
-        return false;
-    }
-
-    // these mean that points are not immutable (aieee!) - DT
-
-    public void snap_to_vertices_of(VLPolygon polygon_temp, double epsilon) {
-
-        VLPoint point_temp = new VLPoint(projection_onto_vertices_of(polygon_temp));
-        if (distance(point_temp) <= epsilon) {
-            x = point_temp.x;
-            y = point_temp.y;
-        }
-    }
-
-    public void snap_to_vertices_of(Environment environment_temp, double epsilon) {
-
-        VLPoint point_temp = new VLPoint(projection_onto_vertices_of(environment_temp));
-        if (distance(point_temp) <= epsilon) {
-            x = point_temp.x;
-            y = point_temp.y;
-        }
-    }
-
-    public void snap_to_boundary_of(VLPolygon polygon_temp, double epsilon) {
-
-        VLPoint point_temp = new VLPoint(projection_onto_boundary_of(polygon_temp));
-        if (distance(point_temp) <= epsilon) {
-            x = point_temp.x;
-            y = point_temp.y;
-        }
-    }
-
-    public void snap_to_boundary_of(Environment environment_temp, double epsilon) {
-
-        VLPoint point_temp = new VLPoint(projection_onto_boundary_of(environment_temp));
-        {
-            if (distance(point_temp) <= epsilon) {
-                x = point_temp.x;
-                y = point_temp.y;
-            }
-        }
-    }
-
     public boolean equals(Object o) {
         if (!(o instanceof VLPoint)) {
             return false;
@@ -288,10 +240,6 @@ public class VLPoint implements Comparable<VLPoint>, Cloneable {
         return new VLPoint(x - point2.x, y - point2.y);
     }
 
-    public VLPoint times(VLPoint point2) {
-        return new VLPoint(x * point2.x, y * point2.y);
-    }
-
     public VLPoint times(double scalar) {
         return new VLPoint(scalar * x, scalar * y);
     }
@@ -320,17 +268,6 @@ public class VLPoint implements Comparable<VLPoint>, Cloneable {
         double distance_temp;
         for (int i = 0; i <= polygon_temp.n(); i++) {
             distance_temp = distance(new LineSegment(polygon_temp.get(i), polygon_temp.get(i + 1)));
-            if (distance_temp < running_min)
-                running_min = distance_temp;
-        }
-        return running_min;
-    }
-
-    public double boundary_distance(Environment environment_temp) {
-        double running_min = distance(environment_temp.get(0).get(0));
-        double distance_temp;
-        for (int i = 0; i <= environment_temp.h(); i++) {
-            distance_temp = boundary_distance(environment_temp.get(i));
             if (distance_temp < running_min)
                 running_min = distance_temp;
         }

@@ -93,10 +93,6 @@ public class NodeAdapter {
         return result;
     }
 
-    public String getSource() {
-        return source;
-    }
-
     JsonNode asRawNode(String paramName) {
         return param(paramName);
     }

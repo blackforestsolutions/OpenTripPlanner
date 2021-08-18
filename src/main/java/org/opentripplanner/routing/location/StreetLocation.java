@@ -18,12 +18,6 @@ public class StreetLocation extends StreetVertex {
         super(null, id, nearestPoint.x, nearestPoint.y, name);
     }
 
-    //For tests only
-    public StreetLocation(String id, Coordinate nearestPoint, String name) {
-        // calling constructor with null graph means this vertex is temporary
-        super(null, id, nearestPoint.x, nearestPoint.y, new NonLocalizedString(name));
-    }
-
     private static final long serialVersionUID = 1L;
 
     public void setWheelchairAccessible(boolean wheelchairAccessible) {

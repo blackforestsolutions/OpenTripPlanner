@@ -50,14 +50,6 @@ public class SpeedTestConfig {
         return rawNode.toPrettyString();
     }
 
-    public RaptorTuningParameters raptorTuningParameters() {
-        return transitRoutingParams;
-    }
-
-    public TransitTuningParameters transitTuningParameters() {
-        return transitRoutingParams;
-    }
-
     public static SpeedTestConfig config(File dir) {
         try {
             File configFile = new File(dir, FILE_NAME);

@@ -35,21 +35,6 @@ public class FlexStopLocation extends TransitEntity<FeedScopedId> implements Sto
     return name;
   }
 
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  /**
-   * Returns the geometry of this location, can be any type of geometry.
-   */
-  public Geometry getGeometry() {
-    return geometry;
-  }
-
-  public void setGeometry(Geometry geometry) {
-    this.geometry = geometry;
-  }
-
   /**
    * Short text or a number that identifies the location for riders. These codes are often used in
    * phone-based reservation systems to make it easier for riders to specify a particular location.

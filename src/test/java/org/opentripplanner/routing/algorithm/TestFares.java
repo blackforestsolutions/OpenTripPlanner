@@ -51,8 +51,6 @@ public class TestFares extends TestCase {
         spt = aStar.getShortestPathTree(options);
 
         path = spt.getPath(gg.getVertex(feedId + ":Mountain View Caltrain"), true);
-
-        FareService fareService = gg.getService(FareService.class);
         
         Fare cost = null; // was: fareService.getCost(path);
         assertEquals(cost.getFare(FareType.regular), new Money(new WrappedCurrency("USD"), 425));
@@ -74,7 +72,6 @@ public class TestFares extends TestCase {
         path = spt.getPath(gg.getVertex(feedId + ":8371"), true);
         assertNotNull(path);
 
-        FareService fareService = gg.getService(FareService.class);
         Fare cost = null; // was: fareService.getCost(path);
         assertEquals(new Money(new WrappedCurrency("USD"), 200), cost.getFare(FareType.regular));
 
@@ -127,8 +124,6 @@ public class TestFares extends TestCase {
         String vertex1 = feedId + ":2140";
         ShortestPathTree spt;
         GraphPath path = null;
-        
-        FareService fareService = gg.getService(FareService.class);
 
         options.dateTime = TestUtils.dateInSeconds("America/Los_Angeles", 2016, 5, 24, 5, 0, 0);
         options.setRoutingContext(gg, vertex0, vertex1);
@@ -164,7 +159,6 @@ public class TestFares extends TestCase {
         GraphPath path;
         Fare fare;
         List<FareComponent> fareComponents = null;
-        FareService fareService = gg.getService(FareService.class);
         Money tenUSD = new Money(new WrappedCurrency("USD"), 1000);
 
         // A -> B, base case

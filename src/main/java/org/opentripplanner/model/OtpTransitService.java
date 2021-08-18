@@ -13,11 +13,6 @@ public interface OtpTransitService {
      */
     Collection<Agency> getAllAgencies();
 
-    /**
-     * @return a list of all Operators, the list may be empty if there are no Operators in the imported data.
-     */
-    Collection<Operator> getAllOperators();
-
     Collection<FareAttribute> getAllFareAttributes();
 
     Collection<FareRule> getAllFareRules();
@@ -50,10 +45,6 @@ public interface OtpTransitService {
     Collection<PathwayNode> getAllPathwayNodes();
 
     Collection<BoardingArea> getAllBoardingAreas();
-
-    Collection<FlexStopLocation> getAllLocations();
-
-    Collection<FlexLocationGroup> getAllLocationGroups();
 
     /**
      * @return the list of {@link StopTime} objects associated with the trip,

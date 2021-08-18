@@ -41,10 +41,6 @@ public class FareRuleSet implements Serializable {
     public void addRoute(FeedScopedId route) {
         routes.add(route);
     }
-    
-    public Set<FeedScopedId> getRoutes() {
-    	return routes;
-    }
 
     public FareAttribute getFareAttribute() {
         return fareAttribute;
@@ -52,10 +48,6 @@ public class FareRuleSet implements Serializable {
 
     public void addTrip(FeedScopedId trip) {
     	trips.add(trip);
-    }
-    
-    public Set<FeedScopedId> getTrips() {
-    	return trips;
     }
     
     public boolean matches(String startZone, String endZone, Set<String> zonesVisited,

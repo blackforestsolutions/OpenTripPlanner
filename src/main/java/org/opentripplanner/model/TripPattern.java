@@ -252,16 +252,8 @@ public class TripPattern extends TransitEntity<FeedScopedId> implements Cloneabl
         return Arrays.asList(stopPattern.stops);
     }
 
-    public Trip getTrip(int tripIndex) {
-        return trips.get(tripIndex);
-    }
-
     public List<Trip> getTrips() {
         return trips;
-    }
-
-    public int getTripIndex(Trip trip) {
-        return trips.indexOf(trip);
     }
 
     /** Returns whether passengers can alight at a given stop */
@@ -272,16 +264,6 @@ public class TripPattern extends TransitEntity<FeedScopedId> implements Cloneabl
     /** Returns whether passengers can board at a given stop */
     public boolean canBoard(int stopIndex) {
         return getBoardType(stopIndex) != NO_PICKUP;
-    }
-
-    /** Returns whether a given stop is wheelchair-accessible. */
-    public boolean wheelchairAccessible(int stopIndex) {
-        return (perStopFlags[stopIndex] & FLAG_WHEELCHAIR_ACCESSIBLE) != 0;
-    }
-
-    /** Returns the zone of a given stop */
-    public String getZone(int stopIndex) {
-        return getStop(stopIndex).getFirstZoneAsString();
     }
 
     public int getAlightType(int stopIndex) {
@@ -421,7 +403,6 @@ public class TripPattern extends TransitEntity<FeedScopedId> implements Cloneabl
             }
 
             /* Do the patterns within this Route have a unique start, end, or via Stop? */
-            Multimap<String, TripPattern> signs   = ArrayListMultimap.create(); // prefer headsigns
             Multimap<Stop, TripPattern> starts  = ArrayListMultimap.create();
             Multimap<Stop, TripPattern> ends    = ArrayListMultimap.create();
             Multimap<Stop, TripPattern> vias    = ArrayListMultimap.create();
@@ -535,10 +516,6 @@ public class TripPattern extends TransitEntity<FeedScopedId> implements Cloneabl
         this.services = services;
     }
 
-    public String getDirection() {
-        return trips.get(0).getTripHeadsign();
-    }
-
     public static boolean idsAreUniqueAndNotNull(Collection<TripPattern> tripPatterns) {
         Set<FeedScopedId> seen = new HashSet<>();
         return tripPatterns.stream().map(t -> t.id).allMatch(t -> t != null && seen.add(t));
@@ -564,59 +541,6 @@ public class TripPattern extends TransitEntity<FeedScopedId> implements Cloneabl
 
     public String toString () {
         return String.format("<TripPattern %s>", this.getId());
-    }
-
-	public Trip getExemplar() {
-		if(this.trips.isEmpty()){
-			return null;
-		}
-		return this.trips.get(0);
-	}
-
-    /**
-     * In most cases we want to use identity equality for Trips.
-     * However, in some cases we want a way to consistently identify trips across versions of a GTFS feed, when the
-     * feed publisher cannot ensure stable trip IDs. Therefore we define some additional hash functions.
-     * Hash collisions are theoretically possible, so these identifiers should only be used to detect when two
-     * trips are the same with a high degree of probability.
-     * An example application is avoiding double-booking of a particular bus trip for school field trips.
-     * Using Murmur hash function. see http://programmers.stackexchange.com/a/145633 for comparison.
-     *
-     * @param trip a trip object within this pattern, or null to hash the pattern itself independent any specific trip.
-     * @return the semantic hash of a Trip in this pattern as a printable String.
-     *
-     * TODO deal with frequency-based trips
-     */
-    public String semanticHashString(Trip trip) {
-        HashFunction murmur = Hashing.murmur3_32();
-        BaseEncoding encoder = BaseEncoding.base64Url().omitPadding();
-        StringBuilder sb = new StringBuilder(50);
-        sb.append(encoder.encode(stopPattern.semanticHash(murmur).asBytes()));
-        if (trip != null) {
-            TripTimes tripTimes = scheduledTimetable.getTripTimes(trip);
-            if (tripTimes == null) return null;
-            sb.append(':');
-            sb.append(encoder.encode(tripTimes.semanticHash(murmur).asBytes()));
-        }
-        return sb.toString();
-    }
-
-    /** This method can be used in very specific circumstances, where each TripPattern has only one FrequencyEntry. */
-    public FrequencyEntry getSingleFrequencyEntry() {
-        Timetable table = this.scheduledTimetable;
-        List<FrequencyEntry> freqs = this.scheduledTimetable.frequencyEntries;
-        if ( ! table.tripTimes.isEmpty()) {
-            LOG.debug("Timetable has {} non-frequency entries and {} frequency entries.", table.tripTimes.size(),
-                    table.frequencyEntries.size());
-            return null;
-        }
-        if (freqs.isEmpty()) {
-            LOG.debug("Timetable has no frequency entries.");
-            return null;
-        }
-        // Many of these have multiple frequency entries. Return the first one for now.
-        // TODO return all of them and filter on time window
-        return freqs.get(0);
     }
 
     public TripPattern clone () {

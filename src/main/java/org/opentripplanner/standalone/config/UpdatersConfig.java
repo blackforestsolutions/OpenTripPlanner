@@ -63,15 +63,6 @@ public class UpdatersConfig implements UpdatersParameters {
     }
   }
 
-  /**
-   * This is the endpoint url used for the BikeRentalServiceDirectory sandbox feature.
-   * @see org.opentripplanner.ext.bikerentalservicedirectory.BikeRentalServiceDirectoryFetcher
-   */
-  @Override
-  public URI bikeRentalServiceDirectoryUrl() {
-   return this.bikeRentalServiceDirectoryUrl;
-  }
-
   @Override
   public List<BikeRentalUpdaterParameters> getBikeRentalParameters() {
     return getParameters(BIKE_RENTAL);

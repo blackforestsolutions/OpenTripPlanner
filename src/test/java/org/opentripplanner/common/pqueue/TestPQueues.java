@@ -120,7 +120,6 @@ public class TestPQueues extends TestCase {
 		    // pull everything out of the queue in order
 		    // and check that the order matches the original list
 		    for (int i=0; i<N; i++) {
-		    	Double  qp = bh.peek_min_key();
 		    	Integer qi = bh.extract_min();
 		    	assertEquals(qi, vals.get(i));
 		    }

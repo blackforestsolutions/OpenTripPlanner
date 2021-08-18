@@ -31,22 +31,4 @@ public enum ApiRealTimeState {
      * the trip pattern of the scheduled trip.
      */
     MODIFIED;
-
-    public static ApiRealTimeState RealTimeState(
-        org.opentripplanner.routing.trippattern.RealTimeState other) {
-        switch (other) {
-            case SCHEDULED:
-                return ApiRealTimeState.SCHEDULED;
-            case UPDATED:
-                return ApiRealTimeState.UPDATED;
-            case CANCELED:
-                return ApiRealTimeState.CANCELED;
-            case ADDED:
-                return ApiRealTimeState.ADDED;
-            case MODIFIED:
-                return ApiRealTimeState.MODIFIED;
-            default:
-                throw new IllegalArgumentException();
-        }
-    }
 }

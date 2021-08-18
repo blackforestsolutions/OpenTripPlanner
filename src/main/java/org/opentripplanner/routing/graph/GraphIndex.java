@@ -152,23 +152,6 @@ public class GraphIndex {
         return routeForId.get(id);
     }
 
-    /**
-     * TODO OTP2 - This is NOT THREAD-SAFE and is used in the real-time updaters, we need to fix
-     *           - this when doing the issue #3030.
-     */
-    public void addRoutes(Route route) {
-        routeForId.put(route.getId(), route);
-    }
-
-    /** Dynamically generate the set of Routes passing though a Stop on demand. */
-    public Set<Route> getRoutesForStop(Stop stop) {
-        Set<Route> routes = Sets.newHashSet();
-        for (TripPattern p : getPatternsForStop(stop)) {
-            routes.add(p.route);
-        }
-        return routes;
-    }
-
     public Collection<TripPattern> getPatternsForStop(StopLocation stop) {
         return patternsForStopId.get(stop);
     }
@@ -192,19 +175,8 @@ public class GraphIndex {
         return tripPatterns;
     }
 
-    /**
-     * Get a list of all operators spanning across all feeds.
-     */
-    public Collection<Operator> getAllOperators() {
-        return getOperatorForId().values();
-    }
-
     public Map<FeedScopedId, Operator> getOperatorForId() {
         return operatorForId;
-    }
-
-    public Map<String, FeedInfo> getFeedInfoForId() {
-        return feedInfoForId;
     }
 
     public Collection<Stop> getAllStops() {
@@ -227,16 +199,8 @@ public class GraphIndex {
         return patternForTrip;
     }
 
-    public Multimap<String, TripPattern> getPatternsForFeedId() {
-        return patternsForFeedId;
-    }
-
     public Multimap<Route, TripPattern> getPatternsForRoute() {
         return patternsForRoute;
-    }
-
-    public Map<Station, MultiModalStation> getMultiModalStationForStations() {
-        return multiModalStationForStations;
     }
 
     public HashGridSpatialIndex<TransitStopVertex> getStopSpatialIndex() {

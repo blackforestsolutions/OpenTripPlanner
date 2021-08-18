@@ -65,20 +65,6 @@ public class TranslatedString implements I18NString, Serializable {
     }
 
     /**
-     * @return The available languages
-     */
-    public Collection<String> getLanguages() {
-        return translations.keySet();
-    }
-
-    /**
-     * @return The available translations
-     */
-    public List<Entry<String,String>> getTranslations() {
-        return new ArrayList<Entry<String, String>>(translations.entrySet());
-    }
-
-    /**
      * @return The default translation
      */
     @Override

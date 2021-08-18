@@ -131,21 +131,6 @@ public class SerializedGraphObject implements Serializable {
     }
 
     /**
-     * This method is an alternative to {@link #save(DataSource)} for tests and other purposes,
-     * but should not be used within the main OTP application.
-     */
-    public void saveToFile(File file) throws IOException {
-        try {
-            save(new FileOutputStream(file), file.getName(), file.length());
-        } catch (Exception e) {
-            // remove half-written file
-            file.deleteOnExit();
-            throw e;
-        }
-    }
-
-
-    /**
      * This method allows reproducibly creating Kryo (de)serializer instances with exactly the same configuration.
      * This allows us to use identically configured instances for serialization and deserialization.
      *

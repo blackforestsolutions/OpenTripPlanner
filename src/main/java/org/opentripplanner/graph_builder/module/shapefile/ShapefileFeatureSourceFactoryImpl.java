@@ -12,16 +12,8 @@ public class ShapefileFeatureSourceFactoryImpl implements FeatureSourceFactory {
 
     private File path;
     private ShapefileDataStore dataStore;
-
-    public ShapefileFeatureSourceFactoryImpl() {
-        
-    }
     
     public ShapefileFeatureSourceFactoryImpl(File path) {
-        this.path = path;
-    }
-
-    public void setPath(File path) {
         this.path = path;
     }
 

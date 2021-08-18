@@ -67,8 +67,6 @@ public class RouterConfig implements Serializable {
         return streetRoutingTimeoutSeconds;
     }
 
-    public boolean transmodelApiHideFeedId() { return transmodelApiHideFeedId; }
-
     public RoutingRequest routingRequestDefaults() {
         return routingRequestDefaults;
     }

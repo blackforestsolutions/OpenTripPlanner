@@ -36,12 +36,6 @@ public abstract class SphericalDistanceLibrary {
         return fastDistance(from.y, from.x, to.y, to.x);
     }
 
-    public static final double fastDistance(Coordinate from, Coordinate to, double cosLat) {
-        double dLat = toRadians(from.y - to.y);
-        double dLon = toRadians(from.x - to.x) * cosLat;
-        return RADIUS_OF_EARTH_IN_M * sqrt(dLat * dLat + dLon * dLon);
-    }
-
     /**
      * Compute an (approximated) distance between a point and a linestring expressed in standard geographical
      * coordinates (lon, lat in degrees).
@@ -71,15 +65,6 @@ public abstract class SphericalDistanceLibrary {
         Coordinate[] coordinates = lineString.getCoordinates();
         double middleY = (coordinates[0].y + coordinates[coordinates.length - 1].y) / 2.0;
         double cosLat = FastMath.cos(Math.toRadians(middleY));
-        return equirectangularProject(lineString, cosLat).getLength() * RADIUS_OF_EARTH_IN_M;
-    }
-
-    /**
-     * Compute the (approximated) length of a polyline, with known cos(lat).
-     * @param lineString The polyline in (longitude, latitude degrees).
-     * @return The (approximated) length, in meters, of the linestring.
-     */
-    public static final double fastLength(LineString lineString, double cosLat) {
         return equirectangularProject(lineString, cosLat).getLength() * RADIUS_OF_EARTH_IN_M;
     }
 
@@ -184,28 +169,6 @@ public abstract class SphericalDistanceLibrary {
             minCosLat = FastMath.cos(FastMath.toRadians(latDeg - dLatDeg));
         }
         return dLatDeg / minCosLat;
-    }
-
-    public static final Envelope bounds(double lat, double lon, double latDistance, double lonDistance) {
-
-        double radiusOfEarth = RADIUS_OF_EARTH_IN_M;
-
-        double latRadians = toRadians(lat);
-        double lonRadians = toRadians(lon);
-
-        double latRadius = radiusOfEarth;
-        double lonRadius = cos(latRadians) * radiusOfEarth;
-
-        double latOffset = latDistance / latRadius;
-        double lonOffset = lonDistance / lonRadius;
-
-        double latFrom = toDegrees(latRadians - latOffset);
-        double latTo = toDegrees(latRadians + latOffset);
-
-        double lonFrom = toDegrees(lonRadians - lonOffset);
-        double lonTo = toDegrees(lonRadians + lonOffset);
-
-        return new Envelope(new Coordinate(lonFrom, latFrom), new Coordinate(lonTo, latTo));
     }
     
 }

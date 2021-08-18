@@ -30,13 +30,6 @@ public class WorldEnvelope implements Serializable {
         this.aRightCoordinate = 0;
     }
 
-    public WorldEnvelope(WorldEnvelope envelope) {
-        this.leftEnv = envelope.leftEnv;
-        this.rightEnv = envelope.rightEnv;
-        this.aRightCoordinate = envelope.aRightCoordinate;
-        this.coordinatesCalculated = false;
-    }
-
     public void expandToInclude(Coordinate c) {
         this.expandToInclude(c.x, c.y);
     }
@@ -110,13 +103,5 @@ public class WorldEnvelope implements Serializable {
     public double getUpperRightLatitude() {
         calculateCoordinates();
         return upperRightLatitude;
-    }
-
-    public boolean contains(Coordinate c) {
-        if (c.x < 0) {
-            return leftEnv.contains(c);
-        } else {
-            return rightEnv.contains(c);
-        }
     }
 }

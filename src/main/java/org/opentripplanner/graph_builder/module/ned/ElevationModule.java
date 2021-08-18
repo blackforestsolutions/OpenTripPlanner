@@ -150,17 +150,6 @@ public class ElevationModule implements GraphBuilderModule {
         this.distanceBetweenSamplesM = distanceBetweenSamplesM;
     }
 
-    /**
-     * Gets the desired amount of processors to use for elevation calculations from the build-config setting. It will
-     * return at least 1 processor and no more than the maximum available processors. The default return value is 1
-     * processor.
-     */
-    public static int fromConfig(JsonNode elevationModuleParallelism) {
-        int maxProcessors = Runtime.getRuntime().availableProcessors();
-        int minimumProcessors = 1;
-        return Math.max(minimumProcessors, Math.min(elevationModuleParallelism.asInt(minimumProcessors), maxProcessors));
-    }
-
     @Override
     public void buildGraph(
             Graph graph,

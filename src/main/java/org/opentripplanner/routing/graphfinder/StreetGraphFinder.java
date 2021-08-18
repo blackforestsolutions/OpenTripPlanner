@@ -37,29 +37,6 @@ public class StreetGraphFinder implements GraphFinder {
       return visitor.stopsFound;
   }
 
-  @Override
-  public List<PlaceAtDistance> findClosestPlaces(
-      double lat, double lon, double radiusMeters, int maxResults, List<TransitMode> filterByModes,
-      List<PlaceType> filterByPlaceTypes, List<FeedScopedId> filterByStops,
-      List<FeedScopedId> filterByRoutes, List<String> filterByBikeRentalStations,
-      List<String> filterByBikeParks, List<String> filterByCarParks, RoutingService routingService
-  ) {
-      PlaceFinderTraverseVisitor visitor = new PlaceFinderTraverseVisitor(
-          routingService,
-          filterByModes,
-          filterByPlaceTypes,
-          filterByStops,
-          filterByRoutes,
-          filterByBikeRentalStations,
-          maxResults
-      );
-      SearchTerminationStrategy terminationStrategy = visitor.getSearchTerminationStrategy();
-      findClosestUsingStreets(lat, lon, radiusMeters, visitor, terminationStrategy);
-      List<PlaceAtDistance> results = visitor.placesFound;
-      results.sort(Comparator.comparingDouble(pad -> pad.distance));
-      return results.subList(0, min(results.size(), maxResults));
-  }
-
   private void findClosestUsingStreets(
       double lat, double lon, double radius, TraverseVisitor visitor, SearchTerminationStrategy terminationStrategy
   ) {

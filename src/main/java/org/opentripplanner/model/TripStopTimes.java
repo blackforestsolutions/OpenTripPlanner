@@ -47,10 +47,6 @@ public class TripStopTimes {
         map.replace(key, sort(list));
     }
 
-    public void put(Trip key, Collection<StopTime> list) {
-        map.put(key, sort(list));
-    }
-
     public void removeIf(Predicate<Trip> test) {
         List<Trip> removeKeys = map.keySet().stream().filter(test).collect(Collectors.toList());
         for (Trip removeKey : removeKeys) {

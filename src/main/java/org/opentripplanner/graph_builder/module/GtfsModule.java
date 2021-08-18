@@ -82,16 +82,6 @@ public class GtfsModule implements GraphBuilderModule {
         this.transitPeriodLimit = transitPeriodLimit;
     }
 
-    public List<String> provides() {
-        List<String> result = new ArrayList<String>();
-        result.add("transit");
-        return result;
-    }
-
-    public List<String> getPrerequisites() {
-        return Collections.emptyList();
-    }
-
     public void setFareServiceFactory(FareServiceFactory factory) {
         fareServiceFactory = factory;
     }

@@ -70,17 +70,6 @@ public class OTPConfiguration {
         this(cli, new ConfigLoader(cli.getBaseDirectory()));
     }
 
-    /**
-     * Create a new config for test using the given JSON config. The config is used to initiate
-     * the OTP config, build config and the router config.
-     */
-    public static OTPConfiguration createForTest(String configJson) {
-        return new OTPConfiguration(
-                new CommandLineParameters(),
-                ConfigLoader.fromString(configJson)
-        );
-    }
-
     public void updateConfigFromSerializedGraph(BuildConfig buildConfig, RouterConfig routerConfig) {
         if(this.buildConfig.isDefault()) {
             LOG.info("Using the graph embedded JSON build configuration.");
@@ -99,13 +88,6 @@ public class OTPConfiguration {
      */
     public CommandLineParameters getCli() {
         return cli;
-    }
-
-    /**
-     * Get the otp config as a type safe java bean.
-     */
-    public OtpConfig otpConfig() {
-        return otpConfig;
     }
 
     /**

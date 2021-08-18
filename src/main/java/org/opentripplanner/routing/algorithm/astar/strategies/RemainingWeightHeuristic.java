@@ -21,9 +21,6 @@ public interface RemainingWeightHeuristic extends Serializable {
     public void initialize (RoutingRequest options, long abortTime);
 
     public double estimateRemainingWeight (State s);
-
-    /** Reset any cached data in the heuristic, before reuse in a search with the same destination. */
-    public void reset();
     
     /** 
      * Call to cause the heuristic to perform some predetermined amount of work improving its 

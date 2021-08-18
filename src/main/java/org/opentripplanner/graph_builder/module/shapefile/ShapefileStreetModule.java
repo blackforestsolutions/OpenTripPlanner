@@ -56,14 +56,6 @@ public class ShapefileStreetModule implements GraphBuilderModule {
 
     public StreetEdgeFactory edgeFactory = new DefaultStreetEdgeFactory();
 
-    public List<String> provides() {
-        return Arrays.asList("streets");
-    }
-
-    public List<String> getPrerequisites() {
-        return Collections.emptyList();
-    }
-    
     public void setFeatureSourceFactory(FeatureSourceFactory factory) {
         featureSourceFactory = factory;
     }

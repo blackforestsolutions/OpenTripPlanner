@@ -21,10 +21,6 @@ public class AttributeFeatureConverter<T> implements SimpleFeatureConverter<T> {
         
     }
     
-    public void setAttributeName(String attributeName){
-        this.attributeName = attributeName;
-    }
-    
     public String getAttributeName() {
         return attributeName;
     }
@@ -44,14 +40,6 @@ public class AttributeFeatureConverter<T> implements SimpleFeatureConverter<T> {
             value = (T) charset.decode(bb).toString();
         }
         return value;
-    }
-
-    public boolean isDecodeUTF8() {
-        return decodeUTF8;
-    }
-
-    public void setDecodeUTF8(boolean decodeUTF8) {
-        this.decodeUTF8 = decodeUTF8;
     }
 
 }

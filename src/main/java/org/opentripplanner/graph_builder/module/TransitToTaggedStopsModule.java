@@ -41,14 +41,6 @@ public class TransitToTaggedStopsModule implements GraphBuilderModule {
     private double searchRadiusM = 250;
     private double searchRadiusLat = SphericalDistanceLibrary.metersToDegrees(searchRadiusM);
 
-    public List<String> provides() {
-        return Arrays.asList("street to transit", "linking");
-    }
-
-    public List<String> getPrerequisites() {
-        return Arrays.asList("streets"); // why not "transit" ?
-    }
-
     @Override
     public void buildGraph(
             Graph graph,

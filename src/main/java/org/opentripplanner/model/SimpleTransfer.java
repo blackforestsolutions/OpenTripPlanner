@@ -32,10 +32,6 @@ public class SimpleTransfer implements Serializable {
         return from + " => " + to;
     }
 
-    public double getDistanceMeters() {
-        return edges.stream().mapToDouble(Edge::getDistanceMeters).sum();
-    }
-
     public double getEffectiveWalkDistance(){
     	return this.effectiveWalkDistance;
     }

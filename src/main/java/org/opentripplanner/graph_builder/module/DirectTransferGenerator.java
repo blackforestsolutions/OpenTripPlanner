@@ -33,24 +33,12 @@ public class DirectTransferGenerator implements GraphBuilderModule {
 
     final double radiusMeters;
 
-    public List<String> provides() {
-        return Arrays.asList("linking");
-    }
-
-    public List<String> getPrerequisites() {
-        return Arrays.asList("street to transit");
-    }
-
     public DirectTransferGenerator (double radiusMeters) {
         this.radiusMeters = radiusMeters;
     }
 
     @Override
-    public void buildGraph(
-            Graph graph,
-            HashMap<Class<?>, Object> extra,
-            DataImportIssueStore issueStore
-    ) {
+    public void buildGraph(Graph graph, HashMap<Class<?>, Object> extra, DataImportIssueStore issueStore) {
         /* Initialize graph index which is needed by the nearby stop finder. */
         if (graph.index == null) {
             graph.index = new GraphIndex(graph);

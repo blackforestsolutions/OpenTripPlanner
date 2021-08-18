@@ -48,16 +48,6 @@ public class Environment {
         return n_count;
     }
 
-    int r() {
-        int r_count = 0;
-        r_count = outer_boundary.r();
-        for (int i = 0; i < h(); i++) {
-            VLPolygon polygon_temp = holes.get(i);
-            r_count += polygon_temp.n() - polygon_temp.r();
-        }
-        return r_count;
-    }
-
     int h() {
         return holes.size();
     }
@@ -157,23 +147,6 @@ public class Environment {
         return true;
     }
 
-    double boundary_length() {
-        // Precondition: nonempty Environment.
-        assert (outer_boundary.n() > 0);
-
-        double length_temp = outer_boundary.boundary_length();
-        for (int i = 0; i < h(); i++)
-            length_temp += holes.get(i).boundary_length();
-        return length_temp;
-    }
-
-    double area() {
-        double area_temp = outer_boundary.area();
-        for (int i = 0; i < h(); i++)
-            area_temp += holes.get(i).area();
-        return area_temp;
-    }
-
     public VLPolygon get(int i) {
         if (i == 0) {
             return outer_boundary;
@@ -193,19 +166,6 @@ public class Environment {
         }
     }
 
-    void eliminate_redundant_vertices(double epsilon) {
-        outer_boundary.eliminate_redundant_vertices(epsilon);
-        for (int i = 0; i < holes.size(); i++)
-            holes.get(i).eliminate_redundant_vertices(epsilon);
-
-        update_flattened_index_key();
-    }
-
-    void reverse_holes() {
-        for (int i = 0; i < holes.size(); i++)
-            holes.get(i).reverse();
-    }
-
     void update_flattened_index_key() {
         flattened_index_key.clear();
 
@@ -217,25 +177,6 @@ public class Environment {
         }
     }
 
-    pair<Integer, Integer> one_to_two(int k) {
-        pair<Integer, Integer> two = new pair<Integer, Integer>(0, 0);
-        // Strategy: add up vertex count of each Polygon (outer boundary +
-        // holes) until greater than k
-        int current_polygon_index = 0;
-        int vertex_count_up_to_current_polygon = get(0).n();
-        int vertex_count_up_to_last_polygon = 0;
-
-        while (k >= vertex_count_up_to_current_polygon && current_polygon_index < h()) {
-            current_polygon_index++;
-            two.first = two.first + 1;
-            vertex_count_up_to_last_polygon = vertex_count_up_to_current_polygon;
-            vertex_count_up_to_current_polygon += get(current_polygon_index).n();
-        }
-        two.second = k - vertex_count_up_to_last_polygon;
-
-        return two;
-    }
-
     public String toString() {
         String outs = "//Environment Model\n";
         outs += "//Outer Boundary\n" + get(0);
@@ -244,10 +185,6 @@ public class Environment {
         }
         // outs << "//EOF marker";
         return outs;
-    }
-
-    double boundary_distance(VLPoint point_temp) {
-        return point_temp.boundary_distance(this);
     }
 
 }

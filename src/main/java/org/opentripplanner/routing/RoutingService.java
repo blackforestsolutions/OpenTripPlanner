@@ -55,79 +55,6 @@ public class RoutingService {
     }
 
     /**
-     * Fetch upcoming vehicle departures from a stop. It goes though all patterns passing the stop
-     * for the previous, current and next service date. It uses a priority queue to keep track of
-     * the next departures. The queue is shared between all dates, as services from the previous
-     * service date can visit the stop later than the current service date's services. This happens
-     * eg. with sleeper trains.
-     * <p>
-     * TODO: Add frequency based trips
-     *
-     * @param stop               Stop object to perform the search for
-     * @param startTime          Start time for the search. Seconds from UNIX epoch
-     * @param timeRange          Searches forward for timeRange seconds from startTime
-     * @param numberOfDepartures Number of departures to fetch per pattern
-     * @param omitNonPickups     If true, do not include vehicles that will not pick up passengers.
-     */
-    public List<StopTimesInPattern> stopTimesForStop(
-            Stop stop, long startTime, int timeRange, int numberOfDepartures, boolean omitNonPickups
-    ) {
-        return StopTimesHelper.stopTimesForStop(
-                this,
-                lazyGetTimeTableSnapShot(),
-                stop,
-                startTime,
-                timeRange,
-                numberOfDepartures,
-                omitNonPickups
-        );
-    }
-
-    /**
-     * Get a list of all trips that pass through a stop during a single ServiceDate. Useful when
-     * creating complete stop timetables for a single day.
-     *
-     * @param stop        Stop object to perform the search for
-     * @param serviceDate Return all departures for the specified date
-     */
-    public List<StopTimesInPattern> getStopTimesForStop(
-            Stop stop, ServiceDate serviceDate, boolean omitNonPickups
-    ) {
-        return StopTimesHelper.stopTimesForStop(this, stop, serviceDate, omitNonPickups);
-    }
-
-
-    /**
-     * Fetch upcoming vehicle departures from a stop for a specific pattern, passing the stop
-     * for the previous, current and next service date. It uses a priority queue to keep track of
-     * the next departures. The queue is shared between all dates, as services from the previous
-     * service date can visit the stop later than the current service date's services.
-     * <p>
-     * TODO: Add frequency based trips
-     *
-     * @param stop               Stop object to perform the search for
-     * @param pattern            Pattern object to perform the search for
-     * @param startTime          Start time for the search. Seconds from UNIX epoch
-     * @param timeRange          Searches forward for timeRange seconds from startTime
-     * @param numberOfDepartures Number of departures to fetch per pattern
-     * @param omitNonPickups     If true, do not include vehicles that will not pick up passengers.
-     */
-    public List<TripTimeShort> stopTimesForPatternAtStop(
-            Stop stop, TripPattern pattern, long startTime, int timeRange, int numberOfDepartures, boolean omitNonPickups
-    ) {
-        return StopTimesHelper.stopTimesForPatternAtStop(
-                this,
-                lazyGetTimeTableSnapShot(),
-                stop,
-                pattern,
-                startTime,
-                timeRange,
-                numberOfDepartures,
-                omitNonPickups
-        );
-    }
-
-    /**
      * Returns all the patterns for a specific stop. If includeRealtimeUpdates is set, new patterns
      * added by realtime updates are added to the collection.
      */
@@ -135,23 +62,6 @@ public class RoutingService {
         return graph.index.getPatternsForStop(stop,
                 includeRealtimeUpdates ? lazyGetTimeTableSnapShot() : null
         );
-    }
-
-    /**
-     * Get the most up-to-date timetable for the given TripPattern, as of right now. There should
-     * probably be a less awkward way to do this that just gets the latest entry from the resolver
-     * without making a fake routing request.
-     */
-    public Timetable getTimetableForTripPattern(TripPattern tripPattern) {
-        TimetableSnapshot timetableSnapshot = lazyGetTimeTableSnapShot();
-        return timetableSnapshot != null ? timetableSnapshot.resolve(
-                tripPattern,
-                new ServiceDate(Calendar.getInstance().getTime())
-        ) : tripPattern.scheduledTimetable;
-    }
-
-    public List<TripTimeShort> getTripTimesShort(Trip trip, ServiceDate serviceDate) {
-        return TripTimesShortHelper.getTripTimesShort(this, trip, serviceDate);
     }
 
     /**

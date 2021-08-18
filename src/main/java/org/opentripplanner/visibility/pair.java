@@ -16,9 +16,6 @@ class pair<T, U> {
 
     public U second;
 
-    public pair() {
-    }
-
     public pair(T one, U two) {
         first = one;
         second = two;

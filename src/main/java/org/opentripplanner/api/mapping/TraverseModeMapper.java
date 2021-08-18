@@ -21,13 +21,6 @@ public class TraverseModeMapper {
         toDomain = Map.copyOf(map);
     }
 
-    public static TraverseMode mapToDomain(String api) {
-        if(api == null) {
-            return null;
-        }
-        return toDomain.get(api);
-    }
-
     public static String mapToApi(TraverseMode domain) {
         if(domain == null) {
             return null;
@@ -49,13 +42,6 @@ public class TraverseModeMapper {
             case WALK: return "WALK";
         }
         throw new IllegalArgumentException("Traverse mode not mapped: " + domain);
-    }
-
-    public static List<String> mapToApi(Set<TransitMode> domain) {
-        if (domain == null) {
-            return null;
-        }
-        return domain.stream().map(TraverseModeMapper::mapToApi).collect(Collectors.toList());
     }
 
     public static String mapToApi(TransitMode domain) {

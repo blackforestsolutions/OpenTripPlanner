@@ -69,7 +69,7 @@ public class TestRouteMatcher extends TestCase {
 
         boolean thrown = false;
         try {
-            RouteMatcher badMatcher = RouteMatcher.parse("A1_R1_42");
+            RouteMatcher.parse("A1_R1_42");
         } catch (IllegalArgumentException e) {
             thrown = true;
         }

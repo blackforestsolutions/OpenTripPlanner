@@ -65,13 +65,6 @@ public class Fare {
         return Arrays.asList(details.get(type));
     }
 
-    public void addCost(int surcharge) {
-        for (Money cost : fare.values()) {
-            int cents = cost.getCents();
-            cost.setCents(cents + surcharge);
-        }
-    }
-
     public String toString() {
         StringBuffer buffer = new StringBuffer("Fare(");
         for (FareType type : fare.keySet()) {

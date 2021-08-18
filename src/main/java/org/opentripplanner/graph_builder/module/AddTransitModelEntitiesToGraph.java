@@ -318,18 +318,6 @@ public class AddTransitModelEntitiesToGraph {
         }
     }
 
-    private void addLocationsToGraph(Graph graph) {
-        for (FlexStopLocation flexStopLocation : transitService.getAllLocations()) {
-            graph.locationsById.put(flexStopLocation.getId(), flexStopLocation);
-        }
-    }
-
-    private void addLocationGroupsToGraph(Graph graph) {
-        for (FlexLocationGroup flexLocationGroup : transitService.getAllLocationGroups()) {
-            graph.locationGroupsById.put(flexLocationGroup.getId(), flexLocationGroup);
-        }
-    }
-
     private void addFeedInfoToGraph(Graph graph) {
         for (FeedInfo info : transitService.getAllFeedInfos()) {
             graph.addFeedInfo(info);

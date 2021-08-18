@@ -29,15 +29,6 @@ public class FrequencyEntry implements Serializable {
         this.tripTimes  = tripTimes;
     }
 
-    public FrequencyEntry (int startTime, int endTime, int headway, boolean exactTimes, TripTimes tripTimes) {
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.headway = headway;
-        this.exactTimes = exactTimes;
-        this.tripTimes = tripTimes;
-
-    }
-
     /*
         The TripTimes getDepartureTime / getArrivalTime methods do not care when the search is happening.
         The Frequency equivalents need to know when the search is happening, and need to be able to say
@@ -102,11 +93,6 @@ public class FrequencyEntry implements Serializable {
      */
     public TripTimes materialize (int stop, int time, boolean depart) {
         return tripTimes.timeShift(stop, time, depart);
-    }
-
-    /** @return the maximum number of trips this frequency entry could represent, given its headway. */
-    public int numTrips() {
-        return (endTime - startTime) / headway;
     }
 
     /** @return the minimum time in seconds since midnight at which a trip may depart on this frequency definition. */

@@ -116,15 +116,6 @@ final public class TemporaryPartialStreetEdge extends StreetWithElevationEdge im
         return parentEdge.isRoundabout();
     }
 
-    /**
-     * Returns true if this edge is trivial - beginning and ending at the same point.
-     */
-    public boolean isTrivial() {
-        Coordinate fromCoord = this.getFromVertex().getCoordinate();
-        Coordinate toCoord = this.getToVertex().getCoordinate();
-        return fromCoord.equals(toCoord);
-    }
-
     public StreetEdge getParentEdge() {
         return parentEdge;
     }

@@ -81,9 +81,6 @@ public class RoundTrackerTest {
             @Override public void onTransfersForRoundComplete(Runnable transfersForRoundComplete) {
                 throw new IllegalStateException("Not expected");
             }
-            @Override public void onIterationComplete(Runnable iterationComplete) {
-                throw new IllegalStateException("Not expected");
-            }
         };
     }
 }

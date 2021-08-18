@@ -40,8 +40,7 @@ public class DutchFareServiceImpl extends DefaultFareServiceImpl {
      * to always be in Euros. See issue #2679 for discussion.
      */
     @Override
-    protected boolean populateFare(Fare fare, Currency currency, FareType fareType, List<Ride> rides,
-                                   Collection<FareRuleSet> fareRules) {
+    protected boolean populateFare(Fare fare, Currency currency, FareType fareType, List<Ride> rides, Collection<FareRuleSet> fareRules) {
         float lowestCost = getLowestCost(fareType, rides, fareRules);
         if(lowestCost != Float.POSITIVE_INFINITY) {
             fare.addFare(fareType, getMoney(euros, lowestCost));

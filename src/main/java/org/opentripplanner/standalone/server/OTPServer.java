@@ -28,16 +28,6 @@ public class OTPServer {
         this.router = router;
     }
 
-    /**
-     * Hook to cleanup various stuff of some used libraries (org.geotools), which depend on the
-     * external client to call them for cleaning-up.
-     */
-    private static void cleanupWebapp() {
-        LOG.info("Web application shutdown: cleaning various stuff");
-        WeakCollectionCleaner.DEFAULT.exit();
-        DeferredAuthorityFactory.exit();
-    }
-
     public Router getRouter() {
         return router;
     }

@@ -39,14 +39,6 @@ public class TransitPathwayNodeVertex extends Vertex {
     return node.getName();
   }
 
-  public boolean isWheelchairEntrance() {
-    return wheelchairEntrance;
-  }
-
-  public PathwayNode getNode() {
-    return this.node;
-  }
-
   @Override
   public StationElement getStationElement() {
     return this.node;

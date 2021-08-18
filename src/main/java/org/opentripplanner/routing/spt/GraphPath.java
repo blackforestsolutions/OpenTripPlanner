@@ -96,14 +96,6 @@ public class GraphPath {
         return states.getLast().getWeight();
     }
 
-    public Vertex getStartVertex() {
-        return states.getFirst().getVertex();
-    }
-
-    public Vertex getEndVertex() {
-        return states.getLast().getVertex();
-    }
-
     public String toString() {
     	return "GraphPath(nStates=" + states.size() + ")";
     }
@@ -119,14 +111,6 @@ public class GraphPath {
     // must compare edges, not states, since states are different at each search
     public int hashCode() {
         return this.edges.hashCode();
-    }
-
-    /****
-     * Private Methods
-     ****/
-
-    public double getWalkDistance() {
-        return walkDistance;
     }
     
     public RoutingContext getRoutingContext() {
