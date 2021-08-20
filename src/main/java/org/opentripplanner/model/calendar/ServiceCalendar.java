@@ -99,6 +99,10 @@ public final class ServiceCalendar implements Serializable {
         this.sunday = sunday;
     }
 
+    /**
+     * FOR TESTING
+     * @param value
+     */
     public void setWeekdays(int value) {
         setMonday(value);
         setTuesday(value);
@@ -106,10 +110,20 @@ public final class ServiceCalendar implements Serializable {
         setThursday(value);
         setFriday(value);
     }
+
+    /**
+     * FOR TESTING
+     * @param value
+     */
     public void setWeekend(int value) {
         setSaturday(value);
         setSunday(value);
     }
+
+    /**
+     * FOR TESTING
+     * @param value
+     */
     public void setAllDays(int value) {
         setWeekdays(value);
         setWeekend(value);

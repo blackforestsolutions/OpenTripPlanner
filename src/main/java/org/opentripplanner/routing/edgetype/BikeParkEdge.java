@@ -11,6 +11,8 @@ import org.locationtech.jts.geom.LineString;
 import java.util.Locale;
 
 /**
+ * FOR TESTING
+ *
  * Parking a bike edge.
  * 
  * Note: There is an edge only in the "park" direction. We do not handle (yet) unparking a bike, as

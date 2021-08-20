@@ -23,6 +23,10 @@ public class StreetLocation extends StreetVertex {
         this.wheelchairAccessible = wheelchairAccessible;
     }
 
+    /**
+     * FOR TESTING
+     * @return
+     */
     public boolean isWheelchairAccessible() {
         return wheelchairAccessible;
     }

@@ -39,6 +39,16 @@ public class StreetWithElevationEdge extends StreetEdge {
 
     }
 
+    /**
+     * FOR TESTING
+     * @param v1
+     * @param v2
+     * @param geometry
+     * @param name
+     * @param length
+     * @param permission
+     * @param back
+     */
     public StreetWithElevationEdge(StreetVertex v1, StreetVertex v2, LineString geometry,
             String name, double length, StreetTraversalPermission permission, boolean back) {
         this(v1, v2, geometry, new NonLocalizedString(name), length, permission, back);
@@ -77,13 +87,6 @@ public class StreetWithElevationEdge extends StreetEdge {
                 packedElevationProfile,
                 getEffectiveWalkDistance()
         );
-    }
-
-    public boolean hasPackedElevationProfile () { return packedElevationProfile != null; }
-
-    @Override
-    public boolean isElevationFlattened() {
-        return flattened;
     }
 
     @Override

@@ -83,8 +83,6 @@ public final class WgsCoordinate implements Serializable {
      * Then {@code x.sameLocation(y)} is {@code true} and {@code y.sameLocation(z)} is
      * {@code true}, but {@code x.sameLocation(z)} is {@code false}.
      * <p>
-     * Use the {@link #sameLocation(WgsCoordinate)} method instead of equals, and never put this
-     * class in a Set or use it as a key in a Map.
      * @throws UnsupportedOperationException if called.
      */
     @Override

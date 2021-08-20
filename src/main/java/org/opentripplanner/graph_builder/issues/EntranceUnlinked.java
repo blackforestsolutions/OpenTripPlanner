@@ -1,7 +1,6 @@
 package org.opentripplanner.graph_builder.issues;
 
 import org.opentripplanner.graph_builder.DataImportIssue;
-import org.opentripplanner.routing.graph.Vertex;
 import org.opentripplanner.routing.vertextype.TransitEntranceVertex;
 
 public class EntranceUnlinked implements DataImportIssue {
@@ -18,22 +17,6 @@ public class EntranceUnlinked implements DataImportIssue {
   @Override
   public String getMessage() {
     return String.format(FMT, entrance);
-  }
-
-  @Override
-  public String getHTMLMessage() {
-    return String.format(
-        HTMLFMT,
-        entrance.getEntrance().getLat(),
-        entrance.getEntrance().getLon(),
-        entrance.getName(),
-        entrance.getEntrance().getId()
-    );
-  }
-
-  @Override
-  public Vertex getReferencedVertex() {
-    return this.entrance;
   }
 
 }

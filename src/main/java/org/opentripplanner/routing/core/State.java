@@ -55,6 +55,10 @@ public class State implements Cloneable {
         return states;
     }
 
+    /**
+     * FOR TESTING
+     * @param opt
+     */
     public State(RoutingRequest opt) {
         this(
                 opt.rctx.fromVertices == null ? null : opt.rctx.fromVertices.iterator().next(),

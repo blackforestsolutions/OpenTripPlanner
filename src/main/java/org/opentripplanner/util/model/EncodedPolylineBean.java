@@ -26,6 +26,7 @@ public class EncodedPolylineBean implements Serializable {
     }
 
     /**
+     * FOR TESTING
      * The encoded points of the polyline.
      */
     public String getPoints() {
@@ -33,6 +34,7 @@ public class EncodedPolylineBean implements Serializable {
     }
 
     /**
+     * FOR TESTING
      * Levels describes which points should be shown at various zoom levels. Presently, we show all
      * points at all zoom levels.
     */
@@ -41,6 +43,7 @@ public class EncodedPolylineBean implements Serializable {
     }
 
     /**
+     * FOR TESTING
      * The number of points in the string
      */
     public int getLength() {

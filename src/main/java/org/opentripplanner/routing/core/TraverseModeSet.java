@@ -97,6 +97,11 @@ public class TraverseModeSet implements Cloneable, Serializable {
         return 0;
     }
 
+    /**
+     * FOR TESTING
+     * @param mode
+     * @param value
+     */
     public void setMode(TraverseMode mode, boolean value) {
         int mask = getMaskForMode(mode);
         if (value) {
@@ -167,6 +172,10 @@ public class TraverseModeSet implements Cloneable, Serializable {
         return (modes & (MODE_TRANSIT)) != 0;
     }
 
+    /**
+     * FOR TESTING
+     * @param transit
+     */
     public void setTransit(boolean transit) {
         if (transit) {
             modes |= MODE_TRANSIT;

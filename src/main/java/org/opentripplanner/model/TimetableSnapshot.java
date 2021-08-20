@@ -10,17 +10,8 @@ import org.opentripplanner.routing.trippattern.TripTimes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.ConcurrentModificationException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 // this is only currently in edgetype because that's where Trippattern is.
 // move these classes elsewhere.
@@ -242,6 +233,7 @@ public class TimetableSnapshot {
     }
 
     /**
+     * FOR TESTING
      * This produces a small delay of typically around 50ms, which is almost entirely due to
      * the indexing step. Cloning the map is much faster (2ms).
      * It is perhaps better to index timetables as they are changed to avoid experiencing all
@@ -383,6 +375,11 @@ public class TimetableSnapshot {
         }
     }
 
+    /**
+     * FOR TESTING
+     * @param stop
+     * @return
+     */
     public Collection<TripPattern> getPatternsForStop(Stop stop) {
         return patternsForStop.get(stop);
     }

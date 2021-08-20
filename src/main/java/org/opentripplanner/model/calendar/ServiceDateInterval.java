@@ -39,6 +39,7 @@ public final class ServiceDateInterval {
     }
 
     /**
+     * FOR TESTING
      * Return a interval with start or end unbounded ({@code null}).
      */
     public static ServiceDateInterval unbounded() {

@@ -89,13 +89,6 @@ public abstract class AbstractStopArrival<T extends RaptorTripSchedule> implemen
         throw new UnsupportedOperationException("No accessEgress for transfer stop arrival");
     }
 
-    /**
-     * @return previous state or throw a NPE if no previousArrival exist.
-     */
-    final int previousStop() {
-        return previous.stop;
-    }
-
     @Override
     public final AbstractStopArrival<T> previous() {
         return previous;

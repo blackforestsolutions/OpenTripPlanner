@@ -1,15 +1,11 @@
 package org.opentripplanner.routing.core;
 
 import org.junit.Test;
-import org.opentripplanner.model.Agency;
 import org.opentripplanner.model.FeedScopedId;
 import org.opentripplanner.model.GenericLocation;
-import org.opentripplanner.model.Route;
 import org.opentripplanner.routing.api.request.RoutingRequest;
-
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.opentripplanner.routing.core.TraverseMode.CAR;
@@ -57,47 +53,6 @@ public class RoutingRequestTest {
         req.addIntermediatePlace(randomLocation());
         req.addIntermediatePlace(randomLocation());
         assertTrue(req.hasIntermediatePlaces());
-    }
-
-    @Test
-    public void testPreferencesPenaltyForRoute() {
-        Agency agency = new Agency(AGENCY_ID, "A", TIMEZONE);
-        Route route = new Route();
-        route.setId(ROUTE_ID);
-        route.setShortName("R");
-        route.setAgency(agency);
-
-        Agency otherAgency = new Agency(OTHER_ID, "OtherA", TIMEZONE);
-        Route otherRoute = new Route();
-        otherRoute.setId(OTHER_ID);
-        otherRoute.setShortName("OtherR");
-        otherRoute.setAgency(otherAgency);
-
-
-        List<String> testCases = List.of(
-            // !prefAgency | !prefRoute | unPrefA | unPrefR | expected cost
-            "       -      |      -     |    -    |    -    |     0",
-            "       -      |      -     |    -    |    x    |   300",
-            "       -      |      -     |    x    |    -    |   300",
-            "       -      |      x     |    -    |    -    |   300",
-            "       x      |      -     |    -    |    -    |   300",
-            "       -      |      -     |    x    |    x    |   300",
-            "       x      |      x     |    -    |    -    |   300",
-            "       x      |      -     |    -    |    x    |   600",
-            "       -      |      x     |    x    |    -    |   600",
-            "       x      |      x     |    x    |    x    |   600"
-        );
-
-        for (String it : testCases) {
-            RoutePenaltyTC tc = new RoutePenaltyTC(it);
-            RoutingRequest routingRequest = tc.createRoutingRequest();
-
-            assertEquals(tc.toString(), tc.expectedCost, routingRequest.preferencesPenaltyForRoute(route));
-
-            if(tc.prefAgency || tc.prefRoute) {
-                assertEquals(tc.toString(), 0, routingRequest.preferencesPenaltyForRoute(otherRoute));
-            }
-        }
     }
 
 

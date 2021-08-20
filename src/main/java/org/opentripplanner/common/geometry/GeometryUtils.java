@@ -1,23 +1,17 @@
 package org.opentripplanner.common.geometry;
 
-import org.geojson.LngLatAlt;
 import org.geotools.referencing.CRS;
 import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.CoordinateSequence;
 import org.locationtech.jts.geom.CoordinateSequenceFactory;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.LineString;
-import org.locationtech.jts.linearref.LengthLocationMap;
 import org.locationtech.jts.linearref.LinearLocation;
 import org.locationtech.jts.linearref.LocationIndexedLine;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 import org.opentripplanner.common.model.P2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class GeometryUtils {
     private static final Logger LOG = LoggerFactory.getLogger(GeometryUtils.class);
@@ -48,14 +42,6 @@ public class GeometryUtils {
     public static LineString makeLineString(Coordinate[] coordinates) {
         GeometryFactory factory = getGeometryFactory();
         return factory.createLineString(coordinates);
-    }
-
-    public static LineString concatenateLineStrings(List<LineString> lineStrings) {
-        GeometryFactory factory = getGeometryFactory();
-        return factory.createLineString(
-                lineStrings.stream()
-                        .flatMap(t -> Arrays.stream(t.getCoordinates()))
-                        .toArray(Coordinate[]::new));
     }
 
     public static LineString addStartEndCoordinatesToLineString(Coordinate startCoord, LineString lineString, Coordinate endCoord) {
@@ -93,32 +79,6 @@ public class GeometryUtils {
 
         return new P2<LineString>(beginning, ending);
     }
-    
-    /**
-     * Splits the input geometry into two LineStrings at a fraction of the distance covered.
-     */
-    public static P2<LineString> splitGeometryAtFraction(Geometry geometry, double fraction) {
-        LineString empty = new LineString(null, gf);
-        Coordinate[] coordinates = geometry.getCoordinates();
-        CoordinateSequence sequence = gf.getCoordinateSequenceFactory().create(coordinates);
-        LineString total = new LineString(sequence, gf);
-
-        if (coordinates.length < 2) return new P2<LineString>(empty, empty);
-        if (fraction <= 0) return new P2<LineString>(empty, total);
-        if (fraction >= 1) return new P2<LineString>(total, empty);
-
-        double totalDistance = total.getLength();
-        double requestedDistance = totalDistance * fraction;
-
-        // An index in JTS can actually refer to any point along the line. It is NOT an array index.
-        LocationIndexedLine line = new LocationIndexedLine(geometry);
-        LinearLocation l = LengthLocationMap.getLocation(geometry, requestedDistance);
-
-        LineString beginning = (LineString) line.extractLine(line.getStartIndex(), l);
-        LineString ending = (LineString) line.extractLine(l, line.getEndIndex());
-
-        return new P2<LineString>(beginning, ending);
-    }
 
     /**
      * Returns the chunk of the given geometry between the two given coordinates.
@@ -130,14 +90,5 @@ public class GeometryUtils {
         P2<LineString> splitGeom = GeometryUtils.splitGeometryAtPoint(geomerty, first);
         splitGeom = GeometryUtils.splitGeometryAtPoint(splitGeom.second, second);
         return splitGeom.first;
-    }
-
-    private static Coordinate[] convertPath(List<LngLatAlt> path) {
-        Coordinate[] coords = new Coordinate[path.size()];
-        int i = 0;
-        for (LngLatAlt p : path) {
-            coords[i++] = new Coordinate(p.getLongitude(), p.getLatitude());
-        }
-        return coords;
     }
 }

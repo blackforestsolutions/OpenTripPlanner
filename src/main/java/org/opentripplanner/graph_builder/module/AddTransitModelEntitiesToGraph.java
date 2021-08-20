@@ -52,6 +52,11 @@ public class AddTransitModelEntitiesToGraph {
 
     private final int subwayAccessTime;
 
+    /**
+     * FOR TESTING
+     * @param context
+     * @param graph
+     */
     public static void addToGraph(GtfsContext context, Graph graph) {
         new AddTransitModelEntitiesToGraph(context).applyToGraph(graph);
     }

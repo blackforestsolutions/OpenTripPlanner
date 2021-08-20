@@ -15,19 +15,9 @@ public class VLPoint implements Comparable<VLPoint>, Cloneable {
 
     public double x, y;
 
-    public VLPoint() {
-        x = Double.NaN;
-        y = Double.NaN;
-    }
-
     public VLPoint(double x, double y) {
         this.x = x;
         this.y = y;
-    }
-
-    public VLPoint(VLPoint p) {
-        x = p.x;
-        y = p.y;
     }
 
     public VLPoint projection_onto(LineSegment line_segment_temp) {
@@ -57,45 +47,6 @@ public class VLPoint implements Comparable<VLPoint>, Cloneable {
         return line_segment_temp.second();
     }
 
-    public VLPoint projection_onto(Ray ray_temp) {
-
-        // Construct a LineSegment parallel with the Ray which is so long,
-        // that the projection of the the calling Point onto that
-        // LineSegment must be the same as the projection of the calling
-        // Point onto the Ray.
-        double R = distance(ray_temp.base_point());
-        LineSegment seg_approx = new LineSegment(ray_temp.base_point(), ray_temp.base_point().plus(
-                new VLPoint(R * Math.cos(ray_temp.bearing().get()), R
-                        * Math.sin(ray_temp.bearing().get()))));
-        return projection_onto(seg_approx);
-    }
-
-    public VLPoint projection_onto_vertices_of(VLPolygon polygon_temp) {
-        VLPoint running_projection = polygon_temp.get(0);
-        double running_min = distance(running_projection);
-        for (int i = 1; i <= polygon_temp.n() - 1; i++) {
-            if (distance(polygon_temp.get(i)) < running_min) {
-                running_projection = polygon_temp.get(i);
-                running_min = distance(running_projection);
-            }
-        }
-        return running_projection;
-    }
-
-    public VLPoint projection_onto_vertices_of(Environment environment_temp) {
-        VLPoint running_projection = projection_onto_vertices_of(environment_temp.outer_boundary);
-        double running_min = distance(running_projection);
-        VLPoint point_temp;
-        for (int i = 0; i < environment_temp.h(); i++) {
-            point_temp = projection_onto_vertices_of(environment_temp.holes.get(i));
-            if (distance(point_temp) < running_min) {
-                running_projection = point_temp;
-                running_min = distance(running_projection);
-            }
-        }
-        return running_projection;
-    }
-
     public VLPoint projection_onto_boundary_of(VLPolygon polygon_temp) {
 
         VLPoint running_projection = polygon_temp.get(0);
@@ -112,56 +63,12 @@ public class VLPoint implements Comparable<VLPoint>, Cloneable {
         return running_projection;
     }
 
-    public VLPoint projection_onto_boundary_of(Environment environment_temp) {
-
-        VLPoint running_projection = projection_onto_boundary_of(environment_temp.outer_boundary);
-        double running_min = distance(running_projection);
-        VLPoint point_temp;
-        for (int i = 0; i < environment_temp.h(); i++) {
-            point_temp = projection_onto_boundary_of(environment_temp.holes.get(i));
-            if (distance(point_temp) < running_min) {
-                running_projection = point_temp;
-                running_min = distance(running_projection);
-            }
-        }
-        return running_projection;
-    }
-
     public boolean on_boundary_of(VLPolygon polygon_temp, double epsilon) {
 
         if (distance(projection_onto_boundary_of(polygon_temp)) <= epsilon) {
             return true;
         }
         return false;
-    }
-
-    public boolean on_boundary_of(Environment environment_temp, double epsilon) {
-
-        if (distance(projection_onto_boundary_of(environment_temp)) <= epsilon) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean in(LineSegment line_segment_temp, double epsilon) {
-
-        if (distance(line_segment_temp) < epsilon)
-            return true;
-        return false;
-    }
-
-    public boolean in_relative_interior_of(LineSegment line_segment_temp, double epsilon) {
-
-        return in(line_segment_temp, epsilon) && distance(line_segment_temp.first()) > epsilon
-                && distance(line_segment_temp.second()) > epsilon;
-    }
-
-    public void set_y(double y) {
-        this.y = y;
-    }
-
-    public void set_x(double x) {
-        this.x = x;
     }
 
     public boolean in(VLPolygon polygon_temp)
@@ -194,21 +101,6 @@ public class VLPoint implements Comparable<VLPoint>, Cloneable {
         return c;
     }
 
-    public boolean in(Environment environment_temp, double epsilon) {
-        // On outer boundary?
-        if (on_boundary_of(environment_temp, epsilon))
-            return true;
-        // Not in outer boundary?
-        if (!in(environment_temp.outer_boundary, epsilon))
-            return false;
-        // In hole?
-        for (int i = 0; i < environment_temp.h(); i++)
-            if (in(environment_temp.holes.get(i)))
-                return false;
-        // Must be in interior.
-        return true;
-    }
-
     public boolean equals(Object o) {
         if (!(o instanceof VLPoint)) {
             return false;
@@ -236,42 +128,12 @@ public class VLPoint implements Comparable<VLPoint>, Cloneable {
         return new VLPoint(x + point2.x, y + point2.y);
     }
 
-    public VLPoint minus(VLPoint point2) {
-        return new VLPoint(x - point2.x, y - point2.y);
-    }
-
     public VLPoint times(double scalar) {
         return new VLPoint(scalar * x, scalar * y);
     }
 
-    public double cross(VLPoint point2) {
-
-        // The area of the parallelogram created by the Points viewed as vectors.
-        return x * point2.y - point2.x * y;
-    }
-
     public double distance(VLPoint point2) {
         return Math.sqrt(Math.pow(x - point2.x, 2) + Math.pow(y - point2.y, 2));
-    }
-
-    public double distance(LineSegment line_segment_temp) {
-        return distance(projection_onto(line_segment_temp));
-    }
-
-    public double distance(Ray ray_temp) {
-        return distance(projection_onto(ray_temp));
-    }
-
-    public double boundary_distance(VLPolygon polygon_temp) {
-
-        double running_min = distance(polygon_temp.get(0));
-        double distance_temp;
-        for (int i = 0; i <= polygon_temp.n(); i++) {
-            distance_temp = distance(new LineSegment(polygon_temp.get(i), polygon_temp.get(i + 1)));
-            if (distance_temp < running_min)
-                running_min = distance_temp;
-        }
-        return running_min;
     }
 
     public String toString() {

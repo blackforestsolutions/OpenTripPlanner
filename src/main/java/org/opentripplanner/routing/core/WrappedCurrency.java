@@ -13,7 +13,11 @@ public class WrappedCurrency {
     public WrappedCurrency(Currency value) {
         this.value = value;
     }
-    
+
+    /**
+     * FOR TESTING
+     * @param name
+     */
     public WrappedCurrency(String name) {
         value = Currency.getInstance(name);
     }

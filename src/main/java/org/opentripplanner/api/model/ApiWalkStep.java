@@ -97,12 +97,4 @@ public class ApiWalkStep {
         }
         return "WalkStep(" + direction + " on " + streetName + " for " + distance + ")";
     }
-
-    public String streetNameNoParens() {
-        int idx = streetName.indexOf('(');
-        if (idx <= 0) {
-            return streetName;
-        }
-        return streetName.substring(0, idx - 1);
-    }
 }

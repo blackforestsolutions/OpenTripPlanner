@@ -42,17 +42,6 @@ public class DateMapperTest {
 
 
   @Test
-  public void testAsStartOfServiceWithZonedDatesAroundDST() {
-    // Test Zoned dates around DST
-    assertEquals("2019-03-30T00:00+01:00[Europe/Paris]", asStartOfService(Z1).toString());
-    assertEquals("2019-03-30T23:00+01:00[Europe/Paris]", asStartOfService(Z2).toString());
-    assertEquals("2019-04-01T00:00+02:00[Europe/Paris]", asStartOfService(Z3).toString());
-    assertEquals("2019-10-26T00:00+02:00[Europe/Paris]", asStartOfService(Z4).toString());
-    assertEquals("2019-10-27T01:00+02:00[Europe/Paris]", asStartOfService(Z5).toString());
-    assertEquals("2019-10-28T00:00+01:00[Europe/Paris]", asStartOfService(Z6).toString());
-  }
-
-  @Test
   public void testAsStartOfServiceWithLocalDatesAndZoneAroundDST() {
     // Test LocalDates with Zone around DST
     assertEquals("2019-03-30T00:00+01:00[Europe/Paris]", asStartOfService(D2019_03_30, ZONE_ID).toString());

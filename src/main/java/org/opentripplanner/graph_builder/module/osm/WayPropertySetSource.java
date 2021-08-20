@@ -19,12 +19,8 @@ public interface WayPropertySetSource {
 		// build-config.json
 		if ("default".equals(type)) {
 			return new DefaultWayPropertySetSource();
-		} else if ("norway".equals(type)) {
-			return new NorwayWayPropertySetSource();
 		} else if ("uk".equals(type)) {
 			return new UKWayPropertySetSource();
-		} else if ("finland".equals(type)) {
-			return new FinlandWayPropertySetSource();
 		} else {
 			throw new IllegalArgumentException(String.format("Unknown osmWayPropertySet: '%s'", type));
 		}

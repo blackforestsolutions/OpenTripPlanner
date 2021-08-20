@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
@@ -59,12 +58,6 @@ public class NodeAdapterTest {
         assertEquals(7.0, subject.asDouble("aDouble", -1d), 0.01);
         assertEquals(7.0, subject.asDouble("aDouble"), 0.01);
         assertEquals(-1d, subject.asDouble("missingField", -1d), 00.1);
-    }
-
-    @Test
-    public void asDoubles() {
-        NodeAdapter subject  = newNodeAdapterForTest("{ key : [ 2.0, 3.0, 5.0 ] }");
-        assertEquals(List.of(2d, 3d, 5d), subject.asDoubles("key", null));
     }
 
     @Test
@@ -157,19 +150,6 @@ public class NodeAdapterTest {
         // A value for C is missing in map
         NodeAdapter subject = newNodeAdapterForTest("{ key : { A: true, B: false } }");
         subject.asEnumMapAllKeysRequired("key", AnEnum.class, NodeAdapter::asBoolean);
-    }
-
-    @Test
-    public void asEnumSetUsingJsonArray() {
-        NodeAdapter subject  = newNodeAdapterForTest("{ key : [ 'A', 'B' ] }");
-        assertEquals(Set.of(AnEnum.A, AnEnum.B), subject.asEnumSet("key", AnEnum.class));
-        assertEquals(Set.of(), subject.asEnumSet("missing-key", AnEnum.class));
-    }
-
-    @Test
-    public void asEnumSetUsingConcatenatedString() {
-        NodeAdapter subject  = newNodeAdapterForTest("{ key : 'A,B' }");
-        assertEquals(Set.of(AnEnum.A, AnEnum.B), subject.asEnumSet("key", AnEnum.class));
     }
 
     @Test

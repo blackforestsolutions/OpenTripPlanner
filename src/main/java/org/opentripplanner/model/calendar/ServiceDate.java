@@ -188,6 +188,7 @@ public final class ServiceDate implements Serializable, Comparable<ServiceDate> 
     }
 
     /**
+     * FOR TESTING
      * @return a string in "YYYYMMDD" format
      */
     public String asCompactString() {
@@ -202,7 +203,7 @@ public final class ServiceDate implements Serializable, Comparable<ServiceDate> 
     }
 
     /**
-     *
+     * FOR TESTING
      * @return the service date following the current service date
      */
     public ServiceDate next() {

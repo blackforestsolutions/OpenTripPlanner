@@ -10,7 +10,6 @@ import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Geometry;
 import org.opentripplanner.common.MavenVersion;
 import org.opentripplanner.common.TurnRestriction;
-import org.opentripplanner.common.geometry.CompactElevationProfile;
 import org.opentripplanner.common.geometry.GraphUtils;
 import org.opentripplanner.common.geometry.SphericalDistanceLibrary;
 import org.opentripplanner.common.model.T2;
@@ -222,10 +221,6 @@ public class Graph implements Serializable {
     // Constructor for deserialization.
     public Graph() { }
 
-    public TimetableSnapshot getTimetableSnapshot() {
-        return timetableSnapshotProvider == null ? null : timetableSnapshotProvider.getTimetableSnapshot();
-    }
-
     /**
      * TODO OTP2 - This should be replaced by proper dependency injection
      */
@@ -375,6 +370,8 @@ public class Graph implements Serializable {
     }
 
     /**
+     * FOR TESTING
+     *
      * Return only the StreetEdges in the graph.
      * @return
      */
@@ -527,10 +524,6 @@ public class Graph implements Serializable {
      */
     public void addTransitMode(TransitMode mode) {
         transitModes.add(mode);
-    }
-
-    public HashSet<TransitMode> getTransitModes() {
-        return transitModes;
     }
 
     /**
@@ -744,11 +737,6 @@ public class Graph implements Serializable {
 
     public double getDistanceBetweenElevationSamples() {
         return distanceBetweenElevationSamples;
-    }
-
-    public void setDistanceBetweenElevationSamples(double distanceBetweenElevationSamples) {
-        this.distanceBetweenElevationSamples = distanceBetweenElevationSamples;
-        CompactElevationProfile.setDistanceBetweenSamplesM(distanceBetweenElevationSamples);
     }
 
     public TransitAlertService getTransitAlertService() {

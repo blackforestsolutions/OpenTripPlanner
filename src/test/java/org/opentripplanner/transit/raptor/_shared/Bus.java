@@ -18,6 +18,5 @@ public class Bus extends AbstractStopArrival implements TransitLegView<TestRapto
     }
     @Override public boolean arrivedByTransit() { return true; }
     @Override public TransitLegView<TestRaptorTripSchedule> transitLeg() { return this; }
-    @Override public int boardStop() { return previous().stop(); }
     @Override public TestRaptorTripSchedule trip() { return trip; }
 }

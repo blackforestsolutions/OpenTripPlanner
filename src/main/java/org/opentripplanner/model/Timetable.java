@@ -7,7 +7,6 @@ import com.google.transit.realtime.GtfsRealtime.TripUpdate.StopTimeEvent;
 import com.google.transit.realtime.GtfsRealtime.TripUpdate.StopTimeUpdate;
 import org.opentripplanner.common.MavenVersion;
 import org.opentripplanner.model.calendar.ServiceDate;
-import org.opentripplanner.routing.core.ServiceDay;
 import org.opentripplanner.routing.trippattern.FrequencyEntry;
 import org.opentripplanner.routing.trippattern.TripTimes;
 import org.slf4j.Logger;
@@ -84,31 +83,6 @@ public class Timetable implements Serializable {
     }
 
     /**
-     * Before performing the relatively expensive iteration over all the trips in this pattern, check whether it's even
-     * possible to board any of them given the time at which we are searching, and whether it's possible that any of
-     * them could improve on the best known time. This is only an optimization, but a significant one. When we search
-     * for departures, we look at three separate days: yesterday, today, and tomorrow. Many patterns do not have
-     * service at all hours of the day or past midnight. This optimization can cut the search time for each pattern
-     * by 66 to 100 percent.
-     *
-     * @param bestWait -1 means there is not yet any best known time.
-     */
-    public boolean temporallyViable(ServiceDay sd, long searchTime, int bestWait, boolean boarding) {
-        // Check whether any services are running at all on this pattern.
-        if ( ! sd.anyServiceRunning(this.pattern.services)) return false;
-        // Make the search time relative to the given service day.
-        searchTime = sd.secondsSinceMidnight(searchTime);
-        // Check whether any trip can be boarded at all, given the search time
-        if (boarding ? (searchTime > this.maxTime) : (searchTime < this.minTime)) return false;
-        // Check whether any trip can improve on the best time yet found
-        if (bestWait >= 0) {
-            long bestTime = boarding ? (searchTime + bestWait) : (searchTime - bestWait);
-            if (boarding ? (bestTime < this.minTime) : (bestTime > this.maxTime)) return false;
-        }
-        return true;
-    }
-
-    /**
      * Finish off a Timetable once all TripTimes have been added to it. This involves caching
      * lower bounds on the running times and dwell times at each stop, and may perform other
      * actions to compact the data structure such as trimming and deduplicating arrays.
@@ -175,13 +149,6 @@ public class Timetable implements Serializable {
 
     public TripTimes getTripTimes(int tripIndex) {
         return tripTimes.get(tripIndex);
-    }
-
-    public TripTimes getTripTimes(Trip trip) {
-        for (TripTimes tt : tripTimes) {
-            if (tt.trip == trip) return tt;
-        }
-        return null;
     }
 
     /**

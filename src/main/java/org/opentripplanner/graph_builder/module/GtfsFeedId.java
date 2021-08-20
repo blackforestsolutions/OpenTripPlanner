@@ -41,6 +41,12 @@ public class GtfsFeedId {
 
         private String id;
 
+        /**
+         * FOR TESTING
+         *
+         * @param id
+         * @return
+         */
         public Builder id(String id) {
             this.id = id;
             return this;

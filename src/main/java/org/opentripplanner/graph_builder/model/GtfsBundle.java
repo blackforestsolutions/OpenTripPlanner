@@ -31,20 +31,6 @@ public class GtfsBundle {
 
     private Boolean defaultBikesAllowed = true;
 
-    private boolean transfersTxtDefinesStationPaths = false;
-
-    /** 
-     * Create direct transfers between the constituent stops of each parent station.
-     * This is different from "linking stops to parent stations" below.
-     */
-    public boolean parentStationTransfers = false;
-
-    /** 
-     * Connect parent station vertices to their constituent stops to allow beginning and 
-     * ending paths (itineraries) at them. 
-     */
-    public boolean linkStopsToParentStations = false;
-
     private Map<String, String> agencyIdMappings = new HashMap<String, String>();
 
     public int subwayAccessTime;
@@ -114,6 +100,11 @@ public class GtfsBundle {
         return feedId;
     }
 
+    /**
+     * FOR TESTING
+     *
+     * @param feedId
+     */
     public void setFeedId(GtfsFeedId feedId) {
         this.feedId = feedId;
     }
@@ -128,12 +119,12 @@ public class GtfsBundle {
         return defaultBikesAllowed;
     }
 
+    /**
+     * FOR TESTING
+     * @param defaultBikesAllowed
+     */
     public void setDefaultBikesAllowed(Boolean defaultBikesAllowed) {
         this.defaultBikesAllowed = defaultBikesAllowed;
-    }
-
-    public void setTransfersTxtDefinesStationPaths(boolean transfersTxtDefinesStationPaths) {
-        this.transfersTxtDefinesStationPaths = transfersTxtDefinesStationPaths;
     }
 
     public void checkInputs() {

@@ -14,16 +14,6 @@ public class StreetCarSpeedZero implements DataImportIssue {
     }
 
     @Override
-    public String getHTMLMessage() {
-        if (wayId > 0 ) {
-            return String.format(HTMLFMT, wayId, wayId);
-            // If way is lower then 0 it means it is temporary ID and so useless to link to OSM
-        } else {
-            return getMessage();
-        }
-    }
-
-    @Override
     public String getMessage() {
         return String.format(FMT, wayId);
     }

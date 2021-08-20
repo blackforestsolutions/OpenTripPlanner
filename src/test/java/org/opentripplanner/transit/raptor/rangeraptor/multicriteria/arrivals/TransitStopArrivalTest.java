@@ -69,11 +69,6 @@ public class TransitStopArrivalTest {
     }
 
     @Test
-    public void boardStop() {
-        assertEquals(ACCESS_TO_STOP, subject.boardStop());
-    }
-
-    @Test
     public void arrivalTime() {
         assertEquals(TRANSIT_ALIGHT_TIME, subject.arrivalTime());
     }

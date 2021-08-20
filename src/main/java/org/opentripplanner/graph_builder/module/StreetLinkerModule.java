@@ -19,10 +19,6 @@ public class StreetLinkerModule implements GraphBuilderModule {
 
     private static final Logger LOG = LoggerFactory.getLogger(StreetLinkerModule.class);
 
-    public void setAddExtraEdgesToAreas(Boolean addExtraEdgesToAreas) {
-        this.addExtraEdgesToAreas = addExtraEdgesToAreas;
-    }
-
     private Boolean addExtraEdgesToAreas = true;
 
     @Override

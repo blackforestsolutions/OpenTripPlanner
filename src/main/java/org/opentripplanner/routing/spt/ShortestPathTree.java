@@ -37,7 +37,10 @@ public class ShortestPathTree {
         stateSets = new IdentityHashMap<Vertex, List<State>>();
     }
 
-    /** @return a single optimal, optionally back-optimized path to the given vertex. */
+    /**
+     * FOR UNIT TESTING
+     * @return a single optimal, optionally back-optimized path to the given vertex.
+     * */
     public GraphPath getPath(Vertex dest, boolean optimize) {
         State s = getState(dest);
         if (s == null) {
@@ -88,6 +91,7 @@ public class ShortestPathTree {
     }
 
     /**
+     * FOR UNIT TESTING
      * Returns the 'best' state for the given Vertex, where 'best' depends on the implementation.
      *
      * @param dest the vertex of interest
@@ -107,18 +111,6 @@ public class ShortestPathTree {
         return ret;
     }
 
-    /**
-     * Returns a collection of 'interesting' states for the given Vertex. Depending on the
-     * implementation, this could contain a single optimal state, a set of Pareto-optimal states, or
-     * even states that are not known to be optimal but are judged interesting by some other
-     * criteria.
-     *
-     * @param dest the vertex of interest
-     * @return a collection of 'interesting' states at that vertex
-     */
-    public List<State> getStates(Vertex dest) {
-        return stateSets.get(dest);
-    }
 
     /**
      * The visit method should be called upon extracting a State from a priority queue. It

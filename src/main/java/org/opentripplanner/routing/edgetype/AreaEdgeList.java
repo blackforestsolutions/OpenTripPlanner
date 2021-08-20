@@ -4,22 +4,12 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-import org.opentripplanner.common.geometry.GeometryUtils;
-import org.opentripplanner.common.geometry.SphericalDistanceLibrary;
 import org.opentripplanner.routing.graph.Edge;
-import org.opentripplanner.routing.graph.Graph;
 import org.opentripplanner.routing.vertextype.IntersectionVertex;
 
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.LineString;
-import org.locationtech.jts.geom.MultiLineString;
-import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 
 /**
@@ -42,10 +32,6 @@ public class AreaEdgeList implements Serializable {
 
     private List<NamedArea> areas = new ArrayList<NamedArea>();
 
-    public List<AreaEdge> getEdges() {
-        return edges;
-    }
-
     public void addEdge(AreaEdge edge) {
         edges.add(edge);
         vertices.add((IntersectionVertex) edge.getFromVertex());
@@ -58,14 +44,6 @@ public class AreaEdgeList implements Serializable {
         for (Edge e : edges) {
             vertices.add((IntersectionVertex) e.getFromVertex());
         }
-    }
-
-    public void setOriginalEdges(Polygon polygon) {
-        this.originalEdges = polygon;
-    }
-
-    public void addArea(NamedArea namedArea) {
-        areas.add(namedArea);
     }
 
     public List<NamedArea> getAreas() {

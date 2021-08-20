@@ -61,13 +61,6 @@ public final class Route extends TransitEntity<FeedScopedId> {
         this.agency = agency;
     }
 
-    /**
-     * NeTEx Operator, not in use when importing GTFS files.
-     */
-    public Operator getOperator() {
-        return operator;
-    }
-
     public String getShortName() {
         return shortName;
     }
@@ -84,6 +77,10 @@ public final class Route extends TransitEntity<FeedScopedId> {
         this.longName = longName;
     }
 
+    /**
+     * FOR TESTING
+     * @return
+     */
     public String getDesc() {
         return desc;
     }
@@ -108,6 +105,10 @@ public final class Route extends TransitEntity<FeedScopedId> {
         this.mode = mode;
     }
 
+    /**
+     * FOR TESTING
+     * @return
+     */
     public String getUrl() {
         return url;
     }
@@ -143,6 +144,8 @@ public final class Route extends TransitEntity<FeedScopedId> {
     }
 
     /**
+     * FOR TESTING
+     *
      * @return 0 = unknown / unspecified, 1 = bikes allowed, 2 = bikes NOT allowed
      */
     public int getBikesAllowed() {
@@ -157,10 +160,18 @@ public final class Route extends TransitEntity<FeedScopedId> {
         this.bikesAllowed = bikesAllowed;
     }
 
+    /**
+     * FOR TESTING
+     * @return
+     */
     public boolean isSortOrderSet() {
         return sortOrder != MISSING_VALUE;
     }
 
+    /**
+     * FOR TESTING
+     * @return
+     */
     public int getSortOrder() {
         return sortOrder;
     }
@@ -169,6 +180,10 @@ public final class Route extends TransitEntity<FeedScopedId> {
         this.sortOrder = sortOrder;
     }
 
+    /**
+     * FOR TESTING
+     * @return
+     */
     public String getBrandingUrl() {
         return brandingUrl;
     }

@@ -30,7 +30,6 @@ public class PolylineEncoder {
     }
 
     /**
-     * If level less than 0, then {@link EncodedPolylineBean#getLevels()} will be null.
      * 
      * @param points
      * @param level
@@ -97,24 +96,6 @@ public class PolylineEncoder {
         encodeString.append((char) (num));
 
         return encodeString.toString();
-    }
-
-    public static int[] decodeNumberWithIndex(String value, int index) {
-
-        if (value.length() == 0)
-            throw new IllegalArgumentException("string is empty");
-
-        int num = 0;
-        int v = 0;
-        int shift = 0;
-
-        do {
-            v = value.charAt(index++) - 63;
-            num |= (v & 0x1f) << shift;
-            shift += 5;
-        } while (v >= 0x20);
-
-        return new int[] { num, index };
     }
 
     private static class CoordinateList extends AbstractList<Coordinate> {

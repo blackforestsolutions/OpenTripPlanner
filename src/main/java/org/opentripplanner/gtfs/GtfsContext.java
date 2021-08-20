@@ -7,5 +7,10 @@ import org.opentripplanner.model.calendar.CalendarServiceData;
 public interface GtfsContext {
     GtfsFeedId getFeedId();
     OtpTransitService getTransitService();
+
+    /**
+     * FOR TESTING
+     * @return
+     */
     CalendarServiceData getCalendarServiceData();
 }

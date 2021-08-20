@@ -21,7 +21,6 @@ import org.opentripplanner.graph_builder.module.extra_elevation_data.ElevationPo
 import org.opentripplanner.graph_builder.services.DefaultStreetEdgeFactory;
 import org.opentripplanner.graph_builder.services.GraphBuilderModule;
 import org.opentripplanner.graph_builder.services.StreetEdgeFactory;
-import org.opentripplanner.graph_builder.services.osm.CustomNamer;
 import org.opentripplanner.model.StreetNote;
 import org.opentripplanner.openstreetmap.BinaryOpenStreetMapProvider;
 import org.opentripplanner.openstreetmap.model.OSMLevel;
@@ -29,14 +28,10 @@ import org.opentripplanner.openstreetmap.model.OSMNode;
 import org.opentripplanner.openstreetmap.model.OSMWay;
 import org.opentripplanner.openstreetmap.model.OSMWithTags;
 import org.opentripplanner.routing.api.request.RoutingRequest;
-import org.opentripplanner.routing.bike_park.BikePark;
-import org.opentripplanner.routing.bike_rental.BikeRentalStation;
-import org.opentripplanner.routing.bike_rental.BikeRentalStationService;
 import org.opentripplanner.routing.core.TraversalRequirements;
 import org.opentripplanner.routing.core.TraverseMode;
 import org.opentripplanner.routing.edgetype.AreaEdge;
 import org.opentripplanner.routing.edgetype.AreaEdgeList;
-import org.opentripplanner.routing.edgetype.BikeParkEdge;
 import org.opentripplanner.routing.edgetype.ElevatorAlightEdge;
 import org.opentripplanner.routing.edgetype.ElevatorBoardEdge;
 import org.opentripplanner.routing.edgetype.ElevatorHopEdge;
@@ -44,8 +39,6 @@ import org.opentripplanner.routing.edgetype.FreeEdge;
 import org.opentripplanner.routing.edgetype.NamedArea;
 import org.opentripplanner.routing.edgetype.ParkAndRideEdge;
 import org.opentripplanner.routing.edgetype.ParkAndRideLinkEdge;
-import org.opentripplanner.routing.edgetype.RentABikeOffEdge;
-import org.opentripplanner.routing.edgetype.RentABikeOnEdge;
 import org.opentripplanner.routing.edgetype.StreetEdge;
 import org.opentripplanner.routing.edgetype.StreetTraversalPermission;
 import org.opentripplanner.routing.graph.Edge;
@@ -54,8 +47,6 @@ import org.opentripplanner.routing.graph.Vertex;
 import org.opentripplanner.routing.services.notes.NoteMatcher;
 import org.opentripplanner.routing.util.ElevationUtils;
 import org.opentripplanner.routing.vertextype.BarrierVertex;
-import org.opentripplanner.routing.vertextype.BikeParkVertex;
-import org.opentripplanner.routing.vertextype.BikeRentalStationVertex;
 import org.opentripplanner.routing.vertextype.ElevatorOffboardVertex;
 import org.opentripplanner.routing.vertextype.ElevatorOnboardVertex;
 import org.opentripplanner.routing.vertextype.ExitVertex;
@@ -76,7 +67,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Builds a street graph from OpenStreetMap data.
@@ -93,9 +83,6 @@ public class OpenStreetMapModule implements GraphBuilderModule {
 
     private HashMap<Vertex, Double> elevationData = new HashMap<Vertex, Double>();
 
-    public boolean skipVisibility = false;
-
-    public boolean platformEntriesLinking = false;
 
     // Members that can be set by clients.
 
@@ -110,11 +97,6 @@ public class OpenStreetMapModule implements GraphBuilderModule {
     private List<BinaryOpenStreetMapProvider> _providers = new ArrayList<BinaryOpenStreetMapProvider>();
 
     /**
-     * Allows for arbitrary custom naming of edges.
-     */
-    public CustomNamer customNamer;
-
-    /**
      * Ignore wheelchair accessibility information.
      */
     public boolean ignoreWheelchairAccessibility = false;
@@ -126,21 +108,11 @@ public class OpenStreetMapModule implements GraphBuilderModule {
     public StreetEdgeFactory edgeFactory = new DefaultStreetEdgeFactory();
 
     /**
-     * Whether bike rental stations should be loaded from OSM, rather than periodically dynamically pulled from APIs. (default false)
-     */
-    public boolean staticBikeRental;
-
-    /**
      * Whether we should create car P+R stations from OSM data. The default value is true. In normal
      * operation it is set by the JSON graph build configuration, but it is also initialized to
      * "true" here to provide the default behavior in tests.
      */
     public boolean staticParkAndRide = true;
-
-    /**
-     * Whether we should create bike P+R stations from OSM data. (default false)
-     */
-    public boolean staticBikeParkAndRide;
 
     /**
      * The source for OSM map data
@@ -183,11 +155,7 @@ public class OpenStreetMapModule implements GraphBuilderModule {
     }
 
     @Override
-    public void buildGraph(
-            Graph graph,
-            HashMap<Class<?>, Object> extra,
-            DataImportIssueStore issueStore
-    ) {
+    public void buildGraph(Graph graph, HashMap<Class<?>, Object> extra, DataImportIssueStore issueStore) {
         this.issueStore = issueStore;
         OSMDatabase osmdb = new OSMDatabase(issueStore);
         Handler handler = new Handler(graph, osmdb);
@@ -247,13 +215,6 @@ public class OpenStreetMapModule implements GraphBuilderModule {
         }
 
         public void buildGraph(HashMap<Class<?>, Object> extra) {
-            if (staticBikeRental) {
-                processBikeRentalNodes();
-            }
-
-            if (staticBikeParkAndRide) {
-                processBikeParkAndRideNodes();
-            }
 
             for (Area area : Iterables.concat(osmdb.getWalkableAreas(),
                     osmdb.getParkAndRideAreas(), osmdb.getBikeParkingAreas()))
@@ -263,26 +224,15 @@ public class OpenStreetMapModule implements GraphBuilderModule {
             initIntersectionNodes();
 
             buildBasicGraph();
-            buildWalkableAreas(skipVisibility, platformEntriesLinking);
-
-            if(platformEntriesLinking){
-                linkPlatformEntries(edgeFactory, customNamer);
-            }
+            buildWalkableAreas();
 
             if (staticParkAndRide) {
                 buildParkAndRideAreas();
-            }
-            if (staticBikeParkAndRide) {
-                buildBikeParkAndRideAreas();
             }
 
             buildElevatorEdges(graph);
 
             unifyTurnRestrictions();
-
-            if (customNamer != null) {
-                customNamer.postprocess(graph);
-            }
 
             // generate elevation profiles
             extra.put(ElevationPoint.class, elevationData);
@@ -290,172 +240,22 @@ public class OpenStreetMapModule implements GraphBuilderModule {
             applyBikeSafetyFactor(graph);
         } // END buildGraph()
 
-        private void processBikeRentalNodes() {
-            LOG.info("Processing bike rental nodes...");
-            int n = 0;
-            BikeRentalStationService bikeRentalService = graph.getService(
-                    BikeRentalStationService.class, true);
-            graph.putService(BikeRentalStationService.class, bikeRentalService);
-            for (OSMNode node : osmdb.getBikeRentalNodes()) {
-                n++;
-                //Gets name tag and translations if they exists
-                //TODO: use wayPropertySet.getCreativeNameForWay(node)
-                //Currently this names them as platform n
-                I18NString creativeName = node.getAssumedName();
-                int capacity = Integer.MAX_VALUE;
-                if (node.hasTag("capacity")) {
-                    try {
-                        capacity = node.getCapacity();
-                    } catch (NumberFormatException e) {
-                        LOG.warn("Capacity for osm node " + node.getId() + " (" + creativeName
-                                + ") is not a number: " + node.getTag("capacity"));
-                    }
-                }
-                String networks = node.getTag("network");
-                String operators = node.getTag("operator");
-                Set<String> networkSet = new HashSet<String>();
-                if (networks != null)
-                    networkSet.addAll(Arrays.asList(networks.split(";")));
-                if (operators != null)
-                    networkSet.addAll(Arrays.asList(operators.split(";")));
-                if (networkSet.isEmpty()) {
-                    LOG.warn("Bike rental station at osm node " + node.getId() + " ("
-                            + creativeName + ") with no network; including as compatible-with-all.");
-                    networkSet = null; // Special "catch-all" value
-                }
-                BikeRentalStation station = new BikeRentalStation();
-                station.id = "" + node.getId();
-                station.name = creativeName;
-                station.x = node.lon;
-                station.y = node.lat;
-                // The following make sure that spaces+bikes=capacity, always.
-                // Also, for the degenerate case of capacity=1, we should have 1
-                // bike available, not 0.
-                station.spacesAvailable = capacity / 2;
-                station.bikesAvailable = capacity - station.spacesAvailable;
-                station.realTimeData = false;
-                bikeRentalService.addBikeRentalStation(station);
-                BikeRentalStationVertex stationVertex = new BikeRentalStationVertex(graph, station);
-                new RentABikeOnEdge(stationVertex, stationVertex, networkSet);
-                new RentABikeOffEdge(stationVertex, stationVertex, networkSet);
-            }
-            if (n > 1) {
-                graph.hasBikeSharing = true;
-            }
-            LOG.info("Created " + n + " bike rental stations.");
-        }
+        private void buildWalkableAreas() {
+            LOG.info("Skipping visibility graph construction for walkable areas and using just area rings for edges.");
 
-        private void processBikeParkAndRideNodes() {
-            LOG.info("Processing bike P+R nodes...");
-            int n = 0;
-            BikeRentalStationService bikeRentalService = graph.getService(
-                    BikeRentalStationService.class, true);
-            for (OSMNode node : osmdb.getBikeParkingNodes()) {
-                n++;
-                I18NString creativeName = wayPropertySet.getCreativeNameForWay(node);
-                //TODO: localize
-                if (creativeName == null)
-                    creativeName = new NonLocalizedString("P+R");
-                BikePark bikePark = new BikePark();
-                bikePark.id = "" + node.getId();
-                //TODO: localize bikePark name
-                bikePark.name = creativeName.toString();
-                bikePark.x = node.lon;
-                bikePark.y = node.lat;
-                bikeRentalService.addBikePark(bikePark);
-                BikeParkVertex parkVertex = new BikeParkVertex(graph, bikePark);
-                new BikeParkEdge(parkVertex);
-            }
-            LOG.info("Created " + n + " bike P+R.");
-        }
-
-        private void buildBikeParkAndRideAreas() {
-            LOG.info("Building bike P+R areas");
-            List<AreaGroup> areaGroups = groupAreas(osmdb.getBikeParkingAreas());
-            int n = 0;
-            for (AreaGroup group : areaGroups) {
-                for (Area area : group.areas) {
-                    buildBikeParkAndRideForArea(area);
-                    n++;
-                }
-            }
-            if (n > 0) {
-                graph.hasBikeRide = true;
-            }
-            LOG.info("Created {} bike P+R areas.", n);
-        }
-
-        /**
-         * Build a bike P+R for the given area. Please note that, unlike car P+R, we do not use OSM
-         * connectivity between the area and ways for linking the bike P+R to the road street
-         * network. There aren't much bike park area in OSM data, but none of them are (properly)
-         * linked to the street network (they are most of the time buildings). We just create a bike
-         * P+R in the middle of the area envelope and rely on the same linking mechanism as for
-         * nodes to connect them to the nearest streets.
-         *
-         * @param area
-         */
-        private void buildBikeParkAndRideForArea(Area area) {
-            BikeRentalStationService bikeRentalService = graph.getService(
-                    BikeRentalStationService.class, true);
-            Envelope envelope = new Envelope();
-            long osmId = area.parent.getId();
-            I18NString creativeName = wayPropertySet.getCreativeNameForWay(area.parent);
-            for (Ring ring : area.outermostRings) {
-                for (OSMNode node : ring.nodes) {
-                    envelope.expandToInclude(new Coordinate(node.lon, node.lat));
-                }
-            }
-            BikePark bikePark = new BikePark();
-            bikePark.id = "" + osmId;
-            //TODO: localize 
-            bikePark.name = creativeName.toString();
-            bikePark.x = (envelope.getMinX() + envelope.getMaxX()) / 2;
-            bikePark.y = (envelope.getMinY() + envelope.getMaxY()) / 2;
-            bikeRentalService.addBikePark(bikePark);
-            BikeParkVertex bikeParkVertex = new BikeParkVertex(graph, bikePark);
-            new BikeParkEdge(bikeParkVertex);
-            LOG.debug("Created area bike P+R '{}' ({})", creativeName, osmId);
-        }
-
-        private void buildWalkableAreas(boolean skipVisibility, boolean platformEntriesLinking) {
-            if (skipVisibility) {
-                LOG.info("Skipping visibility graph construction for walkable areas and using just area rings for edges.");
-            } else {
-                LOG.info("Building visibility graphs for walkable areas.");
-            }
             List<AreaGroup> areaGroups = groupAreas(osmdb.getWalkableAreas());
             WalkableAreaBuilder walkableAreaBuilder = new WalkableAreaBuilder(graph, osmdb,
                     wayPropertySet, edgeFactory, this, issueStore
             );
-            if (skipVisibility) {
-                for (AreaGroup group : areaGroups) {
-                    walkableAreaBuilder.buildWithoutVisibility(group);
-                }
-            } else {
-                for (AreaGroup group : areaGroups) {
-                    walkableAreaBuilder.buildWithVisibility(group, platformEntriesLinking);
-                }
-
-                if(platformEntriesLinking){
-                    List<Area> platforms = osmdb.getWalkableAreas().stream().
-                            filter(area -> "platform".equals(area.parent.getTag("public_transport"))).
-                            collect(Collectors.toList());
-                    List<AreaGroup> platformGroups = groupAreas(platforms);
-                    for (AreaGroup group : platformGroups) {
-                        walkableAreaBuilder.buildWithoutVisibility(group);
-                    }
-                }
+            for (AreaGroup group : areaGroups) {
+                walkableAreaBuilder.buildWithoutVisibility(group);
             }
 
             // running a request caches the timezone; we need to clear it now so that when agencies are loaded
             // the graph time zone is set to the agency time zone.
             graph.clearTimeZone();
-            if (skipVisibility) {
-                LOG.info("Done building rings for walkable areas.");
-            } else {
-                LOG.info("Done building visibility graphs for walkable areas.");
-            }
+
+            LOG.info("Done building rings for walkable areas.");
         }
 
         private void buildParkAndRideAreas() {
@@ -753,12 +553,6 @@ public class OpenStreetMapModule implements GraphBuilderModule {
                     way.setCreativeName(creativeName);
                 }
             }
-        }
-
-        private void linkPlatformEntries(StreetEdgeFactory factory, CustomNamer customNamer) {
-            PlatformLinker platformLinker = new PlatformLinker(graph, osmdb, factory, customNamer);
-            platformLinker.linkEntriesToPlatforms();
-
         }
 
         private void buildElevatorEdges(Graph graph) {
@@ -1156,10 +950,6 @@ public class OpenStreetMapModule implements GraphBuilderModule {
                 issueStore.add(new StreetCarSpeedZero(way.getId()));
             }
 
-            if (customNamer != null) {
-                customNamer.nameWithEdge(way, street);
-            }
-
             // save the way ID so we can match with OpenTraffic
             street.wayId = way.getId();
 
@@ -1169,10 +959,6 @@ public class OpenStreetMapModule implements GraphBuilderModule {
         // TODO Set this to private once WalkableAreaBuilder is gone
         protected I18NString getNameForWay(OSMWithTags way, String id) {
             I18NString name = way.getAssumedName();
-
-            if (customNamer != null && name != null) {
-                name = new NonLocalizedString(customNamer.name(way, name.toString()));
-            }
 
             if (name == null) {
                 name = new NonLocalizedString(id);

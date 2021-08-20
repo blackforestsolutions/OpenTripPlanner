@@ -15,7 +15,4 @@ public class GbfsBikeRentalDataSourceParameters extends BikeRentalDataSourcePara
     return routeAsCar;
   }
 
-  @Override
-  public String getApiKey() { throw new UnsupportedOperationException(); }
-
 }

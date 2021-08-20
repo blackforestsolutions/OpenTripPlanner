@@ -9,10 +9,6 @@ public interface TransitAlertService {
 
     void setAlerts(Collection<TransitAlert> alerts);
 
-    Collection<TransitAlert> getAllAlerts();
-
-    TransitAlert getAlertById(String id);
-
     Collection<TransitAlert> getStopAlerts(FeedScopedId stop);
 
     Collection<TransitAlert> getRouteAlerts(FeedScopedId route);
@@ -24,6 +20,4 @@ public interface TransitAlertService {
     Collection<TransitAlert> getStopAndRouteAlerts(FeedScopedId stop, FeedScopedId route);
 
     Collection<TransitAlert> getStopAndTripAlerts(FeedScopedId stop, FeedScopedId trip);
-
-    Collection<TransitAlert> getTripPatternAlerts(FeedScopedId tripPattern);
 }

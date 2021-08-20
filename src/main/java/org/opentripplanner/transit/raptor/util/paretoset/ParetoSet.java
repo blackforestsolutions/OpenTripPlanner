@@ -50,6 +50,11 @@ public class ParetoSet<T> extends AbstractCollection<T> {
         this(comparator, null);
     }
 
+    /**
+     * FOR TESTING
+     * @param index
+     * @return
+     */
     public T get(int index) {
         return elements[index];
     }

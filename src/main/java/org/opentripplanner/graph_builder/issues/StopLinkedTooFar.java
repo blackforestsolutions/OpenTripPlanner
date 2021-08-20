@@ -1,7 +1,6 @@
 package org.opentripplanner.graph_builder.issues;
 
 import org.opentripplanner.graph_builder.DataImportIssue;
-import org.opentripplanner.routing.graph.Vertex;
 import org.opentripplanner.routing.vertextype.TransitStopVertex;
 
 public class StopLinkedTooFar implements DataImportIssue {
@@ -20,15 +19,5 @@ public class StopLinkedTooFar implements DataImportIssue {
     @Override
     public String getMessage() {
         return String.format(FMT, stop, Integer.toString(distance));
-    }
-
-    @Override
-    public String getHTMLMessage() {
-        return String.format(HTMLFMT, stop.getStop().getLat(), stop.getStop().getLon(), stop.getName(), stop.getStop().getId(), Integer.toString(distance));
-    }
-
-    @Override
-    public Vertex getReferencedVertex() {
-        return this.stop;
     }
 }

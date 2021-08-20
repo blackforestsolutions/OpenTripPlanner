@@ -13,7 +13,6 @@ import org.opentripplanner.common.geometry.GeometryUtils;
 import org.opentripplanner.graph_builder.module.osm.Ring.RingConstructionException;
 import org.opentripplanner.openstreetmap.model.OSMLevel;
 import org.opentripplanner.openstreetmap.model.OSMNode;
-import org.opentripplanner.openstreetmap.model.OSMWithTags;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -159,9 +158,5 @@ class AreaGroup {
         }
 
         return ring;
-    }
-
-    public OSMWithTags getSomeOSMObject() {
-        return areas.iterator().next().parent;
     }
 }

@@ -71,6 +71,7 @@ public final class Path<T extends RaptorTripSchedule> {
     }
 
     /**
+     * FOR TESTING
      * The journey start time. The departure time from the journey origin.
      */
     public final int startTime() {

@@ -62,9 +62,8 @@ public class ConstantsForTests {
             // Add street data from OSM
             {
                 File osmFile = new File(PORTLAND_CENTRAL_OSM);
-                BinaryOpenStreetMapProvider osmProvider = new BinaryOpenStreetMapProvider(osmFile, false);
+                BinaryOpenStreetMapProvider osmProvider = new BinaryOpenStreetMapProvider(osmFile);
                 OpenStreetMapModule osmModule = new OpenStreetMapModule(Lists.newArrayList(osmProvider));
-                osmModule.skipVisibility = true;
                 osmModule.buildGraph(portlandGraph, new HashMap<>());
             }
             // Add transit data from GTFS

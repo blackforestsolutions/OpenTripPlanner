@@ -9,6 +9,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * FOR TESTING
+ *
  * A termination strategy that terminates after multiple targets have been reached.
  * 
  * Useful for implementing a restricted batch search - i.e. doing one-to-many search 

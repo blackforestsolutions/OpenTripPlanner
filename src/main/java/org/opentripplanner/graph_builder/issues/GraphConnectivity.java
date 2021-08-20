@@ -21,20 +21,4 @@ public class GraphConnectivity implements DataImportIssue {
         return String.format(FMT, vertex, vertex.getCoordinate().x, vertex.getCoordinate().y, size);
     }
 
-    @Override
-    public String getHTMLMessage() {
-        String label = vertex.getLabel();
-        if (label.startsWith("osm:")) {
-            String osmNodeId = label.split(":")[2];
-            return String.format(HTMLFMT, osmNodeId, osmNodeId, size);
-        } else {
-            return this.getMessage();
-        }
-    }
-
-    @Override
-    public Vertex getReferencedVertex() {
-        return vertex;
-    }
-
 }

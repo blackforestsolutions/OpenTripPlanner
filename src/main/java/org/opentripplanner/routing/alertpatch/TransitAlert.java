@@ -39,10 +39,6 @@ public class TransitAlert implements Serializable {
 
     private final Collection<StopCondition> stopConditions = new ArrayList<>();
 
-    public String getId() {
-        return id;
-    }
-
     public void setId(String id) {
         this.id = id;
     }

@@ -10,6 +10,10 @@ package org.opentripplanner.transit.raptor.util.paretoset;
 public class ParetoSetWithMarker<T> extends ParetoSet<T> {
     private int marker = 0;
 
+    /**
+     * FOR TESTING
+     * @param comparator
+     */
     public ParetoSetWithMarker(ParetoComparator<T> comparator) {
         super(comparator);
     }

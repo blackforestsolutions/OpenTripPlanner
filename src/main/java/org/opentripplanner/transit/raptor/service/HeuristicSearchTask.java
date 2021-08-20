@@ -86,6 +86,9 @@ public class HeuristicSearchTask<T extends RaptorTripSchedule> {
         return this;
     }
 
+    /**
+     * FOR TESTING
+     */
     public void forceRun() {
         enable();
         run();

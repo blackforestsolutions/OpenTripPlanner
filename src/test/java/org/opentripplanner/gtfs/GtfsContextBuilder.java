@@ -183,6 +183,10 @@ public class GtfsContextBuilder {
             return transitService;
         }
 
+        /**
+         * FOR TESTING
+         * @return
+         */
         @Override public CalendarServiceData getCalendarServiceData() {
             return calendarServiceData;
         }

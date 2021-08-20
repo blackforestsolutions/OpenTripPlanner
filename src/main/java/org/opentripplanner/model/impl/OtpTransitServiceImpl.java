@@ -171,16 +171,6 @@ class OtpTransitServiceImpl implements OtpTransitService {
     }
 
     @Override
-    public Station getStationForId(FeedScopedId id) {
-        return stationsById.get(id);
-    }
-
-    @Override
-    public Stop getStopForId(FeedScopedId id) {
-        return stopsById.get(id);
-    }
-
-    @Override
     public Collection<Station> getAllStations() {
         return immutableList(stationsById.values());
     }
@@ -218,11 +208,6 @@ class OtpTransitServiceImpl implements OtpTransitService {
     @Override
     public Collection<TripPattern> getTripPatterns() {
         return tripPatterns;
-    }
-
-    @Override
-    public Collection<Trip> getAllTrips() {
-        return trips;
     }
 
     /*  Private Methods */

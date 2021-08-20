@@ -9,28 +9,19 @@ import org.opentripplanner.graph_builder.module.GtfsModule;
 import org.opentripplanner.graph_builder.module.PruneFloatingIslands;
 import org.opentripplanner.graph_builder.module.StreetLinkerModule;
 import org.opentripplanner.graph_builder.module.TransitToTaggedStopsModule;
-import org.opentripplanner.graph_builder.module.map.BusRouteStreetMatcher;
-import org.opentripplanner.graph_builder.module.ned.DegreeGridNEDTileSource;
-import org.opentripplanner.graph_builder.module.ned.ElevationModule;
-import org.opentripplanner.graph_builder.module.ned.GeotiffGridCoverageFactoryImpl;
-import org.opentripplanner.graph_builder.module.ned.NEDGridCoverageFactoryImpl;
 import org.opentripplanner.graph_builder.module.osm.OpenStreetMapModule;
 import org.opentripplanner.graph_builder.services.DefaultStreetEdgeFactory;
 import org.opentripplanner.graph_builder.services.GraphBuilderModule;
-import org.opentripplanner.graph_builder.services.ned.ElevationGridCoverageFactory;
 import org.opentripplanner.openstreetmap.BinaryOpenStreetMapProvider;
 import org.opentripplanner.routing.graph.Graph;
 import org.opentripplanner.standalone.config.BuildConfig;
-import org.opentripplanner.standalone.config.S3BucketConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static org.opentripplanner.datastore.FileType.DEM;
 import static org.opentripplanner.datastore.FileType.GTFS;
 import static org.opentripplanner.datastore.FileType.OSM;
 
@@ -92,7 +83,6 @@ public class GraphBuilder implements Runnable {
     ) {
 
         boolean hasOsm  = dataSources.has(OSM);
-        boolean hasDem  = dataSources.has(DEM);
         boolean hasGtfs = dataSources.has(GTFS);
 
         GraphBuilder graphBuilder = new GraphBuilder(baseGraph);
@@ -100,20 +90,12 @@ public class GraphBuilder implements Runnable {
         if ( hasOsm ) {
             List<BinaryOpenStreetMapProvider> osmProviders = Lists.newArrayList();
             for (DataSource osmFile : dataSources.get(OSM)) {
-                osmProviders.add(
-                        new BinaryOpenStreetMapProvider(osmFile, config.osmCacheDataInMem)
-                );
+                osmProviders.add(new BinaryOpenStreetMapProvider(osmFile));
             }
             OpenStreetMapModule osmModule = new OpenStreetMapModule(osmProviders);
             DefaultStreetEdgeFactory streetEdgeFactory = new DefaultStreetEdgeFactory();
-            streetEdgeFactory.useElevationData = hasDem;
             osmModule.edgeFactory = streetEdgeFactory;
-            osmModule.customNamer = config.customNamer;
             osmModule.setDefaultWayPropertySetSource(config.osmWayPropertySet);
-            osmModule.skipVisibility = !config.areaVisibility;
-            osmModule.platformEntriesLinking = config.platformEntriesLinking;
-            osmModule.staticBikeRental = config.staticBikeRental;
-            osmModule.staticBikeParkAndRide = config.staticBikeParkAndRide;
             osmModule.staticParkAndRide = config.staticParkAndRide;
             osmModule.banDiscouragedWalking = config.banDiscouragedWalking;
             osmModule.banDiscouragedBiking = config.banDiscouragedBiking;
@@ -128,18 +110,6 @@ public class GraphBuilder implements Runnable {
             for (DataSource gtfsData : dataSources.get(GTFS)) {
 
                 GtfsBundle gtfsBundle = new GtfsBundle((CompositeDataSource)gtfsData);
-
-                // TODO OTP2 - In OTP2 we have deleted the transfer edges from the street graph.
-                //           - The new transfer generation do not take this config param into
-                //           - account any more. This needs some investigation and probably
-                //           - a fix, but we are unsure if this is used any more. The Pathways.txt
-                //           - and osm import replaces this functionality.
-                gtfsBundle.setTransfersTxtDefinesStationPaths(config.useTransfersTxt);
-
-                if (config.parentStopLinking) {
-                    gtfsBundle.linkStopsToParentStations = true;
-                }
-                gtfsBundle.parentStationTransfers = config.stationTransfers;
                 gtfsBundle.subwayAccessTime = config.getSubwayAccessTimeSeconds();
                 gtfsBundle.maxInterlineDistance = config.maxInterlineDistance;
                 gtfsBundles.add(gtfsBundle);
@@ -150,68 +120,18 @@ public class GraphBuilder implements Runnable {
         }
 
         if(hasGtfs && (hasOsm || graphBuilder.graph.hasStreets)) {
-            if (config.matchBusRoutesToStreets) {
-                graphBuilder.addModule(new BusRouteStreetMatcher());
-            }
             graphBuilder.addModule(new TransitToTaggedStopsModule());
         }
 
         // This module is outside the hasGTFS conditional block because it also links things like bike rental
         // which need to be handled even when there's no transit.
         StreetLinkerModule streetLinkerModule = new StreetLinkerModule();
-        streetLinkerModule.setAddExtraEdgesToAreas(config.areaVisibility);
         graphBuilder.addModule(streetLinkerModule);
-        // Load elevation data and apply it to the streets.
-        // We want to do run this module after loading the OSM street network but before finding transfers.
-        List<ElevationGridCoverageFactory> elevationGridCoverageFactories = new ArrayList<>();
-        if (config.elevationBucket != null) {
-            // Download the elevation tiles from an Amazon S3 bucket
-            S3BucketConfig bucketConfig = config.elevationBucket;
-            File cacheDirectory = new File(dataSources.getCacheDirectory(), "ned");
-            DegreeGridNEDTileSource awsTileSource = new DegreeGridNEDTileSource();
-            awsTileSource.awsAccessKey = bucketConfig.accessKey;
-            awsTileSource.awsSecretKey = bucketConfig.secretKey;
-            awsTileSource.awsBucketName = bucketConfig.bucketName;
-            elevationGridCoverageFactories.add(
-                new NEDGridCoverageFactoryImpl(cacheDirectory, awsTileSource));
-        } else if (dataSources.has(DEM)) {
-            // Load the elevation from a file in the graph inputs directory
-            for (DataSource demSource : dataSources.get(DEM)) {
-                elevationGridCoverageFactories.add(new GeotiffGridCoverageFactoryImpl(demSource));
-            }
-        }
-        // Refactoring this class, it was made clear that this allows for adding multiple elevation
-        // modules to the same graph builder. We do not actually know if this is supported by the
-        // ElevationModule class.
-        for (ElevationGridCoverageFactory factory : elevationGridCoverageFactories) {
-            graphBuilder.addModule(
-                new ElevationModule(
-                    factory,
-                    new File(dataSources.getCacheDirectory(), "cached_elevations.obj"),
-                    config.readCachedElevations,
-                    config.writeCachedElevations,
-                    config.elevationUnitMultiplier,
-                    config.distanceBetweenElevationSamples,
-                    config.includeEllipsoidToGeoidDifference,
-                    config.multiThreadElevationCalculations
-                )
-            );
-        }
+
         if (hasGtfs) {
             // The stops can be linked to each other once they are already linked to the street network.
-            if ( ! config.useTransfersTxt) {
-                // This module will use streets or straight line distance depending on whether OSM data is found in the graph.
-                graphBuilder.addModule(new DirectTransferGenerator(config.maxTransferDistance));
-            }
-        }
-
-        if (config.dataImportReport) {
-            graphBuilder.addModule(
-                    new DataImportIssuesToHTML(
-                            dataSources.getBuildReportDir(),
-                            config.maxDataImportIssuesPerFile
-                    )
-            );
+            // This module will use streets or straight line distance depending on whether OSM data is found in the graph.
+            graphBuilder.addModule(new DirectTransferGenerator(config.maxTransferDistance));
         }
         return graphBuilder;
     }

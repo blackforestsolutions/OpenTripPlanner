@@ -1,7 +1,6 @@
 package org.opentripplanner.graph_builder.issues;
 
 import org.opentripplanner.graph_builder.DataImportIssue;
-import org.opentripplanner.routing.graph.Vertex;
 import org.opentripplanner.routing.vertextype.TransitStopVertex;
 
 public class StopUnlinked implements DataImportIssue {
@@ -20,14 +19,4 @@ public class StopUnlinked implements DataImportIssue {
         return String.format(FMT, stop);
     }
 
-    @Override
-    public String getHTMLMessage() {
-        return String.format(HTMLFMT, stop.getStop().getLat(), stop.getStop().getLon(), stop.getName(), stop.getStop().getId());
-    }
-
-    @Override
-    public Vertex getReferencedVertex() {
-        return this.stop;
-    }
-    
 }

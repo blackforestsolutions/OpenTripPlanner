@@ -31,6 +31,10 @@ public class RouteMatcher implements Cloneable, Serializable {
     private RouteMatcher() {
     }
 
+    /**
+     * FOR TESTING
+     * @param routeIds
+     */
     private RouteMatcher(Collection<FeedScopedId> routeIds) {
         agencyAndRouteIds.addAll(routeIds);
     }
@@ -43,6 +47,7 @@ public class RouteMatcher implements Cloneable, Serializable {
     }
 
     /**
+     * FOR TESTING
      * Return an empty matcher (which match no routes).
      */
     public static RouteMatcher idMatcher(Collection<FeedScopedId> routeIds) {

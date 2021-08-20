@@ -61,6 +61,12 @@ public class Fare {
         return fare.get(type);
     }
 
+
+    /**
+     * FOR TESTING
+     * @param type
+     * @return
+     */
     public List<FareComponent> getDetails(FareType type) {
         return Arrays.asList(details.get(type));
     }

@@ -91,6 +91,7 @@ public class StreetVertexIndex {
     }
 
     /**
+     * FOR TESTING
      * Creates a TemporaryStreetLocation on the given street (set of PlainStreetEdges). How far
      * along is controlled by the location parameter, which represents a distance along the edge
      * between 0 (the from vertex) and 1 (the to vertex).
@@ -104,8 +105,7 @@ public class StreetVertexIndex {
      *
      * @return the new TemporaryStreetLocation
      */
-    public static TemporaryStreetLocation createTemporaryStreetLocation(Graph graph, String label,
-            I18NString name, Iterable<StreetEdge> edges, Coordinate nearestPoint, boolean endVertex) {
+    public static TemporaryStreetLocation createTemporaryStreetLocation(Graph graph, String label, I18NString name, Iterable<StreetEdge> edges, Coordinate nearestPoint, boolean endVertex) {
         boolean wheelchairAccessible = false;
 
         TemporaryStreetLocation location = new TemporaryStreetLocation(label, nearestPoint, name, endVertex);
@@ -149,6 +149,15 @@ public class StreetVertexIndex {
 
     }
 
+
+    /**
+     * FOR TESTING
+     * @param base
+     * @param name
+     * @param nearestPoint
+     * @param street
+     * @param endVertex
+     */
     private static void createHalfLocation(TemporaryStreetLocation base, I18NString name,
                 Coordinate nearestPoint, StreetEdge street, boolean endVertex) {
         StreetVertex tov = (StreetVertex) street.getToVertex();
@@ -178,6 +187,12 @@ public class StreetVertexIndex {
         }
     }
 
+    /**
+     * FOR TESTING
+     * @param e
+     * @param nearestPoint
+     * @return
+     */
     private static P2<LineString> getGeometry(StreetEdge e, Coordinate nearestPoint) {
         LineString geometry = e.getGeometry();
         return GeometryUtils.splitGeometryAtPoint(geometry, nearestPoint);
@@ -298,6 +313,7 @@ public class StreetVertexIndex {
     }
 
     /**
+     * FOR TESTING
      * Finds the appropriate vertex for this location.
      * @param endVertex: whether this is a start vertex (if it's false) or end vertex (if it's true)
      */

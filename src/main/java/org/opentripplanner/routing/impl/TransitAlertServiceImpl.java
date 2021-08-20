@@ -30,21 +30,6 @@ public class TransitAlertServiceImpl implements TransitAlertService {
     }
 
     @Override
-    public Collection<TransitAlert> getAllAlerts() {
-        return new HashSet<>(alerts.values());
-    }
-
-    @Override
-    public TransitAlert getAlertById(String id) {
-        return alerts
-            .values()
-            .stream()
-            .filter(transitAlert -> transitAlert.getId().equals(id))
-            .findAny()
-            .orElse(null);
-    }
-
-    @Override
     public Collection<TransitAlert> getStopAlerts(FeedScopedId stopId) {
         Set<TransitAlert> result = new HashSet<>(alerts.get(new EntitySelector.Stop(stopId)));
         if (result.isEmpty()) {
@@ -93,11 +78,6 @@ public class TransitAlertServiceImpl implements TransitAlertService {
     @Override
     public Collection<TransitAlert> getStopAndTripAlerts(FeedScopedId stop, FeedScopedId trip) {
         return alerts.get(new EntitySelector.StopAndTrip(stop, trip));
-    }
-
-    @Override
-    public Collection<TransitAlert> getTripPatternAlerts(FeedScopedId pattern) {
-        return alerts.get(new EntitySelector.TripPattern(pattern));
     }
 
     @Override

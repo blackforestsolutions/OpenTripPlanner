@@ -16,11 +16,6 @@ public class TurnRestrictionException implements DataImportIssue {
     }
 
     @Override
-    public String getHTMLMessage() {
-        return String.format(HTMLFMT, nodeId, nodeId, wayId, wayId);
-    }
-
-    @Override
     public String getMessage() {
         return String.format(FMT, nodeId, wayId);
     }

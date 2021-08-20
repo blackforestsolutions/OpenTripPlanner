@@ -76,15 +76,6 @@ public class LinkStopToPlatformTest {
         assertEquals(16, graph.getEdges().size());
     }
 
-    @Test
-    public void testLinkStopWithExtraEdges() {
-        SimpleStreetSplitter splitter = SimpleStreetSplitter.createForTest(graph);
-        splitter.setAddExtraEdgesToAreas(true);
-        splitter.link();
-
-        assertEquals(38, graph.getEdges().size());
-    }
-
     private AreaEdge createAreaEdge(IntersectionVertex v1, IntersectionVertex v2, AreaEdgeList area, String nameString) {
         LineString line = geometryFactory.createLineString(new Coordinate[] { v1.getCoordinate(), v2.getCoordinate()});
         double length = SphericalDistanceLibrary.distance(v1.getCoordinate(),

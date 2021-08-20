@@ -35,7 +35,7 @@ public class TestUnroutable extends TestCase {
         osmBuilder.setDefaultWayPropertySetSource(new DefaultWayPropertySetSource());
         URL osmDataUrl = getClass().getResource("bridge_construction.osm.pbf");
         File osmDataFile = new File(URLDecoder.decode(osmDataUrl.getFile(), "UTF-8"));
-        BinaryOpenStreetMapProvider provider = new BinaryOpenStreetMapProvider(osmDataFile, true);
+        BinaryOpenStreetMapProvider provider = new BinaryOpenStreetMapProvider(osmDataFile);
         osmBuilder.setProvider(provider);
         HashMap<Class<?>, Object> extra = Maps.newHashMap();
         osmBuilder.buildGraph(graph, extra); // TODO get rid of this "extra" thing

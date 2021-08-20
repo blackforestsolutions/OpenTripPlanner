@@ -37,6 +37,12 @@ public class RaptorService<T extends RaptorTripSchedule> {
         return routeUsingStdWorker(transitData, request);
     }
 
+    /**
+     * FOR TESTING
+     * @param r1
+     * @param r2
+     * @param transitData
+     */
     public void compareHeuristics(
             RaptorRequest<T> r1,
             RaptorRequest<T> r2,
@@ -47,10 +53,11 @@ public class RaptorService<T extends RaptorTripSchedule> {
 
         fwdHeur.forceRun();
         revHeur.forceRun();
-
         fwdHeur.debugCompareResult(revHeur);
     }
-
+    /**
+     * FOR TESTING
+     */
     public void shutdown() {
         config.shutdown();
     }

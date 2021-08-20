@@ -15,11 +15,6 @@ public class BikeRentalStationUnlinked implements DataImportIssue {
     }
 
     @Override
-    public String getHTMLMessage() {
-        return String.format(HTMLFMT, station.getLat(), station.getLon(), station);
-    }
-
-    @Override
     public String getMessage() {
         return String.format(FMT, station);
     }

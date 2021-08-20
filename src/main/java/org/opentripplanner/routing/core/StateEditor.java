@@ -247,6 +247,10 @@ public class StateEditor {
         child.stateData.bikeParked = state.stateData.bikeParked;
     }
 
+    /**
+     * FOR TESTING
+     * @param state
+     */
     public void setNonTransitOptionsFromState(State state){
         cloneStateDataAsNeeded();
         child.stateData.nonTransitMode = state.getNonTransitMode();

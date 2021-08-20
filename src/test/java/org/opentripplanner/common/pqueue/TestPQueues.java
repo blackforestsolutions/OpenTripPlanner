@@ -25,8 +25,7 @@ public class TestPQueues extends TestCase {
         }
         assertEquals(result, expected);
         // check behavior when queue is empty
-        assertEquals(q.size(), 0);
-        assertNull(q.peek_min());
+        assertEquals(q.size(), 0);;
         assertNull(q.extract_min());
         q.insert(100, 10);
         q.insert(200, 20);
@@ -75,8 +74,8 @@ public class TestPQueues extends TestCase {
         while (!q.isEmpty()) {
             expected.add(q.remove());
         }
-        doQueue(new BinHeap<Integer>(), input, expected);
-        fillQueue(new BinHeap<Integer>(), input);
+        doQueue(new BinHeap<Integer>(1000), input, expected);
+        fillQueue(new BinHeap<Integer>(1000), input);
     }
 
     /*

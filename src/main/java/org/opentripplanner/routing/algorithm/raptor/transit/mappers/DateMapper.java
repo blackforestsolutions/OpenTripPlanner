@@ -6,15 +6,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
 
 public class DateMapper {
-    public static ZonedDateTime asStartOfService(ZonedDateTime date) {
-        return date.truncatedTo(ChronoUnit.HOURS)
-                .withHour(12)
-                .minusHours(12);
-    }
-
     public static ZonedDateTime asStartOfService(LocalDate localDate, ZoneId zoneId) {
         return ZonedDateTime.of(localDate, LocalTime.NOON, zoneId)
                 .minusHours(12);

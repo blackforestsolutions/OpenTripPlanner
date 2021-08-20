@@ -46,58 +46,6 @@ public class DebugEvent<E> {
         return new DebugEvent<>(Action.DROP, iterationStartTime, element, droppedByElement, reason);
     }
 
-    /**
-     * The acton taken:
-     * <ul>
-     *     <li>ACCEPT - The element is accepted as one of the best alternatives.
-     *     <li>REJECT - The element is rejected, there is a better alternative.
-     *     <li>DROP   - The element is dropped from the list of alternatives. Be
-     *     aware that that this does not necessarily mean that the path is not part
-     *     of the final result. If an element is dropped in a later round or iteration
-     *     the original element path might already be added to the final result;
-     *     hence dropping the element have no effect on the result.
-     * </ul>
-     */
-    public Action action() {
-        return action;
-    }
-
-    /**
-     * Witch iteration this event is part of.
-     */
-    public int iterationStartTime() {
-        return iterationStartTime;
-    }
-
-    /**
-     * The element affected by the action.
-     */
-    public E element() {
-        return element;
-    }
-
-    /**
-     * The element was dominated  by the this element. This may or may not affect the final result
-     * depending on the round/iteration the original element was accepted.
-     * <p/>
-     * The rejectedDroppedByElement is optional. It can be {@code null}.
-     */
-    public E rejectedDroppedByElement() {
-        return rejectedDroppedByElement;
-    }
-
-    /**
-     * An element might get rejected or dropped as part of an optimization. The reason should
-     * explain why an element is rejected.
-     * <P/>
-     * The reason is optional, especially if the {@link #rejectedDroppedByElement} is specified.
-     *
-     * @return If no reason exist an empty string is returned.
-     */
-    public String reason() {
-        return reason == null ? "" : reason;
-    }
-
     @Override
     public String toString() {
         return ToStringBuilder.of(DebugEvent.class)

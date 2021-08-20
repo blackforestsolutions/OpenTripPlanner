@@ -234,10 +234,6 @@ public class StreetEdge extends Edge implements Cloneable {
         return null;
     }
 
-    public boolean isElevationFlattened() {
-        return false;
-    }
-
     public float getMaxSlope() {
         return 0.0f;
     }
@@ -626,20 +622,8 @@ public class StreetEdge extends Edge implements Cloneable {
 		return this.name.toString();
 	}
 
-	/**
-	* Gets non-localized I18NString (Used when splitting edges)
-	* @return non-localized Name
-	*/
-	public I18NString getRawName() {
-		return this.name;
-	}
-
 	public String getName(Locale locale) {
 		return this.name.toString(locale);
-	}
-
-	public void setName(I18NString name) {
-		this.name = name;
 	}
 
 	public LineString getGeometry() {

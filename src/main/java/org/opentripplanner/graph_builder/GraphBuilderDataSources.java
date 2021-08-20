@@ -54,9 +54,8 @@ public class GraphBuilderDataSources {
         this.outputGraph = getOutputGraph(cli);
 
         // Select witch files to import
-        include(cli.doBuildStreet() && bc.streets, OSM);
-        include(cli.doBuildStreet() && bc.streets, DEM);
-        include(cli.doBuildTransit() && bc.transit, GTFS);
+        include(cli.doBuildStreet(), OSM);
+        include(cli.doBuildTransit(), GTFS);
 
         selectFilesToImport();
 
@@ -119,8 +118,6 @@ public class GraphBuilderDataSources {
     }
 
     private void logSkippedAndSelectedFiles() {
-        LOG.info("Process data sources: {}", String.join(", ", store.getRepositoryDescriptions()));
-
         // Sort data input files by type
         LOG.info("Load files:");
         for (FileType type : FileType.values()) {

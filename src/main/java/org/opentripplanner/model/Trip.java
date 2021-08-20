@@ -50,13 +50,6 @@ public final class Trip extends TransitEntity<FeedScopedId> {
         this.id = id;
     }
 
-    /**
-     * Operator running the trip. Returns operator of this trip, if it exist, or else the route operator.
-     */
-    public Operator getOperator() {
-        return operator != null ? operator : route.getOperator();
-    }
-
     public Route getRoute() {
         return route;
     }
@@ -93,6 +86,10 @@ public final class Trip extends TransitEntity<FeedScopedId> {
         this.tripHeadsign = tripHeadsign;
     }
 
+    /**
+     * FOR TESTING
+     * @return
+     */
     public String getRouteShortName() {
         return routeShortName;
     }
@@ -129,6 +126,10 @@ public final class Trip extends TransitEntity<FeedScopedId> {
         this.wheelchairAccessible = wheelchairAccessible;
     }
 
+    /**
+     * FOR TESTING
+     * @return
+     */
     public int getWheelchairAccessible() {
         return wheelchairAccessible;
     }
@@ -144,6 +145,7 @@ public final class Trip extends TransitEntity<FeedScopedId> {
     }
 
     /**
+     * FOR TESTING
      * @return 0 = unknown / unspecified, 1 = bikes allowed, 2 = bikes NOT allowed
      */
     public int getBikesAllowed() {
@@ -161,6 +163,10 @@ public final class Trip extends TransitEntity<FeedScopedId> {
         return "<Trip " + getId() + ">";
     }
 
+    /**
+     * FOR TESTING
+     * @return
+     */
     public String getFareId() {
         return fareId;
     }

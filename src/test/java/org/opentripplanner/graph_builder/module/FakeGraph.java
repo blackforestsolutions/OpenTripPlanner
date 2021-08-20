@@ -28,7 +28,7 @@ public class FakeGraph {
         loader.setDefaultWayPropertySetSource(new DefaultWayPropertySetSource());
 
         File file = getFileForResource("columbus.osm.pbf");
-        BinaryOpenStreetMapProvider provider = new BinaryOpenStreetMapProvider(file, false);
+        BinaryOpenStreetMapProvider provider = new BinaryOpenStreetMapProvider(file);
         loader.setProvider(provider);
 
         loader.buildGraph(gg, new HashMap<>());

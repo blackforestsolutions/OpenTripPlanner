@@ -98,6 +98,10 @@ public class GeometryAndBlockProcessor {
 
     // TODO OTP2 - Instead of exposing the graph (the entire world) to this class, this class should
     //           - Create a datastructure and return it, then that should be injected into the graph.
+    /**
+     * FOR TESTING
+     * @param graph
+     */
     public void run(Graph graph) {
         run(graph, new DataImportIssueStore(false));
     }
@@ -674,9 +678,5 @@ public class GeometryAndBlockProcessor {
         double indexPart = (distance - distances[index - 1])
                 / (distances[index] - prevDistance);
         return new LinearLocation(index - 1, indexPart);
-    }
-
-    public void setFareServiceFactory(FareServiceFactory fareServiceFactory) {
-        this.fareServiceFactory = fareServiceFactory;
     }
 }

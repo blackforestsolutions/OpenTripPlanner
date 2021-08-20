@@ -333,8 +333,4 @@ public class AStar {
         }
         return ret;
     }
-
-    public void setSkipEdgeStrategy(SkipEdgeStrategy skipEdgeStrategy) {
-        this.skipEdgeStrategy = skipEdgeStrategy;
-    }
 }

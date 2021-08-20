@@ -6,7 +6,6 @@ import org.opentripplanner.transit.raptor._shared.StopArrivalsTestData;
 import org.opentripplanner.transit.raptor._shared.TestRaptorTripSchedule;
 import org.opentripplanner.transit.raptor.util.TimeUtils;
 
-import static org.opentripplanner.transit.raptor._shared.StopArrivalsTestData.A_START;
 import static org.opentripplanner.transit.raptor._shared.StopArrivalsTestData.E_END;
 
 public class PathTest {
@@ -15,11 +14,6 @@ public class PathTest {
 
     public PathTest() {
         System.out.println(subject);
-    }
-
-    @Test
-    public void startTime() {
-        Assert.assertEquals(A_START, subject.startTime());
     }
 
     @Test

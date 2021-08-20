@@ -75,6 +75,12 @@ public class DisjointSet<T> {
         return j;
     }
 
+    /**
+     * FOR TESTING
+     *
+     * @param component
+     * @return
+     */
     public int size(int component) {
         return -sets.get(component);
     }

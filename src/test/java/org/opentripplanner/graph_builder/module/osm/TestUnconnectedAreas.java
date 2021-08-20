@@ -36,7 +36,7 @@ public class TestUnconnectedAreas extends TestCase {
         OpenStreetMapModule loader = new OpenStreetMapModule();
         loader.setDefaultWayPropertySetSource(new DefaultWayPropertySetSource());
         File file = new File(getClass().getResource("P+R.osm.pbf").getFile());
-        BinaryOpenStreetMapProvider provider = new BinaryOpenStreetMapProvider(file, false);
+        BinaryOpenStreetMapProvider provider = new BinaryOpenStreetMapProvider(file);
         loader.setProvider(provider);
         loader.buildGraph(gg, new HashMap<Class<?>, Object>(), issueStore);
 
@@ -71,7 +71,7 @@ public class TestUnconnectedAreas extends TestCase {
         OpenStreetMapModule loader = new OpenStreetMapModule();
         loader.setDefaultWayPropertySetSource(new DefaultWayPropertySetSource());
         File file = new File(getClass().getResource("hackett_pr.osm.pbf").getFile());
-        BinaryOpenStreetMapProvider provider = new BinaryOpenStreetMapProvider(file, false);
+        BinaryOpenStreetMapProvider provider = new BinaryOpenStreetMapProvider(file);
         loader.setProvider(provider);
         loader.buildGraph(g, new HashMap<Class<?>, Object>());
     	
@@ -170,7 +170,7 @@ public class TestUnconnectedAreas extends TestCase {
          OpenStreetMapModule loader = new OpenStreetMapModule();
          loader.setDefaultWayPropertySetSource(new DefaultWayPropertySetSource());
          File file = new File(getClass().getResource(fn).getFile());
-         BinaryOpenStreetMapProvider provider = new BinaryOpenStreetMapProvider(file, false);
+         BinaryOpenStreetMapProvider provider = new BinaryOpenStreetMapProvider(file);
          loader.setProvider(provider);
          loader.buildGraph(g, new HashMap<>());
 

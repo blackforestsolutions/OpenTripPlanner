@@ -22,10 +22,4 @@ public class BikeRentalStationService implements Serializable {
     public void removeBikeRentalStation(BikeRentalStation bikeRentalStation) {
         bikeRentalStations.remove(bikeRentalStation);
     }
-
-    public void addBikePark(BikePark bikePark) {
-        // Remove old reference first, as adding will be a no-op if already present
-        bikeParks.remove(bikePark);
-        bikeParks.add(bikePark);
-    }
 }

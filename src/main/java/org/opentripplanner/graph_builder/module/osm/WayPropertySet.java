@@ -269,6 +269,11 @@ public class WayPropertySet {
         wayProperties.add(new WayPropertyPicker(spec, properties, mixin));
     }
 
+    /**
+     * FOR TESTING
+     * @param spec
+     * @param properties
+     */
     public void addProperties(OSMSpecifier spec, WayProperties properties) {
         wayProperties.add(new WayPropertyPicker(spec, properties, false));
     }

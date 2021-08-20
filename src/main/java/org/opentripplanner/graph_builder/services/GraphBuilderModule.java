@@ -15,6 +15,12 @@ public interface GraphBuilderModule {
             DataImportIssueStore issueStore
     );
 
+    /**
+     * FOR TESTING
+     *
+     * @param graph
+     * @param extra
+     */
     public default void buildGraph(
             Graph graph,
             HashMap<Class<?>, Object> extra

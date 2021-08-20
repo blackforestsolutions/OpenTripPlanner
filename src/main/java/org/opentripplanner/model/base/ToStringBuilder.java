@@ -9,11 +9,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Locale;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -117,11 +113,6 @@ public class ToStringBuilder {
 
     /* Special purpose formatters */
 
-    /** Add a Coordinate location, longitude or latitude */
-    public ToStringBuilder addCoordinate(String name, Number num) {
-        return addIfNotNull(name, num, this::formatCoordinate);
-    }
-
     /**
      * Add the TIME part in the local system timezone using 24 hours. Format:  HH:mm:ss.
      * Note! The DATE is not printed. {@code null} value is ignored.
@@ -205,15 +196,6 @@ public class ToStringBuilder {
             calendarTimeFormat = new SimpleDateFormat("HH:mm:ss");
         }
         return calendarTimeFormat.format(time.getTime());
-    }
-
-    String formatCoordinate(Number value) {
-        if(coordinateFormat == null) {
-            coordinateFormat = new DecimalFormat("#0.0####", DECIMAL_SYMBOLS);
-        }
-        // This need to be null-safe, because one of the coordinates in
-        // #addCoordinate(String name, Number lat, Number lon) could be null.
-        return value == null ? "null" : coordinateFormat.format(value);
     }
 
     String formatNumber(Number value) {

@@ -181,20 +181,6 @@ public class TripPattern extends TransitEntity<FeedScopedId> implements Cloneabl
         }
     }
 
-    public LineString getGeometry() {
-        if(hopGeometries == null || hopGeometries.length==0) { return null; }
-
-        List<LineString> lineStrings = new ArrayList<>();
-        for (int i = 0; i < hopGeometries.length - 1; i++) {
-            lineStrings.add(getHopGeometry(i));
-        }
-        return GeometryUtils.concatenateLineStrings(lineStrings);
-    }
-
-    public int numHopGeometries() {
-        return hopGeometries.length;
-    }
-
     /** Holds stop-specific information such as wheelchair accessibility and pickup/dropoff roles. */
     // TODO: is this necessary? Can we just look at the Stop and StopPattern objects directly?
     int[] perStopFlags;
@@ -238,11 +224,6 @@ public class TripPattern extends TransitEntity<FeedScopedId> implements Cloneabl
 
     public Stop getStop(int stopIndex) {
         return stopPattern.stops[stopIndex];
-    }
-
-
-    public int getStopIndex(Stop stop) {
-        return Arrays.asList(stopPattern.stops).indexOf(stop);
     }
 
     public List<Stop> getStops() {

@@ -184,30 +184,6 @@ public class DateUtils implements DateConstants {
         }
     }
 
-    /**
-     * Converts the given time in seconds to a <code>String</code> in the format h:mm.
-     * 
-     * @param seconds the time in seconds.
-     * @return a <code>String</code> representing the time in the format h:mm
-     */
-    public static String secToHHMM(int seconds) {
-        int min;
-        String sign = "";
-
-        if(seconds >= 0) {
-            min = seconds/60;
-            sign = "";
-        } else {
-            min = -seconds/60;
-            sign = "-";
-        }
-
-        int mm = min % 60;
-        int hh = min / 60;
-
-        return String.format("%s%d:%02d", sign, hh, mm);
-    }
-
     public static String trim(String str) {
         String retVal = str;
         try {

@@ -2,7 +2,6 @@ package org.opentripplanner.routing.graph;
 
 import org.locationtech.jts.geom.Coordinate;
 import org.opentripplanner.common.MavenVersion;
-import org.opentripplanner.common.geometry.DirectionUtils;
 import org.opentripplanner.model.StationElement;
 import org.opentripplanner.routing.edgetype.StreetEdge;
 import org.opentripplanner.util.I18NString;
@@ -230,11 +229,6 @@ public abstract class Vertex implements Serializable, Cloneable {
 
     public Coordinate getCoordinate() {
         return new Coordinate(getX(), getY());
-    }
-
-    /** Get the bearing, in degrees, between this vertex and another coordinate. */
-    public double azimuthTo(Coordinate other) {
-        return DirectionUtils.getAzimuth(getCoordinate(), other);
     }
 
     /* SERIALIZATION METHODS */
