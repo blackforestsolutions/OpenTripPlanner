@@ -1,7 +1,6 @@
 package org.opentripplanner.routing.algorithm.raptor.transit.mappers;
 
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.time.Instant;
@@ -41,17 +40,6 @@ public class DateMapperTest {
   private static final ZonedDateTime Z5 = ZonedDateTime.of(D2019_10_27, TIME, ZONE_ID);
   private static final ZonedDateTime Z6 = ZonedDateTime.of(D2019_10_28, TIME, ZONE_ID);
 
-
-  @Test
-  public void testAsStartOfServiceWithZonedDatesAroundDST() {
-    // Test Zoned dates around DST
-    assertEquals("2019-03-30T00:00+01:00[Europe/Paris]", asStartOfService(Z1).toString());
-    assertEquals("2019-03-30T23:00+01:00[Europe/Paris]", asStartOfService(Z2).toString());
-    assertEquals("2019-04-01T00:00+02:00[Europe/Paris]", asStartOfService(Z3).toString());
-    assertEquals("2019-10-26T00:00+02:00[Europe/Paris]", asStartOfService(Z4).toString());
-    assertEquals("2019-10-27T01:00+02:00[Europe/Paris]", asStartOfService(Z5).toString());
-    assertEquals("2019-10-28T00:00+01:00[Europe/Paris]", asStartOfService(Z6).toString());
-  }
 
   @Test
   public void testAsStartOfServiceWithLocalDatesAndZoneAroundDST() {

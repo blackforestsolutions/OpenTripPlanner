@@ -5,7 +5,6 @@ import com.google.common.collect.ListMultimap;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 
 /**
  * This supports the monitoring of various system properties, such as free memory.
@@ -27,36 +26,8 @@ public class MonitoringStore {
 
     private ListMultimap<String, String> notes = LinkedListMultimap.create();
 
-    public void addNote(String k, String v) {
-        if (!monitoring.contains(k))
-            return;
-        notes.put(k, v);
-    }
-
-    public void clearNotes(String k) {
-        notes.removeAll(k);
-    }
-
-    public Long getLong(String k) {
-        return longs.get(k);
-    }
-
-    public List<String> getNotes(String k) {
-        return notes.get(k);
-    }
-
     public boolean isMonitoring(String k) {
         return monitoring.contains(k);
-    }
-
-    public void monitor(String k) {
-        monitoring.add(k);
-    }
-
-    public void setLong(String k, long v) {
-        if (!monitoring.contains(k))
-            return;
-        longs.put(k, v);
     }
 
     public synchronized void setLongMax(String k, long v) {
@@ -65,18 +36,6 @@ public class MonitoringStore {
         Long old = longs.get(k);
         if (old == null || old < v) {
             longs.put(k, v);
-        }
-    }
-
-    public void stopMonitoring(String k) {
-        monitoring.remove(k);
-    }
-
-    public void setMonitoring(String key, boolean on) {
-        if (on) {
-            monitoring.add(key);
-        } else {
-            monitoring.remove(key);
         }
     }
 }

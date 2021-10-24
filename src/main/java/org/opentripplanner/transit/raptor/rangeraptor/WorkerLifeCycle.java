@@ -69,13 +69,4 @@ public interface WorkerLifeCycle {
      * @param roundCompleteWithDestinationReached if {@code null} nothing is added to the publisher.
      */
     void onRoundComplete(Consumer<Boolean> roundCompleteWithDestinationReached);
-
-    /**
-     * Subscribe to 'iteration complete' events by register listener.
-     * Every time an iteration finish/completes the listener(the input parameter) is
-     * notified/invoked.
-     *
-     * @param iterationComplete if {@code null} nothing is added to the publisher.
-     */
-    void onIterationComplete(Runnable iterationComplete);
 }

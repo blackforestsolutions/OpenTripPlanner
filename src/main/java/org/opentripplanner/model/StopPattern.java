@@ -1,9 +1,5 @@
 package org.opentripplanner.model;
 
-import com.google.common.hash.HashCode;
-import com.google.common.hash.HashFunction;
-import com.google.common.hash.Hasher;
-
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
@@ -83,6 +79,7 @@ public class StopPattern implements Serializable {
     }
 
     /**
+     * FOR TESTING
      * @param stopId in agency_id format
      */
     public boolean containsStop (String stopId) {
@@ -119,31 +116,6 @@ public class StopPattern implements Serializable {
             sb.append(String.format("%s_%d%d ", stops[i].getCode(), pickups[i], dropoffs[i]));
         }
         return sb.toString();
-    }
-
-    /**
-     * In most cases we want to use identity equality for StopPatterns. There is a single
-     * StopPattern instance for each semantic StopPattern, and we don't want to calculate
-     * complicated hashes or equality values during normal execution. However, in some cases we
-     * want a way to consistently identify trips across versions of a GTFS feed, when the feed
-     * publisher cannot ensure stable trip IDs. Therefore we define some additional hash functions.
-     */
-    public HashCode semanticHash(HashFunction hashFunction) {
-        Hasher hasher = hashFunction.newHasher();
-        for (int s = 0; s < size; s++) {
-            Stop stop = stops[s];
-            // Truncate the lat and lon to 6 decimal places in case they move slightly between
-            // feed versions
-            hasher.putLong((long) (stop.getLat() * 1000000));
-            hasher.putLong((long) (stop.getLon() * 1000000));
-        }
-        // Use hops rather than stops because drop-off at stop 0 and pick-up at last stop are
-        // not important and have changed between OTP versions.
-        for (int hop = 0; hop < size - 1; hop++) {
-            hasher.putInt(pickups[hop]);
-            hasher.putInt(dropoffs[hop + 1]);
-        }
-        return hasher.hash();
     }
 
 }

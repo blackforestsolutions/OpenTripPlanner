@@ -5,9 +5,6 @@ import org.onebusaway.gtfs.model.AgencyAndId;
 import org.onebusaway.gtfs.model.Stop;
 import org.opentripplanner.model.WheelChairBoarding;
 
-import java.util.Collection;
-import java.util.Collections;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -64,13 +61,6 @@ public class StopAndStationMapperTest {
     }
 
     private StopMapper subject = new StopMapper();
-
-    @Test
-    public void testMapCollection() {
-        assertNull(null, subject.map((Collection<Stop>) null));
-        assertTrue(subject.map(Collections.emptyList()).isEmpty());
-        assertEquals(1, subject.map(Collections.singleton(STOP)).size());
-    }
 
     @Test
     public void testMap() {

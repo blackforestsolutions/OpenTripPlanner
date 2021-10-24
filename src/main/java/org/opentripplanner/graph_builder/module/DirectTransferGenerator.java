@@ -10,14 +10,11 @@ import org.opentripplanner.routing.graph.Graph;
 import org.opentripplanner.routing.graph.GraphIndex;
 import org.opentripplanner.routing.graphfinder.StopAtDistance;
 import org.opentripplanner.routing.vertextype.TransitStopVertex;
-import org.opentripplanner.util.OTPFeature;
 import org.opentripplanner.util.ProgressTracker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * {@link org.opentripplanner.graph_builder.services.GraphBuilderModule} module that links up the stops of a transit
@@ -34,24 +31,12 @@ public class DirectTransferGenerator implements GraphBuilderModule {
 
     final double radiusMeters;
 
-    public List<String> provides() {
-        return Arrays.asList("linking");
-    }
-
-    public List<String> getPrerequisites() {
-        return Arrays.asList("street to transit");
-    }
-
     public DirectTransferGenerator (double radiusMeters) {
         this.radiusMeters = radiusMeters;
     }
 
     @Override
-    public void buildGraph(
-            Graph graph,
-            HashMap<Class<?>, Object> extra,
-            DataImportIssueStore issueStore
-    ) {
+    public void buildGraph(Graph graph, HashMap<Class<?>, Object> extra, DataImportIssueStore issueStore) {
         /* Initialize graph index which is needed by the nearby stop finder. */
         if (graph.index == null) {
             graph.index = new GraphIndex(graph);
@@ -88,19 +73,6 @@ public class DirectTransferGenerator implements GraphBuilderModule {
                     new SimpleTransfer(stop, sd.stop, sd.distance, sd.edges)
                 );
                 n += 1;
-            }
-            if (OTPFeature.FlexRouting.isOn()) {
-                // This code is for finding transfers from FlexStopLocations to Stops, transfers
-                // from Stops to FlexStopLocations and between Stops are already covered above.
-                for (StopAtDistance sd : nearbyStopFinder.findNearbyStopsConsideringPatterns(ts0,  true)) {
-                    // Skip the origin stop, loop transfers are not needed.
-                    if (sd.stop == ts0.getStop()) { continue; }
-                    if (sd.stop instanceof Stop) { continue; }
-                    graph.transfersByStop.put(sd.stop,
-                        new SimpleTransfer(sd.stop, ts0.getStop(), sd.distance, sd.edges)
-                    );
-                    n += 1;
-                }
             }
             LOG.debug("Linked stop {} to {} nearby stops on other patterns.", stop, n);
             if (n == 0) {

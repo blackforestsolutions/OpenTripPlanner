@@ -7,9 +7,7 @@ import org.opentripplanner.routing.graph.Graph;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * {@link org.opentripplanner.graph_builder.services.GraphBuilderModule} plugin that links various objects
@@ -21,25 +19,7 @@ public class StreetLinkerModule implements GraphBuilderModule {
 
     private static final Logger LOG = LoggerFactory.getLogger(StreetLinkerModule.class);
 
-    public void setAddExtraEdgesToAreas(Boolean addExtraEdgesToAreas) {
-        this.addExtraEdgesToAreas = addExtraEdgesToAreas;
-    }
-
-    public Boolean getAddExtraEdgesToAreas() {
-        return addExtraEdgesToAreas;
-    }
-
     private Boolean addExtraEdgesToAreas = true;
-
-    public List<String> provides() {
-        return Arrays.asList("street to transit", "linking");
-    }
-
-    public List<String> getPrerequisites() {
-        return Arrays.asList("streets"); // don't include transit, because we also link P+Rs and bike rental stations,
-        // which you could have without transit. However, if you have transit, this module should be run after it
-        // is loaded.
-    }
 
     @Override
     public void buildGraph(

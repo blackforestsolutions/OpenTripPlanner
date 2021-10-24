@@ -92,6 +92,12 @@ public class SearchParamsBuilder<T extends RaptorTripSchedule> {
         return numberOfAdditionalTransfers;
     }
 
+    /**
+     * FOR TESTING
+     *
+     * @param numberOfAdditionalTransfers
+     * @return
+     */
     public SearchParamsBuilder<T> numberOfAdditionalTransfers(int numberOfAdditionalTransfers) {
         this.numberOfAdditionalTransfers = numberOfAdditionalTransfers;
         return this;
@@ -108,11 +114,6 @@ public class SearchParamsBuilder<T extends RaptorTripSchedule> {
 
     public double relaxCostAtDestination() {
         return relaxCostAtDestination;
-    }
-
-    public SearchParamsBuilder<T> relaxCostAtDestination(double relaxCostAtDestination) {
-        this.relaxCostAtDestination = relaxCostAtDestination;
-        return this;
     }
 
     public boolean timetableEnabled() {

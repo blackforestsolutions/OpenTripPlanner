@@ -31,6 +31,10 @@ public class RouteMatcher implements Cloneable, Serializable {
     private RouteMatcher() {
     }
 
+    /**
+     * FOR TESTING
+     * @param routeIds
+     */
     private RouteMatcher(Collection<FeedScopedId> routeIds) {
         agencyAndRouteIds.addAll(routeIds);
     }
@@ -43,6 +47,7 @@ public class RouteMatcher implements Cloneable, Serializable {
     }
 
     /**
+     * FOR TESTING
      * Return an empty matcher (which match no routes).
      */
     public static RouteMatcher idMatcher(Collection<FeedScopedId> routeIds) {
@@ -124,26 +129,6 @@ public class RouteMatcher implements Cloneable, Serializable {
 
     public boolean isEmpty() {
         return agencyAndRouteIds.size() == 0 && agencyIdAndRouteNames.size() == 0 && routeNames.size() == 0;
-    }
-
-    public String asString() {
-        StringBuilder builder = new StringBuilder();
-        for (FeedScopedId id : agencyAndRouteIds) {
-            builder.append(id.getFeedId() + "__" + id.getId());
-            builder.append(",");
-        }
-        for (T2<String, String> agencyIdAndRouteName : agencyIdAndRouteNames) {
-            builder.append(agencyIdAndRouteName.first + "_" + agencyIdAndRouteName.second);
-            builder.append(",");
-        }
-        for (String routeName : routeNames) {
-            builder.append("_" + routeName);
-            builder.append(",");
-        }
-        if (builder.length() > 0) {
-            builder.setLength(builder.length() - 1);
-        }
-        return builder.toString();
     }
 
     @Override

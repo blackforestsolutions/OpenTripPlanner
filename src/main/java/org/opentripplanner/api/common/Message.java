@@ -64,6 +64,12 @@ public enum Message {
         }
         return def;
     }
+
+    /**
+     * FOR TESTING
+     * @param l
+     * @return
+     */
     public String get(Locale l) {
         return get("", l);
     }

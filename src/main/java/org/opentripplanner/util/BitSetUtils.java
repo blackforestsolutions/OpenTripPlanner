@@ -38,40 +38,4 @@ public final class BitSetUtils {
         return bitset;
     }
 
-    public final static boolean get(short bitset, int index) {
-        return (bitset & (1 << index)) != 0;
-    }
-
-    public final static short set(short bitset, int index, boolean value) {
-        if (value)
-            bitset |= (1 << index);
-        else
-            bitset &= ~(1 << index);
-        return bitset;
-    }
-
-    public final static boolean get(int bitset, int index) {
-        return (bitset & (1 << index)) != 0;
-    }
-
-    public final static int set(int bitset, int index, boolean value) {
-        if (value)
-            bitset |= (1 << index);
-        else
-            bitset &= ~(1 << index);
-        return bitset;
-    }
-
-    public final static boolean get(long bitset, int index) {
-        return (bitset & (1L << index)) != 0;
-    }
-
-    public final static long set(long bitset, int index, boolean value) {
-        if (value)
-            bitset |= (1L << index);
-        else
-            bitset &= ~(1L << index);
-        return bitset;
-    }
-
 }

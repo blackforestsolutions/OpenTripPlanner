@@ -34,11 +34,6 @@ final class Transit<T extends RaptorTripSchedule>
     }
 
     @Override
-    public int boardStop() {
-        return arrival.boardStop();
-    }
-
-    @Override
     public T trip() {
         return arrival.trip();
     }
@@ -52,5 +47,9 @@ final class Transit<T extends RaptorTripSchedule>
 
     public int boardTime() {
         return arrival.boardTime();
+    }
+
+    private int boardStop() {
+        return arrival.boardStop();
     }
 }

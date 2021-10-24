@@ -165,16 +165,6 @@ public abstract class Edge implements Serializable {
         return null;
     }
 
-    /**
-     * Returns the azimuth of this edge from head to tail.
-     * 
-     * @return
-     */
-    public double getAzimuth() {
-        // TODO(flamholz): cache?
-        return getFromVertex().azimuthTo(getToVertex());
-    }
-
     public double getDistanceMeters() {
         return 0;
     }
@@ -214,13 +204,6 @@ public abstract class Edge implements Serializable {
 
     public ValidVertexTypes getValidVertexTypes() {
         return VALID_VERTEX_TYPES;
-    }
-
-    /*
-     * This may not be necessary if edge constructor types are strictly specified
-     */
-    public final boolean vertexTypesValid() {
-        return getValidVertexTypes().isValid(fromv, tov);
     }
 
     public static final class ValidVertexTypes {

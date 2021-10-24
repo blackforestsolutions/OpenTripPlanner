@@ -1,11 +1,8 @@
 package org.opentripplanner.model.base;
 
-import org.opentripplanner.transit.raptor.util.TimeUtils;
 
-import java.math.BigInteger;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.time.Duration;
 import java.util.Locale;
 import java.util.function.Function;
 
@@ -52,42 +49,13 @@ public class ValueObjectToStringBuilder {
     }
 
     /* General purpose formatters */
-
-    public ValueObjectToStringBuilder addNum(Number num) {
-        return addIt(num, it -> formatNumber(num));
-    }
-
-    public ValueObjectToStringBuilder addNum(Number num, String unit) {
-        return addIt(num, it -> formatNumber(it) + unit);
-    }
-
-    public ValueObjectToStringBuilder addBool(Boolean value, String ifTrue, String ifFalse) {
-        return addIt(value, it -> it ? ifTrue : ifFalse);
-    }
-
     public ValueObjectToStringBuilder addStr(String value) {
         return addIt(value, it -> "'" + it + "'");
-    }
-
-    public ValueObjectToStringBuilder addEnum(Enum<?> value) {
-        return addIt(value, Enum::name);
     }
 
     public ValueObjectToStringBuilder addObj(Object obj) {
         return addIt(obj, Object::toString);
     }
-
-    /**
-     * A text/labels to your string. No separator character is writen to the buffer
-     * before or after the label - hence you need to include white space in the label if you
-     * want it.
-     */
-    public ValueObjectToStringBuilder addLbl(String label) {
-        sb.append(label);
-        skipSep = true;
-        return this;
-    }
-
 
     /* Special purpose formatters */
 
@@ -101,30 +69,6 @@ public class ValueObjectToStringBuilder {
         return addIt("(" + formatCoordinate(lat) + ", " + formatCoordinate(lon) + ")");
     }
 
-    /**
-     * Add time in seconds since midnight. Format:  HH:mm:ss.
-     */
-    public  ValueObjectToStringBuilder addServiceTime(int secondsPastMidnight) {
-        // Use a NOT_SET value witch is unlikely to be used
-        return addServiceTime(secondsPastMidnight, -87_654_321);
-    }
-
-    /**
-     * Add time in seconds since midnight. Format:  HH:mm:ss. Ignore if not set.
-     */
-    public  ValueObjectToStringBuilder addServiceTime(int secondsPastMidnight, int notSet) {
-        return addIt(TimeUtils.timeToStrLong(secondsPastMidnight, notSet));
-    }
-
-    /**
-     * Add a duration to the string in format like '3h4m35s'. Each component (hours, minutes, and or
-     * seconds) is only added if they are not zero {@code 0}. This is the same format as the
-     * {@link Duration#toString()}, but without the 'PT' prefix.
-     */
-    public ValueObjectToStringBuilder addDuration(Integer durationSeconds) {
-        return addIt(durationSeconds, TimeUtils::durationToStr);
-    }
-
     @Override
     public String toString() {
         return sb.toString();
@@ -133,7 +77,7 @@ public class ValueObjectToStringBuilder {
 
     /* private methods  */
 
-    private  ValueObjectToStringBuilder  addIt(String value) {
+    private  ValueObjectToStringBuilder addIt(String value) {
         return addIt(value, it -> it);
     }
 
@@ -151,21 +95,5 @@ public class ValueObjectToStringBuilder {
         // This need to be null-safe, because one of the coordinates in
         // #addCoordinate(String name, Number lat, Number lon) could be null.
         return value == null ? "null" : coordinateFormat.format(value);
-    }
-
-    String formatNumber(Number value) {
-        if (value == null) { return "null"; }
-
-        if(value instanceof Integer || value instanceof Long || value instanceof BigInteger) {
-            if(integerFormat == null) {
-                integerFormat = new DecimalFormat("#,##0", DECIMAL_SYMBOLS);
-            }
-            return integerFormat.format(value);
-        }
-
-        if(decimalFormat == null) {
-            decimalFormat = new DecimalFormat("#,##0.0##", DECIMAL_SYMBOLS);
-        }
-        return decimalFormat.format(value);
     }
 }

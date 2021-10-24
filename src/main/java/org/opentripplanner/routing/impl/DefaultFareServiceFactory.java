@@ -163,14 +163,6 @@ public class DefaultFareServiceFactory implements FareServiceFactory {
             return new MultipleFareServiceFactory.AddingMultipleFareServiceFactory();
         case "bike-rental-time-based":
             return new TimeBasedBikeRentalFareServiceFactory();
-        case "dutch":
-            return new DutchFareServiceFactory();
-        case "san-francisco":
-            return new SFBayFareServiceFactory();
-        case "new-york":
-            return new NycFareServiceFactory();
-        case "seattle":
-            return new SeattleFareServiceFactory();
         default:
             throw new IllegalArgumentException(String.format("Unknown fare type: '%s'", type));
         }

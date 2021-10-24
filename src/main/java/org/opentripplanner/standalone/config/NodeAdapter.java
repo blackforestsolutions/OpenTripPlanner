@@ -14,16 +14,13 @@ import java.time.Period;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.DoubleFunction;
-import java.util.function.Function;
 import java.util.regex.Pattern;
 
 
@@ -93,10 +90,6 @@ public class NodeAdapter {
         return result;
     }
 
-    public String getSource() {
-        return source;
-    }
-
     JsonNode asRawNode(String paramName) {
         return param(paramName);
     }
@@ -129,6 +122,7 @@ public class NodeAdapter {
     }
 
     /**
+     * FOR TESTING
      * Get a required parameter as a boolean value.
      * @throws OtpAppException if parameter is missing.
      */
@@ -141,14 +135,14 @@ public class NodeAdapter {
         return param(paramName).asDouble(defaultValue);
     }
 
+    /**
+     * FOR TESTING
+     * @param paramName
+     * @return
+     */
     public double asDouble(String paramName) {
         assertRequiredFieldExist(paramName);
         return param(paramName).asDouble();
-    }
-
-    public List<Double> asDoubles(String paramName, List<Double> defaultValue) {
-        if(!exist(paramName)) return defaultValue;
-        return arrayAsList(paramName, JsonNode::asDouble);
     }
 
     public int asInt(String paramName, int defaultValue) {
@@ -232,37 +226,6 @@ public class NodeAdapter {
     ) {
         Map<E, T> map = localAsEnumMap(paramName, enumClass, mapper, true);
         return map.isEmpty() ? null : map;
-    }
-
-    public <T extends Enum<T>> Set<T> asEnumSet(String paramName, Class<T> enumClass) {
-        if(!exist(paramName)) { return Set.of(); }
-
-        Set<T> result = EnumSet.noneOf(enumClass);
-
-        JsonNode param = param(paramName);
-        if(param.isArray()) {
-            for (JsonNode it : param) {
-                result.add(Enum.valueOf(enumClass, it.asText()));
-            }
-
-        }
-        // Assume all values is concatenated in one string separated by ','
-        else  {
-            String[] values = asText(paramName).split("[,\\s]+");
-            for (String value : values) {
-                    if(value.isBlank()) { continue; }
-                    try {
-                        result.add(Enum.valueOf(enumClass, value));
-                    }
-                    catch (IllegalArgumentException e) {
-                        throw new OtpAppException("The parameter '" + fullPath(paramName)
-                                + "': '" + value + "' is not an enum value of "
-                                + enumClass.getSimpleName() + ". Source: " + source + "."
-                        );
-                    }
-            }
-        }
-        return result;
     }
 
     public FeedScopedId asFeedScopedId(String paramName, FeedScopedId defaultValue) {
@@ -409,14 +372,6 @@ public class NodeAdapter {
                     + "Source: " + source + "."
             );
         }
-    }
-
-    private  <T> List<T> arrayAsList(String paramName, Function<JsonNode, T> parse) {
-        List<T> values = new ArrayList<>();
-        for (JsonNode node : param(paramName)) {
-            values.add(parse.apply(node));
-        }
-        return values;
     }
 
     private void assertRequiredFieldExist(String paramName) {

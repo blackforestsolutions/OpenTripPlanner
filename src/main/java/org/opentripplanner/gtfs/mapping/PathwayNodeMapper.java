@@ -1,19 +1,13 @@
 package org.opentripplanner.gtfs.mapping;
 
 import org.opentripplanner.model.PathwayNode;
-import org.opentripplanner.util.MapUtils;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 /** Responsible for mapping GTFS Node into the OTP model. */
 class PathwayNodeMapper {
     private Map<org.onebusaway.gtfs.model.Stop, PathwayNode> mappedNodes = new HashMap<>();
-
-    Collection<PathwayNode> map(Collection<org.onebusaway.gtfs.model.Stop> allNodes) {
-        return MapUtils.mapToList(allNodes, this::map);
-    }
 
     /** Map from GTFS to OTP model, {@code null} safe.  */
     PathwayNode map(org.onebusaway.gtfs.model.Stop orginal) {

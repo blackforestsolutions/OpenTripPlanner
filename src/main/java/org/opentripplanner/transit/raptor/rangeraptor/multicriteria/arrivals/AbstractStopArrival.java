@@ -18,10 +18,6 @@ public abstract class AbstractStopArrival<T extends RaptorTripSchedule> implemen
         return (l, r) -> l.arrivalTime < r.arrivalTime || l.paretoRound < r.paretoRound || l.cost < r.cost;
     }
 
-    public static <T extends RaptorTripSchedule> ParetoComparator<AbstractStopArrival<T>> compareArrivalTimeAndRound() {
-        return (l, r) -> l.arrivalTime < r.arrivalTime || l.paretoRound < r.paretoRound;
-    }
-
     private final AbstractStopArrival<T> previous;
 
     /**
@@ -91,13 +87,6 @@ public abstract class AbstractStopArrival<T extends RaptorTripSchedule> implemen
 
     public AbstractStopArrival<T> timeShiftNewArrivalTime(int newArrivalTime) {
         throw new UnsupportedOperationException("No accessEgress for transfer stop arrival");
-    }
-
-    /**
-     * @return previous state or throw a NPE if no previousArrival exist.
-     */
-    final int previousStop() {
-        return previous.stop;
     }
 
     @Override

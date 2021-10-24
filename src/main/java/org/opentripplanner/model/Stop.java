@@ -3,13 +3,12 @@ package org.opentripplanner.model;
 
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.TimeZone;
 
 /**
  * A place where actual boarding/departing happens. It can be a bus stop on one side of a road or a
- * platform at a train station. Equivalent to GTFS stop location 0 or NeTEx quay.
+ * platform at a train station. Equivalent to GTFS stop location 0.
  */
 public final class Stop extends StationElement implements StopLocation {
 
@@ -94,10 +93,6 @@ public final class Stop extends StationElement implements StopLocation {
     return "<Stop " + this.id + ">";
   }
 
-  public String getPlatformCode() {
-    return platformCode;
-  }
-
   /**
    * This is to ensure backwards compatibility with the REST API, which expects the GTFS zone_id
    * which only permits one zone per stop.
@@ -110,18 +105,6 @@ public final class Stop extends StationElement implements StopLocation {
     return url;
   }
 
-  public TimeZone getTimeZone() {
-    return timeZone;
-  }
-
-  public TransitMode getVehicleType() {
-    return vehicleType;
-  }
-
-  public Collection<BoardingArea> getBoardingAreas() {
-    return boardingAreas != null ? boardingAreas : Collections.emptySet();
-  }
-
   /**
    * Get the transfer cost priority for Stop. This will fetch the value from the parent
    * [if parent exist] or return the default value.
@@ -129,9 +112,5 @@ public final class Stop extends StationElement implements StopLocation {
   @NotNull
   public TransferPriority getCostPriority() {
     return isPartOfStation() ? getParentStation().getCostPriority() : TransferPriority.ALLOWED;
-  }
-
-  public Collection<FareZone> getFareZones() {
-    return Collections.unmodifiableCollection(fareZones);
   }
 }

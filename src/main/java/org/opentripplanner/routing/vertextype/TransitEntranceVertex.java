@@ -43,10 +43,6 @@ public class TransitEntranceVertex extends Vertex {
     return wheelchairEntrance;
   }
 
-  public Entrance getEntrance() {
-    return this.entrance;
-  }
-
   @Override
   public StationElement getStationElement() {
     return this.entrance;

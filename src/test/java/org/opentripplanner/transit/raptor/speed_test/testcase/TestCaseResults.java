@@ -78,11 +78,6 @@ class TestCaseResults {
         return matchedResults.isEmpty();
     }
 
-    @Override
-    public String toString() {
-        return TableTestReport.report(matchedResults);
-    }
-
 
     /* private methods */
 

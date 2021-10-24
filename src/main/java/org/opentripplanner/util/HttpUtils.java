@@ -20,14 +20,6 @@ public class HttpUtils {
     private static final long TIMEOUT_CONNECTION = 5000;
     private static final int TIMEOUT_SOCKET = 5000;
 
-    public static InputStream getData(URI uri) throws IOException {
-        return getData(uri, null, null);
-    }
-
-    public static InputStream getData(String uri) throws IOException {
-        return getData(URI.create(uri));
-    }
-
     public static InputStream getData(URI uri, String requestHeaderName, String requestHeaderValue) throws IOException {
         HttpGet httpget = new HttpGet(uri);
         if (requestHeaderValue != null) {

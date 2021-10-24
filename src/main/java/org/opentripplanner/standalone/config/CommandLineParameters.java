@@ -111,10 +111,6 @@ public class CommandLineParameters implements Cloneable {
             description = "Server port for HTTPS.")
     public Integer securePort = DEFAULT_SECURE_PORT;
 
-    @Parameter(names = {"--visualize"},
-            description = "Open a graph visualizer window for debugging.")
-    public boolean visualize;
-
     /**
      * The remaining single parameter after the switches is the directory with the configuration
      * files. This directory may contain other files like the graph, input data and report files.

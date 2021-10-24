@@ -71,11 +71,6 @@ public class GraphPathFinder {
             options.setRoutingContext(router.graph);
             // The special long-distance heuristic should be sufficient to constrain the search to the right area.
         }
-        // If this Router has a GraphVisualizer attached to it, set it as a callback for the AStar search
-        if (router.graphVisualizer != null) {
-            aStar.setTraverseVisitor(router.graphVisualizer.traverseVisitor);
-            // options.disableRemainingWeightHeuristic = true; // DEBUG
-        }
 
         options.dominanceFunction = new DominanceFunction.MinimumWeight(); // FORCING the dominance function to weight only
         LOG.debug("rreq={}", options);

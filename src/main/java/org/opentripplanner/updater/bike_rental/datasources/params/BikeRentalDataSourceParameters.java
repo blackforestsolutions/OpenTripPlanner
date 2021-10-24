@@ -37,9 +37,4 @@ public class BikeRentalDataSourceParameters {
   public String getNetwork(String defaultValue) {
     return network == null || network.isEmpty() ? defaultValue : network;
   }
-
-  @Nullable
-  public String getApiKey() {
-    return apiKey;
-  }
 }

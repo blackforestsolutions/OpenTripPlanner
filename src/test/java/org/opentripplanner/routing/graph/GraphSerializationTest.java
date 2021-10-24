@@ -45,14 +45,6 @@ public class GraphSerializationTest {
         testRoundTrip(ConstantsForTests.getInstance().getPortlandGraph());
     }
 
-    /**
-     * Tests Netex based graph serialization to file.
-     */
-    @Test
-    public void testRoundTripSerializationForNetexGraph() throws Exception {
-        testRoundTrip(ConstantsForTests.getInstance().getMinimalNetexGraph());
-    }
-
     // Ideally we'd also test comparing two separate but identical complex graphs, built separately from the same inputs.
     // A test that builds the same graph twice will currently fail for the following reasons:
     // There is global state in Vertex.index and the feeds IDs that mean if you build the same graph twice the feed IDs

@@ -2,7 +2,6 @@ package org.opentripplanner.routing.algorithm.mapping;
 
 import org.locationtech.jts.geom.Coordinate;
 import org.opentripplanner.common.geometry.SphericalDistanceLibrary;
-import org.opentripplanner.model.GenericLocation;
 import org.opentripplanner.model.Stop;
 import org.opentripplanner.model.TripPattern;
 import org.opentripplanner.model.calendar.ServiceDate;
@@ -20,10 +19,8 @@ import org.opentripplanner.routing.core.State;
 import org.opentripplanner.routing.core.StateEditor;
 import org.opentripplanner.routing.core.TraverseMode;
 import org.opentripplanner.routing.graph.Edge;
-import org.opentripplanner.routing.graph.Vertex;
 import org.opentripplanner.routing.spt.GraphPath;
 import org.opentripplanner.routing.trippattern.TripTimes;
-import org.opentripplanner.routing.vertextype.TransitStopVertex;
 import org.opentripplanner.transit.raptor.api.path.AccessPathLeg;
 import org.opentripplanner.transit.raptor.api.path.EgressPathLeg;
 import org.opentripplanner.transit.raptor.api.path.Path;
@@ -301,24 +298,6 @@ public class RaptorPathToItineraryMapper {
                 currLeg.to = nextLeg.from;
             }
         }
-    }
-
-    private Place mapOriginTargetToPlace(Vertex vertex, GenericLocation location) {
-        return vertex instanceof TransitStopVertex ?
-                mapTransitVertexToPlace((TransitStopVertex) vertex) :
-                mapLocationToPlace(location);
-    }
-
-    private Place mapLocationToPlace(GenericLocation location) {
-        if (location.label == null || location.label.isEmpty()) {
-            return new Place(location.lat, location.lng, String.format("%.6f, %.6f", location.lat, location.lng));
-        } else {
-            return new Place(location.lat, location.lng, location.label);
-        }
-    }
-
-    private Place mapTransitVertexToPlace(TransitStopVertex vertex) {
-        return mapStopToPlace(vertex.getStop(), null);
     }
 
     private Place mapStopToPlace(Stop stop, Integer stopIndex) {

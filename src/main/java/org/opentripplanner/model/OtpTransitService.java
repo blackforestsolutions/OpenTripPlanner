@@ -1,8 +1,5 @@
 package org.opentripplanner.model;
 
-import com.google.common.collect.Multimap;
-import org.opentripplanner.ext.flex.trip.FlexTrip;
-
 import java.util.Collection;
 import java.util.List;
 
@@ -16,11 +13,6 @@ public interface OtpTransitService {
      */
     Collection<Agency> getAllAgencies();
 
-    /**
-     * @return a list of all Operators, the list may be empty if there are no Operators in the imported data.
-     */
-    Collection<Operator> getAllOperators();
-
     Collection<FareAttribute> getAllFareAttributes();
 
     Collection<FareRule> getAllFareRules();
@@ -31,12 +23,6 @@ public interface OtpTransitService {
 
     Collection<MultiModalStation> getAllMultiModalStations();
 
-    /**
-     * This is equivalent to a Transmodel Notice Assignments. The map key may reference entity ids of
-     * any type (Serializable).
-     */
-    Multimap<TransitEntity<?>, Notice> getNoticeAssignments();
-
     Collection<Pathway> getAllPathways();
 
     /**
@@ -45,10 +31,6 @@ public interface OtpTransitService {
     Collection<FeedScopedId> getAllServiceIds();
 
     List<ShapePoint> getShapePointsForShapeId(FeedScopedId shapeId);
-
-    Station getStationForId(FeedScopedId id);
-
-    Stop getStopForId(FeedScopedId id);
 
     Collection<Station> getAllStations();
 
@@ -60,10 +42,6 @@ public interface OtpTransitService {
 
     Collection<BoardingArea> getAllBoardingAreas();
 
-    Collection<FlexStopLocation> getAllLocations();
-
-    Collection<FlexLocationGroup> getAllLocationGroups();
-
     /**
      * @return the list of {@link StopTime} objects associated with the trip,
      * sorted by {@link StopTime#getStopSequence()}
@@ -74,7 +52,4 @@ public interface OtpTransitService {
 
     Collection<TripPattern> getTripPatterns();
 
-    Collection<Trip> getAllTrips();
-
-    Collection<FlexTrip> getAllFlexTrips();
 }

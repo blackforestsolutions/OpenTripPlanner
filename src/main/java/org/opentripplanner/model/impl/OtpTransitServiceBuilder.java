@@ -2,35 +2,7 @@ package org.opentripplanner.model.impl;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-import org.opentripplanner.ext.flex.trip.FlexTrip;
-import org.opentripplanner.model.Agency;
-import org.opentripplanner.model.BoardingArea;
-import org.opentripplanner.model.Entrance;
-import org.opentripplanner.model.FareAttribute;
-import org.opentripplanner.model.FareRule;
-import org.opentripplanner.model.FeedInfo;
-import org.opentripplanner.model.FeedScopedId;
-import org.opentripplanner.model.Frequency;
-import org.opentripplanner.model.GroupOfStations;
-import org.opentripplanner.model.FlexStopLocation;
-import org.opentripplanner.model.FlexLocationGroup;
-import org.opentripplanner.model.MultiModalStation;
-import org.opentripplanner.model.Notice;
-import org.opentripplanner.model.Operator;
-import org.opentripplanner.model.OtpTransitService;
-import org.opentripplanner.model.Pathway;
-import org.opentripplanner.model.PathwayNode;
-import org.opentripplanner.model.Route;
-import org.opentripplanner.model.ShapePoint;
-import org.opentripplanner.model.Station;
-import org.opentripplanner.model.Stop;
-import org.opentripplanner.model.StopPattern;
-import org.opentripplanner.model.FareZone;
-import org.opentripplanner.model.Transfer;
-import org.opentripplanner.model.TransitEntity;
-import org.opentripplanner.model.Trip;
-import org.opentripplanner.model.TripPattern;
-import org.opentripplanner.model.TripStopTimes;
+import org.opentripplanner.model.*;
 import org.opentripplanner.model.calendar.CalendarServiceData;
 import org.opentripplanner.model.calendar.ServiceCalendar;
 import org.opentripplanner.model.calendar.ServiceCalendarDate;
@@ -39,11 +11,7 @@ import org.opentripplanner.model.calendar.impl.CalendarServiceDataFactoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static org.opentripplanner.model.impl.GenerateMissingIds.generateNoneExistentIds;
 
@@ -72,8 +40,6 @@ public class OtpTransitServiceBuilder {
     private final EntityById<FeedScopedId, GroupOfStations> groupsOfStationsById = new EntityById<>();
 
     private final EntityById<FeedScopedId, MultiModalStation> multiModalStationsById = new EntityById<>();
-
-    private final Multimap<TransitEntity<?>, Notice> noticeAssignments = ArrayListMultimap.create();
 
     private final EntityById<FeedScopedId, Operator> operatorsById = new EntityById<>();
 
@@ -106,8 +72,6 @@ public class OtpTransitServiceBuilder {
     private final EntityById<FeedScopedId, Trip> tripsById = new EntityById<>();
 
     private final Multimap<StopPattern, TripPattern> tripPatterns = ArrayListMultimap.create();
-
-    private final EntityById<FeedScopedId, FlexTrip> flexTripsById = new EntityById<>();
 
     public OtpTransitServiceBuilder() {
     }
@@ -148,14 +112,6 @@ public class OtpTransitServiceBuilder {
 
     public EntityById<FeedScopedId, MultiModalStation> getMultiModalStationsById() {
         return multiModalStationsById;
-    }
-
-    /**
-     * get multimap of Notices by the TransitEntity id (Multiple types; hence the Serializable). Entities
-     * that might have Notices are Routes, Trips, Stops and StopTimes.
-     */
-    public Multimap<TransitEntity<?>, Notice> getNoticeAssignments() {
-        return noticeAssignments;
     }
 
     public EntityById<FeedScopedId, Operator> getOperatorsById() {
@@ -206,8 +162,6 @@ public class OtpTransitServiceBuilder {
         return stopTimesByTrip;
     }
 
-    public EntityById<FeedScopedId, FareZone> getFareZonesById() { return fareZonesById; }
-
     public List<Transfer> getTransfers() {
         return transfers;
     }
@@ -219,11 +173,6 @@ public class OtpTransitServiceBuilder {
     public Multimap<StopPattern, TripPattern> getTripPatterns() {
         return tripPatterns;
     }
-
-    public EntityById<FeedScopedId, FlexTrip> getFlexTripsById() {
-        return flexTripsById;
-    }
-
 
     /**
      * Find all serviceIds in both CalendarServices and CalendarServiceDates.

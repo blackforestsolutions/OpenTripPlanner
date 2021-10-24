@@ -1,14 +1,7 @@
 package org.opentripplanner.routing.graph;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
+import com.google.common.collect.*;
 import gnu.trove.list.TDoubleList;
 import gnu.trove.list.linked.TDoubleLinkedList;
 import org.apache.commons.math3.stat.descriptive.rank.Median;
@@ -17,41 +10,18 @@ import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Geometry;
 import org.opentripplanner.common.MavenVersion;
 import org.opentripplanner.common.TurnRestriction;
-import org.opentripplanner.common.geometry.CompactElevationProfile;
 import org.opentripplanner.common.geometry.GraphUtils;
 import org.opentripplanner.common.geometry.SphericalDistanceLibrary;
 import org.opentripplanner.common.model.T2;
-import org.opentripplanner.ext.flex.trip.FlexTrip;
 import org.opentripplanner.graph_builder.DataImportIssueStore;
 import org.opentripplanner.graph_builder.issues.NoFutureDates;
-import org.opentripplanner.model.Agency;
-import org.opentripplanner.model.FeedInfo;
-import org.opentripplanner.model.FeedScopedId;
-import org.opentripplanner.model.GraphBundle;
-import org.opentripplanner.model.GroupOfStations;
-import org.opentripplanner.model.FlexStopLocation;
-import org.opentripplanner.model.FlexLocationGroup;
-import org.opentripplanner.model.MultiModalStation;
-import org.opentripplanner.model.Notice;
-import org.opentripplanner.model.Operator;
-import org.opentripplanner.model.SimpleTransfer;
-import org.opentripplanner.model.Station;
-import org.opentripplanner.model.Stop;
-import org.opentripplanner.model.StopLocation;
-import org.opentripplanner.model.TimetableSnapshot;
-import org.opentripplanner.model.TimetableSnapshotProvider;
-import org.opentripplanner.model.TransitEntity;
-import org.opentripplanner.model.TransitMode;
-import org.opentripplanner.model.Trip;
-import org.opentripplanner.model.TripPattern;
-import org.opentripplanner.model.WgsCoordinate;
+import org.opentripplanner.model.*;
 import org.opentripplanner.model.calendar.CalendarService;
 import org.opentripplanner.model.calendar.CalendarServiceData;
 import org.opentripplanner.model.calendar.ServiceDate;
 import org.opentripplanner.model.calendar.impl.CalendarServiceImpl;
 import org.opentripplanner.routing.algorithm.raptor.transit.TransitLayer;
 import org.opentripplanner.routing.algorithm.raptor.transit.mappers.TransitLayerUpdater;
-import org.opentripplanner.routing.bike_rental.BikeRentalStationService;
 import org.opentripplanner.routing.core.TransferTable;
 import org.opentripplanner.routing.edgetype.EdgeWithCleanup;
 import org.opentripplanner.routing.edgetype.StreetEdge;
@@ -72,19 +42,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.BitSet;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.TimeZone;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.prefs.Preferences;
@@ -108,13 +66,6 @@ public class Graph implements Serializable {
 
     public final StreetNotesService streetNotesService = new StreetNotesService();
 
-    /**
-     * Allows a notice element to be attached to an object in the OTP model by its id and then
-     * retrieved by the API when navigating from that object. The map key is entity id:
-     * {@link TransitEntity#getId()}. The notice is part of the static transit data.
-     */
-    private final Multimap<TransitEntity<?>, Notice> noticesByElement = HashMultimap.create();
-
     // transit feed validity information in seconds since epoch
     private long transitServiceStarts = Long.MAX_VALUE;
 
@@ -123,8 +74,6 @@ public class Graph implements Serializable {
     private Map<Class<?>, Serializable> services = new HashMap<>();
 
     private TransferTable transferTable = new TransferTable();
-
-    private GraphBundle bundle;
 
     /* Ideally we could just get rid of vertex labels, but they're used in tests and graph building. */
     private Map<String, Vertex> vertices = new ConcurrentHashMap<>();
@@ -245,8 +194,6 @@ public class Graph implements Serializable {
 
     public Map<FeedScopedId, FlexLocationGroup> locationGroupsById = new HashMap<>();
 
-    public Map<FeedScopedId, FlexTrip> flexTripsById = new HashMap<>();
-
     /** The distance between elevation samples used in CompactElevationProfile. */
     private double distanceBetweenElevationSamples;
 
@@ -271,17 +218,8 @@ public class Graph implements Serializable {
      */
     public long nextSplitNumber = 0;
 
-    public Graph(Graph basedOn) {
-        this();
-        this.bundle = basedOn.getBundle();
-    }
-
     // Constructor for deserialization.
     public Graph() { }
-
-    public TimetableSnapshot getTimetableSnapshot() {
-        return timetableSnapshotProvider == null ? null : timetableSnapshotProvider.getTimetableSnapshot();
-    }
 
     /**
      * TODO OTP2 - This should be replaced by proper dependency injection
@@ -432,6 +370,8 @@ public class Graph implements Serializable {
     }
 
     /**
+     * FOR TESTING
+     *
      * Return only the StreetEdges in the graph.
      * @return
      */
@@ -471,10 +411,6 @@ public class Graph implements Serializable {
     @SuppressWarnings("unchecked")
     public <T extends Serializable> T putService(Class<T> serviceType, T service) {
         return (T) services.put(serviceType, service);
-    }
-
-    public boolean hasService(Class<? extends Serializable> serviceType) {
-        return services.containsKey(serviceType);
     }
 
     @SuppressWarnings("unchecked")
@@ -520,14 +456,6 @@ public class Graph implements Serializable {
         this.remove(vertex);
     }
 
-    public Envelope getExtent() {
-        Envelope env = new Envelope();
-        for (Vertex v : getVertices()) {
-            env.expandToInclude(v.getCoordinate());
-        }
-        return env;
-    }
-
     public TransferTable getTransferTable() {
         return transferTable;
     }
@@ -569,14 +497,6 @@ public class Graph implements Serializable {
         return t >= this.transitServiceStarts && t < this.transitServiceEnds;
     }
 
-    public GraphBundle getBundle() {
-        return bundle;
-    }
-
-    public void setBundle(GraphBundle bundle) {
-        this.bundle = bundle;
-    }
-
     public int countVertices() {
         return vertices.size();
     }
@@ -604,10 +524,6 @@ public class Graph implements Serializable {
      */
     public void addTransitMode(TransitMode mode) {
         transitModes.add(mode);
-    }
-
-    public HashSet<TransitMode> getTransitModes() {
-        return transitModes;
     }
 
     /**
@@ -696,10 +612,6 @@ public class Graph implements Serializable {
         return agencies;
     }
 
-    public FeedInfo getFeedInfo(String feedId) {
-        return feedInfoForId.get(feedId);
-    }
-
     public void addAgency(String feedId, Agency agency) {
         agencies.add(agency);
         this.feedIds.add(feedId);
@@ -770,14 +682,6 @@ public class Graph implements Serializable {
     }
 
     /**
-     * @return calculated convexHull;
-     */
-    public Geometry getConvexHull() {
-        return convexHull;
-
-    }
-
-    /**
      * Expands envelope to include given point
      *
      * If envelope is empty it creates it (This can happen with a graph without OSM data)
@@ -831,33 +735,8 @@ public class Graph implements Serializable {
         }
     }
 
-    public Optional<Coordinate> getCenter() {
-        return Optional.ofNullable(center);
-    }
-
-    public long getTransitServiceStarts() {
-        return transitServiceStarts;
-    }
-
-    public long getTransitServiceEnds() {
-        return transitServiceEnds;
-    }
-
-    public Multimap<TransitEntity<?>, Notice> getNoticesByElement() {
-        return noticesByElement;
-    }
-
-    public void addNoticeAssignments(Multimap<TransitEntity<?>, Notice> noticesByElement) {
-        this.noticesByElement.putAll(noticesByElement);
-    }
-
     public double getDistanceBetweenElevationSamples() {
         return distanceBetweenElevationSamples;
-    }
-
-    public void setDistanceBetweenElevationSamples(double distanceBetweenElevationSamples) {
-        this.distanceBetweenElevationSamples = distanceBetweenElevationSamples;
-        CompactElevationProfile.setDistanceBetweenSamplesM(distanceBetweenElevationSamples);
     }
 
     public TransitAlertService getTransitAlertService() {
@@ -921,27 +800,6 @@ public class Graph implements Serializable {
         return services;
     }
 
-    public BikeRentalStationService getBikerentalStationService() {
-        return getService(BikeRentalStationService.class);
-    }
-
-    public Collection<Notice> getNoticesByEntity(TransitEntity<?> entity) {
-        Collection<Notice> res = getNoticesByElement().get(entity);
-        return res == null ? Collections.emptyList() : res;
-    }
-
-    public TripPattern getTripPatternForId(FeedScopedId id) {
-        return tripPatternForId.get(id);
-    }
-
-    public Collection<TripPattern> getTripPatterns() {
-        return tripPatternForId.values();
-    }
-
-    public Collection<Notice> getNotices() {
-        return getNoticesByElement().values();
-    }
-
     /** Get all stops within a given bounding box. */
     public Collection<Stop> getStopsByBoundingBox(double minLat, double minLon, double maxLat, double maxLon) {
         Envelope envelope = new Envelope(
@@ -964,23 +822,7 @@ public class Graph implements Serializable {
                 .collect(Collectors.toList());
     }
 
-    public Station getStationById(FeedScopedId id) {
-        return stationById.get(id);
-    }
-
-    public MultiModalStation getMultiModalStation(FeedScopedId id) {
-        return multiModalStationById.get(id);
-    }
-
-    public Collection<Station> getStations() {
-        return stationById.values();
-    }
-
     public Map<FeedScopedId, Integer> getServiceCodes() {
         return serviceCodes;
-    }
-
-    public Collection<SimpleTransfer> getTransfersByStop(StopLocation stop) {
-        return transfersByStop.get(stop);
     }
 }

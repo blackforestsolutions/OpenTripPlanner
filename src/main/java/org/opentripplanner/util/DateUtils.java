@@ -184,30 +184,6 @@ public class DateUtils implements DateConstants {
         }
     }
 
-    /**
-     * Converts the given time in seconds to a <code>String</code> in the format h:mm.
-     * 
-     * @param seconds the time in seconds.
-     * @return a <code>String</code> representing the time in the format h:mm
-     */
-    public static String secToHHMM(int seconds) {
-        int min;
-        String sign = "";
-
-        if(seconds >= 0) {
-            min = seconds/60;
-            sign = "";
-        } else {
-            min = -seconds/60;
-            sign = "-";
-        }
-
-        int mm = min % 60;
-        int hh = min / 60;
-
-        return String.format("%s%d:%02d", sign, hh, mm);
-    }
-
     public static String trim(String str) {
         String retVal = str;
         try {
@@ -217,27 +193,6 @@ public class DateUtils implements DateConstants {
         } catch (Exception ex) {
         }
         return retVal;
-    }
-
-    public static String formatDate(String sdfFormat, Date date, TimeZone tz) {
-        return formatDate(sdfFormat, date, null, tz);
-    }
-
-    public static String formatDate(String sdfFormat, Date date, String defValue, TimeZone tz) {
-        String retVal = defValue;
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat(sdfFormat);
-            sdf.setTimeZone(tz);
-            retVal = sdf.format(date);
-        } catch (Exception e) {
-            retVal = defValue;
-        }
-
-        return retVal;
-    }
-
-    public static Date parseDate(String sdf, String string) {
-        return parseDate(new SimpleDateFormat(sdf), string);
     }
 
     public synchronized static Date parseDate(SimpleDateFormat sdf, String string) {

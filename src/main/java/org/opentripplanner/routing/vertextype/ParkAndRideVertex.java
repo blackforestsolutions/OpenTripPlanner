@@ -27,8 +27,4 @@ public class ParkAndRideVertex extends Vertex {
     public void setId(String id){
     	this.id = id;
     }
-    
-    public String getId(){
-    	return this.id;
-    }
 }

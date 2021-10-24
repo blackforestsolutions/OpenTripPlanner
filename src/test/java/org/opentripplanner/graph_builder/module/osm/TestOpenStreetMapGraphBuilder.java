@@ -50,7 +50,7 @@ public class TestOpenStreetMapGraphBuilder extends TestCase {
         loader.setDefaultWayPropertySetSource(new DefaultWayPropertySetSource());
 
         File file = new File(URLDecoder.decode(getClass().getResource("map.osm.pbf").getFile(), "UTF-8"));
-        BinaryOpenStreetMapProvider provider = new BinaryOpenStreetMapProvider(file, true);
+        BinaryOpenStreetMapProvider provider = new BinaryOpenStreetMapProvider(file);
 
         loader.setProvider(provider);
 
@@ -107,7 +107,7 @@ public class TestOpenStreetMapGraphBuilder extends TestCase {
         loader.setDefaultWayPropertySetSource(new DefaultWayPropertySetSource());
 
         File file = new File(URLDecoder.decode(getClass().getResource("NYC_small.osm.pbf").getFile(), "UTF-8"));
-        BinaryOpenStreetMapProvider provider = new BinaryOpenStreetMapProvider(file, true);
+        BinaryOpenStreetMapProvider provider = new BinaryOpenStreetMapProvider(file);
 
         loader.setProvider(provider);
 
@@ -157,11 +157,10 @@ public class TestOpenStreetMapGraphBuilder extends TestCase {
         Graph graph = new Graph();
 
         OpenStreetMapModule loader = new OpenStreetMapModule();
-        loader.skipVisibility = skipVisibility;
         loader.setDefaultWayPropertySetSource(new DefaultWayPropertySetSource());
 
         File file = new File(URLDecoder.decode(getClass().getResource("usf_area.osm.pbf").getFile(), "UTF-8"));
-        BinaryOpenStreetMapProvider provider = new BinaryOpenStreetMapProvider(file, false);
+        BinaryOpenStreetMapProvider provider = new BinaryOpenStreetMapProvider(file);
 
         loader.setProvider(provider);
 
@@ -305,23 +304,7 @@ public class TestOpenStreetMapGraphBuilder extends TestCase {
         LocalizedString localizedString = new LocalizedString("corner",
                 new String[]{"first", "second"});
 
-        assertEquals("corner of first and second", localizedString.toString());
         assertEquals("Kreuzung first mit second",
                 localizedString.toString(new Locale("de")));
     }
-
-    // disabled pending discussion with author (AMB)
-    // @Test
-    // public void testMultipolygon() throws Exception {
-    // Graph gg = new Graph();
-    // OpenStreetMapGraphBuilderImpl loader = new OpenStreetMapGraphBuilderImpl();
-    //
-    // FileBasedOpenStreetMapProviderImpl pr = new FileBasedOpenStreetMapProviderImpl();
-    // pr.setPath(new File(getClass().getResource("otp-multipolygon-test.osm").getPath()));
-    // loader.setProvider(pr);
-    //
-    // loader.buildGraph(gg, extra);
-    //
-    // assertNotNull(gg.getVertex("way -3535 from 4"));
-    // }
 }

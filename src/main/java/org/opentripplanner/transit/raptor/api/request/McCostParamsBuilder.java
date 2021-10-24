@@ -20,11 +20,6 @@ public class McCostParamsBuilder {
         return boardCost;
     }
 
-    public McCostParamsBuilder boardCost(int boardCost) {
-        this.boardCost = boardCost;
-        return this;
-    }
-
     public double walkReluctanceFactor() {
         return walkReluctanceFactor;
     }

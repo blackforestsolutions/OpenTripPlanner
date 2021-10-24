@@ -5,14 +5,11 @@ import org.onebusaway.gtfs.model.AgencyAndId;
 import org.onebusaway.gtfs.model.Stop;
 import org.opentripplanner.model.WheelChairBoarding;
 
-import java.util.Collection;
-import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
 
 public class BoardingAreaMapperTest  {
   private static final AgencyAndId AGENCY_AND_ID = new AgencyAndId("A", "B1");
@@ -59,12 +56,6 @@ public class BoardingAreaMapperTest  {
 
   private BoardingAreaMapper subject = new BoardingAreaMapper();
 
-  @Test
-  public void testMapCollection() {
-    assertNull(null, subject.map((Collection<Stop>) null));
-    assertTrue(subject.map(Collections.emptyList()).isEmpty());
-    assertEquals(1, subject.map(Collections.singleton(STOP)).size());
-  }
 
   @Test
   public void testMap() {
@@ -72,7 +63,6 @@ public class BoardingAreaMapperTest  {
 
     assertEquals("A:B1", result.getId().toString());
     assertEquals(CODE, result.getCode());
-    assertEquals(DESC, result.getDescription());
     assertEquals(LAT, result.getLat(), 0.0001d);
     assertEquals(LON, result.getLon(), 0.0001d);
     assertEquals(NAME, result.getName());
@@ -89,7 +79,6 @@ public class BoardingAreaMapperTest  {
 
     assertNotNull(result.getId());
     assertNull(result.getCode());
-    assertNull(result.getDescription());
     assertNull(result.getName());
     assertNull(result.getParentStop());
     assertNull(result.getCode());

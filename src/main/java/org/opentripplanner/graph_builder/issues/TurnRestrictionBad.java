@@ -21,9 +21,4 @@ public class TurnRestrictionBad implements DataImportIssue {
         return String.format(FMT, id, reason);
     }
 
-    @Override
-    public String getHTMLMessage() {
-        return String.format(HTMLFMT, id, id, reason);
-    }
-
 }

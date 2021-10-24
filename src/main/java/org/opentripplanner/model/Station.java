@@ -76,26 +76,8 @@ public class Station extends TransitEntity<FeedScopedId> implements StopCollecti
     super.setId(id);
   }
 
-  public String getName() {
-    return name;
-  }
-
   public WgsCoordinate getCoordinate() {
     return coordinate;
-  }
-
-  /** Public facing station code (short text or number) */
-  public String getCode() {
-    return code;
-  }
-
-  /** Additional information about the station (if needed) */
-  public String getDescription() {
-    return description;
-  }
-
-  public String getUrl() {
-    return url;
   }
 
   /**
@@ -109,10 +91,6 @@ public class Station extends TransitEntity<FeedScopedId> implements StopCollecti
    */
   public TransferPriority getCostPriority() {
     return costPriority;
-  }
-
-  public TimeZone getTimezone() {
-    return timezone;
   }
 
   public Collection<Stop> getChildStops() {

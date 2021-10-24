@@ -35,32 +35,38 @@ package org.opentripplanner.model;
 public enum BikeAccess {
     UNKNOWN, NOT_ALLOWED, ALLOWED;
 
+    /**
+     * FOR TESTING
+     *
+     * @param trip
+     * @return
+     */
     @SuppressWarnings("deprecation")
     public static BikeAccess fromTrip(Trip trip) {
         switch (trip.getBikesAllowed()) {
-        case 1:
-            return ALLOWED;
-        case 2:
-            return NOT_ALLOWED;
+            case 1:
+                return ALLOWED;
+            case 2:
+                return NOT_ALLOWED;
         }
         switch (trip.getTripBikesAllowed()) {
-        case 1:
-            return NOT_ALLOWED;
-        case 2:
-            return ALLOWED;
+            case 1:
+                return NOT_ALLOWED;
+            case 2:
+                return ALLOWED;
         }
         Route route = trip.getRoute();
         switch (route.getBikesAllowed()) {
-        case 1:
-            return ALLOWED;
-        case 2:
-            return NOT_ALLOWED;
+            case 1:
+                return ALLOWED;
+            case 2:
+                return NOT_ALLOWED;
         }
         switch (route.getRouteBikesAllowed()) {
-        case 1:
-            return NOT_ALLOWED;
-        case 2:
-            return ALLOWED;
+            case 1:
+                return NOT_ALLOWED;
+            case 2:
+                return ALLOWED;
         }
         return UNKNOWN;
     }
@@ -68,20 +74,22 @@ public enum BikeAccess {
     @SuppressWarnings("deprecation")
     public static void setForTrip(Trip trip, BikeAccess access) {
         switch (access) {
-        case ALLOWED:
-            trip.setBikesAllowed(1);
-            trip.setTripBikesAllowed(2);
-            break;
-        case NOT_ALLOWED:
-            trip.setBikesAllowed(2);
-            trip.setTripBikesAllowed(1);
-            break;
-        case UNKNOWN:
-            trip.setBikesAllowed(0);
-            trip.setTripBikesAllowed(0);
-            break;
+            case ALLOWED:
+                trip.setBikesAllowed(1);
+                trip.setTripBikesAllowed(2);
+                break;
+            case NOT_ALLOWED:
+                trip.setBikesAllowed(2);
+                trip.setTripBikesAllowed(1);
+                break;
+            case UNKNOWN:
+                trip.setBikesAllowed(0);
+                trip.setTripBikesAllowed(0);
+                break;
         }
     }
+
+
 
     /**
      * Improvement: This method could be removed, if the logic was not part of the GTFS import,

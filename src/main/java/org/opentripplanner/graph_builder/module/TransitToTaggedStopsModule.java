@@ -16,10 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * This module takes advantage of the fact that in some cities, an authoritative linking location for GTFS stops is
@@ -40,14 +38,6 @@ public class TransitToTaggedStopsModule implements GraphBuilderModule {
     StreetVertexIndex index;
     private double searchRadiusM = 250;
     private double searchRadiusLat = SphericalDistanceLibrary.metersToDegrees(searchRadiusM);
-
-    public List<String> provides() {
-        return Arrays.asList("street to transit", "linking");
-    }
-
-    public List<String> getPrerequisites() {
-        return Arrays.asList("streets"); // why not "transit" ?
-    }
 
     @Override
     public void buildGraph(

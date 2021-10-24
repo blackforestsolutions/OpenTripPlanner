@@ -1,7 +1,6 @@
 package org.opentripplanner.api.model;
 
 
-import org.opentripplanner.model.Notice;
 import org.opentripplanner.routing.alertpatch.TransitAlert;
 
 /**
@@ -13,7 +12,6 @@ import org.opentripplanner.routing.alertpatch.TransitAlert;
  * or alerts.
  *
  * @see TransitAlert for end user alerts
- * @see Notice for end user notices
  */
 public class ApiSystemNotice {
 

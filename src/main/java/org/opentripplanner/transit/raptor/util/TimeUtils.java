@@ -30,6 +30,12 @@ public class TimeUtils {
         return hms2time(hour, minute, 0);
     }
 
+    /**
+     * FOR TESTING
+     * @param hhmm
+     * @param defaultValue
+     * @return
+     */
     public static int parseHHMM(String hhmm, int defaultValue) {
         String[] tokens = hhmm.split(":");
         if(tokens.length != 2) {
@@ -42,7 +48,10 @@ public class TimeUtils {
         return hm2time(hh, mm);
     }
 
-    /** pares time of format hh:mm:ss. */
+    /**
+     * FOR TESTING
+     * pares time of format hh:mm:ss.
+     * */
     public static int parseTimeLong(String hhmmss, int defaultValue) {
         String[] tokens = hhmmss.split(":");
         if(tokens.length != 3) {
@@ -98,10 +107,6 @@ public class TimeUtils {
         return timeStr(time, notSetValue, FormatType.LONG);
     }
 
-    public static String timeToStrLong(Calendar time) {
-        return timeStr(time, FormatType.LONG);
-    }
-
     public static String timeToStrShort(int time) {
         return timeStr(time, NOT_SET, FormatType.SHORT);
     }
@@ -109,16 +114,6 @@ public class TimeUtils {
     public static String timeToStrShort(Calendar time) {
         return timeStr(time, FormatType.SHORT);
     }
-
-    public static Calendar midnightOf(Calendar time) {
-        final Calendar midnight = (Calendar) time.clone();
-        midnight.set(Calendar.HOUR, 0);
-        midnight.set(Calendar.MINUTE, 0);
-        midnight.set(Calendar.SECOND, 0);
-        midnight.set(Calendar.MILLISECOND, 0);
-        return midnight;
-    }
-
 
     /* private methods */
 

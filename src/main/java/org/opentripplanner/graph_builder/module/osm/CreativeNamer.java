@@ -23,19 +23,22 @@ public class CreativeNamer {
         this.creativeNamePattern = pattern;
     }
 
+    /**
+     * FOR TESTING
+     */
     public CreativeNamer() {
     }
-   
+
     public I18NString generateCreativeName(OSMWithTags way) {
         return new LocalizedString(creativeNamePattern, way);
     }
 
+    /**
+     * FOR TESTING
+     * @param creativeNamePattern
+     */
     public void setCreativeNamePattern(String creativeNamePattern) {
         this.creativeNamePattern = creativeNamePattern;
-    }
-
-    public String getCreativeNamePattern() {
-        return creativeNamePattern;
     }
 
 }

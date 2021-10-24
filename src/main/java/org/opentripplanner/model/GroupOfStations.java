@@ -24,9 +24,6 @@ public class GroupOfStations extends TransitEntity<FeedScopedId> implements Stop
 
     private Set<StopCollection> childStations = new HashSet<>();
 
-    public GroupOfStations() {
-    }
-
     @Override
     public FeedScopedId getId() {
         return id;
@@ -37,14 +34,6 @@ public class GroupOfStations extends TransitEntity<FeedScopedId> implements Stop
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public double getLat() {
         return coordinate.latitude();
     }
@@ -53,33 +42,10 @@ public class GroupOfStations extends TransitEntity<FeedScopedId> implements Stop
         return coordinate.longitude();
     }
 
-    public void setCoordinate(WgsCoordinate coordinate) {
-        this.coordinate = coordinate;
-    }
-
     public Collection<Stop> getChildStops() {
         return this.childStations.stream()
                 .flatMap(s -> s.getChildStops().stream())
                 .collect(Collectors.toUnmodifiableList());
-    }
-
-    public Collection<StopCollection> getChildStations() {
-        return this.childStations;
-    }
-
-    public void addChildStation(StopCollection station) {
-        this.childStations.add(station);
-    }
-
-    /**
-     * Categorization for the grouping
-     */
-    public PurposeOfGrouping getPurposeOfGrouping() {
-        return purposeOfGrouping;
-    }
-
-    public void setPurposeOfGrouping(PurposeOfGrouping purposeOfGrouping) {
-        this.purposeOfGrouping = purposeOfGrouping;
     }
 
     @Override

@@ -20,9 +20,4 @@ public class ParkAndRideUnlinked implements DataImportIssue {
         return String.format(FMT, name, osmId);
     }
 
-    @Override
-    public String getHTMLMessage() {
-        return String.format(HTMLFMT, osmId, name, osmId);
-    }
-
 }

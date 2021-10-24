@@ -1,7 +1,5 @@
 package org.opentripplanner.model.plan;
 
-import org.opentripplanner.routing.core.TraverseMode;
-
 import java.util.List;
 
 

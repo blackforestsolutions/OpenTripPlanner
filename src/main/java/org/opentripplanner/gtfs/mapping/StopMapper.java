@@ -3,7 +3,6 @@ package org.opentripplanner.gtfs.mapping;
 import org.opentripplanner.model.FeedScopedId;
 import org.opentripplanner.model.Stop;
 import org.opentripplanner.model.FareZone;
-import org.opentripplanner.util.MapUtils;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -15,10 +14,6 @@ import java.util.TimeZone;
 class StopMapper {
 
   private Map<org.onebusaway.gtfs.model.Stop, Stop> mappedStops = new HashMap<>();
-
-  Collection<Stop> map(Collection<org.onebusaway.gtfs.model.Stop> allStops) {
-    return MapUtils.mapToList(allStops, this::map);
-  }
 
   /** Map from GTFS to OTP model, {@code null} safe. */
   Stop map(org.onebusaway.gtfs.model.Stop orginal) {

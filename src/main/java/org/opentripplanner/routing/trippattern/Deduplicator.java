@@ -19,14 +19,6 @@ public class Deduplicator implements Serializable {
     private final Map<BitSet, BitSet> canonicalBitSets = Maps.newHashMap();
     private final Map<StringArray, StringArray> canonicalStringArrays = Maps.newHashMap();
 
-    /** Free up any memory used by the deduplicator. */
-    public void reset() {
-        canonicalIntArrays.clear();
-        canonicalStrings.clear();
-        canonicalBitSets.clear();
-        canonicalStringArrays.clear();
-    }
-
     /** Used to deduplicate time and stop sequence arrays. The same times may occur in many trips. */
     public int[] deduplicateIntArray(int[] original) {
         if (original == null) return null;

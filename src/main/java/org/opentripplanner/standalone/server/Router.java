@@ -5,8 +5,6 @@ import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.FileAppender;
-import org.opentripplanner.ext.transmodelapi.TransmodelAPI;
-import org.opentripplanner.inspector.TileRendererManager;
 import org.opentripplanner.routing.algorithm.raptor.transit.TransitLayer;
 import org.opentripplanner.routing.algorithm.raptor.transit.TripSchedule;
 import org.opentripplanner.routing.algorithm.raptor.transit.mappers.TransitLayerMapper;
@@ -17,9 +15,7 @@ import org.opentripplanner.standalone.config.RouterConfig;
 import org.opentripplanner.transit.raptor.rangeraptor.configure.RaptorConfig;
 import org.opentripplanner.updater.GraphUpdaterConfigurator;
 import org.opentripplanner.util.ElevationUtils;
-import org.opentripplanner.util.OTPFeature;
 import org.opentripplanner.util.WorldEnvelope;
-import org.opentripplanner.visualizer.GraphVisualizer;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -42,17 +38,11 @@ public class Router {
     /* TODO The fields for "components" are slowly disappearing... maybe at some point a router
         will be nothing but configuration values tied to a Graph. */
 
-    /** Inspector/debug services */
-    public TileRendererManager tileRendererManager;
-
     /**
      * A RoutingRequest containing default parameters that will be cloned when handling each
      * request.
      */
     public RoutingRequest defaultRoutingRequest;
-
-    /** A graphical window that is used for visualizing search progress (debugging). */
-    public GraphVisualizer graphVisualizer = null;
 
     public Router(Graph graph, RouterConfig routerConfig) {
         this.graph = graph;
@@ -70,7 +60,6 @@ public class Router {
      * Start up a new router once it has been created.
      */
     public void startup() {
-        this.tileRendererManager = new TileRendererManager(this.graph);
         this.defaultRoutingRequest = routerConfig.routingRequestDefaults();
 
         if (routerConfig.requestLogFile() != null) {
@@ -110,19 +99,6 @@ public class Router {
         } catch (Exception e) {
             LOG.error("Error computing ellipsoid/geoid difference");
         }
-
-        if(OTPFeature.SandboxAPITransmodelApi.isOn()) {
-            TransmodelAPI.setUp(
-                routerConfig.transmodelApiHideFeedId(),
-                graph,
-                defaultRoutingRequest
-            );
-        }
-    }
-
-    /** Shut down this router when evicted or (auto-)reloaded. Stop any real-time updater threads. */
-    public void shutdown() {
-        GraphUpdaterConfigurator.shutdownGraph(this.graph);
     }
 
     /**

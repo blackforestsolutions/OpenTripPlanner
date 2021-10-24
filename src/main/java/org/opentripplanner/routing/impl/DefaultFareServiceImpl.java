@@ -162,12 +162,6 @@ public class DefaultFareServiceImpl implements FareService {
         return cost0 + cost1;
     }
 
-    protected float getLowestCost(FareType fareType, List<Ride> rides,
-            Collection<FareRuleSet> fareRules) {
-        FareSearch r = performSearch(fareType, rides, fareRules);
-        return r.resultTable[0][rides.size()-1];
-    }
-
     /**
      * Builds the Fare object for the given currency, fareType and fareRules.
      * <p>
@@ -220,11 +214,6 @@ public class DefaultFareServiceImpl implements FareService {
         fare.addFare(fareType, getMoney(currency, r.resultTable[0][rides.size()-1]));
         fare.addFareDetails(fareType, details);
         return count > 0;
-    }
-
-    protected float calculateCost(FareType fareType, List<Ride> rides,
-            Collection<FareRuleSet> fareRules) {
-        return getBestFareAndId(fareType, rides, fareRules).fare;
     }
 
     private FareAndId getBestFareAndId(FareType fareType, List<Ride> rides,

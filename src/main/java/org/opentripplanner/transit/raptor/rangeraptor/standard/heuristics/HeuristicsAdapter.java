@@ -94,12 +94,6 @@ public class HeuristicsAdapter implements Heuristics {
     }
 
     @Override
-    public int bestOverallJourneyNumOfTransfers() {
-        calculateAggregatedResults();
-        return minJourneyNumOfTransfers;
-    }
-
-    @Override
     public boolean destinationReached() {
         calculateAggregatedResults();
         return minJourneyNumOfTransfers != NOT_SET;

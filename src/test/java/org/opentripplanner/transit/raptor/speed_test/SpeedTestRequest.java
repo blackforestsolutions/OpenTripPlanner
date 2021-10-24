@@ -51,9 +51,7 @@ public class SpeedTestRequest {
     }
 
     public TestCase tc() { return testCase; }
-    public LocalDate getDepartureDate() {
-        return date;
-    }
+
     public Date getDepartureTimestamp() {
         return new Date(
                 date.atStartOfDay(inputZoneId).toInstant().toEpochMilli()

@@ -15,11 +15,6 @@ public class BikeParkUnlinked implements DataImportIssue {
     }
 
     @Override
-    public String getHTMLMessage() {
-        return String.format(HTMLFMT, bikeParkVertex.getLat(), bikeParkVertex.getLon(), bikeParkVertex);
-    }
-
-    @Override
     public String getMessage() {
         return String.format(FMT, bikeParkVertex);
     }

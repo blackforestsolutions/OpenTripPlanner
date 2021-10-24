@@ -10,20 +10,6 @@ public class OSMNode extends OSMWithTags {
     }
 
     /**
-     * Returns the capacity of this node if defined, or 0.
-     * 
-     * @return
-     */
-    public int getCapacity() throws NumberFormatException {
-        String capacity = getTag("capacity");
-        if (capacity == null) {
-            return 0;
-        }
-        
-        return Integer.parseInt(getTag("capacity"));
-    }
-
-    /**
      * Is this a multi-level node that should be decomposed to multiple coincident nodes? Currently returns true only for elevators.
      * 
      * @return whether the node is multi-level

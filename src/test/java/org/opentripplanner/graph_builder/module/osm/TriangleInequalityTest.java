@@ -53,7 +53,7 @@ public class TriangleInequalityTest {
                 )
         );
         DataSource source = new FileDataSource(file, FileType.OSM);
-        BinaryOpenStreetMapProvider provider = new BinaryOpenStreetMapProvider(source, true);
+        BinaryOpenStreetMapProvider provider = new BinaryOpenStreetMapProvider(source);
 
         loader.setProvider(provider);
         loader.buildGraph(graph, extra);

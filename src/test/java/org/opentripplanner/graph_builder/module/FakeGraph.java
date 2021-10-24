@@ -28,7 +28,7 @@ public class FakeGraph {
         loader.setDefaultWayPropertySetSource(new DefaultWayPropertySetSource());
 
         File file = getFileForResource("columbus.osm.pbf");
-        BinaryOpenStreetMapProvider provider = new BinaryOpenStreetMapProvider(file, false);
+        BinaryOpenStreetMapProvider provider = new BinaryOpenStreetMapProvider(file);
         loader.setProvider(provider);
 
         loader.buildGraph(gg, new HashMap<>());
@@ -38,17 +38,6 @@ public class FakeGraph {
     public static File getFileForResource(String resource) {
         URL resourceUrl = FakeGraph.class.getResource(resource);
         return new File(resourceUrl.getPath());
-    }
-
-    /**
-     * Add many transit lines to a lot of stops. This is only used by InitialStopsTest.
-     */
-    public static void addTransitMultipleLines (Graph g) {
-        GtfsModule gtfs = new GtfsModule(
-                Arrays.asList(new GtfsBundle(getFileForResource("addTransitMultipleLines.gtfs.zip"))),
-                ServiceDateInterval.unbounded()
-        );
-        gtfs.buildGraph(g, new HashMap<>());
     }
 
     /**

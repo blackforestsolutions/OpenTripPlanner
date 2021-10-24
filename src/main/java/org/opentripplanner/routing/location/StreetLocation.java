@@ -3,7 +3,6 @@ package org.opentripplanner.routing.location;
 import org.locationtech.jts.geom.Coordinate;
 import org.opentripplanner.routing.vertextype.StreetVertex;
 import org.opentripplanner.util.I18NString;
-import org.opentripplanner.util.NonLocalizedString;
 
 /**
  * Represents a location on a street, somewhere between the two corners. This is used when computing the first and last segments of a trip, for trips
@@ -18,18 +17,16 @@ public class StreetLocation extends StreetVertex {
         super(null, id, nearestPoint.x, nearestPoint.y, name);
     }
 
-    //For tests only
-    public StreetLocation(String id, Coordinate nearestPoint, String name) {
-        // calling constructor with null graph means this vertex is temporary
-        super(null, id, nearestPoint.x, nearestPoint.y, new NonLocalizedString(name));
-    }
-
     private static final long serialVersionUID = 1L;
 
     public void setWheelchairAccessible(boolean wheelchairAccessible) {
         this.wheelchairAccessible = wheelchairAccessible;
     }
 
+    /**
+     * FOR TESTING
+     * @return
+     */
     public boolean isWheelchairAccessible() {
         return wheelchairAccessible;
     }

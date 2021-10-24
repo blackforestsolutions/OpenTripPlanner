@@ -45,11 +45,6 @@ public interface Heuristics {
     int bestOverallJourneyTravelDuration();
 
     /**
-     * Return the best/minimum required number of transfers from origin to destination.
-     */
-    int bestOverallJourneyNumOfTransfers();
-
-    /**
      * Return true if the destination is reached.
      */
     boolean destinationReached();

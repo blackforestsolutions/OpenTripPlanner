@@ -139,6 +139,11 @@ public class OSMDatabase {
         return nodesById.get(nodeId);
     }
 
+    /**
+     * FOR TESTING
+     * @param nodeId
+     * @return
+     */
     public OSMWay getWay(Long nodeId) {
         return waysById.get(nodeId);
     }
@@ -147,21 +152,22 @@ public class OSMDatabase {
         return Collections.unmodifiableCollection(waysById.valueCollection());
     }
 
+    /**
+     * FOR TESTING
+     * @return
+     */
     public int nodeCount() {
         return nodesById.size();
     }
 
+    /**
+     * FOR TESTING
+     * @return
+     */
     public int wayCount() {
         return waysById.size();
     }
 
-    public Collection<OSMNode> getBikeRentalNodes() {
-        return Collections.unmodifiableCollection(bikeRentalNodes.valueCollection());
-    }
-
-    public Collection<OSMNode> getBikeParkingNodes() {
-        return Collections.unmodifiableCollection(bikeParkingNodes.valueCollection());
-    }
 
     public Collection<Area> getWalkableAreas() {
         return Collections.unmodifiableCollection(walkableAreas);
@@ -187,25 +193,9 @@ public class OSMDatabase {
         return turnRestrictionsByToWay.get(toWayId);
     }
 
-    public Collection<OSMNode> getStopsInArea(OSMWithTags areaParent) {
-        return stopsInAreas.get(areaParent);
-    }
-
     public OSMLevel getLevelForWay(OSMWithTags way) {
         OSMLevel level = wayLevels.get(way);
         return level != null ? level : OSMLevel.DEFAULT;
-    }
-
-    public boolean isNodeSharedByMultipleAreas(Long nodeId) {
-        Set<OSMWay> areas = areasForNode.get(nodeId);
-        if (areas == null) {
-            return false;
-        }
-        return areas.size() > 1;
-    }
-
-    public boolean isNodeBelongsToWay(Long nodeId) {
-        return waysNodeIds.contains(nodeId);
     }
 
     public void addNode(OSMNode node) {

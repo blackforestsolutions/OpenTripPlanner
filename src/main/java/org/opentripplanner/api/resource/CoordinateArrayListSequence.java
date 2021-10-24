@@ -117,14 +117,6 @@ public class CoordinateArrayListSequence implements CoordinateSequence, Cloneabl
         coordinates.addAll(Arrays.asList(newCoordinates).subList(start, end));
     }
 
-    public void add(Coordinate newCoordinate) {
-        coordinates.add(newCoordinate);
-    }
-
-    public void clear() {
-    	coordinates = new ArrayList<Coordinate>();
-    }
-
     @Override
     public CoordinateSequence copy() {
         CoordinateArrayListSequence clone;

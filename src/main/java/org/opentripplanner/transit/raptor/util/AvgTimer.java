@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 
@@ -62,6 +61,7 @@ public abstract class AvgTimer {
     }
 
     /**
+     * FOR TESTING
      * This method MUST be called by the main() method BEFORE any timers are created. {@link
      * AvgTimer}s are normally created when a class is loaded by the classloader; Hence to turn on
      * performance timers, this method must be called before the class is loaded.
@@ -100,6 +100,7 @@ public abstract class AvgTimer {
     }
 
     /**
+     * FOR TESTING
      * If you want to "warm up" your code then start timing,
      * you may call this method after the warm up is done.
      */
@@ -107,6 +108,9 @@ public abstract class AvgTimer {
         allTimers().forEach(AvgTimer::reset);
     }
 
+    /**
+     * FOR TESTING
+     */
     private void reset() {
         startTime = 0;
         lapTime = 0;
@@ -160,36 +164,43 @@ public abstract class AvgTimer {
         }
     }
 
-    public <T> T timeAndReturn(Supplier<T> body) {
-        try {
-            start();
-            T result = body.get();
-            stop();
-            return result;
-        } finally {
-            failIfStarted();
-        }
-    }
-
+    /**
+     * FOR TESTING
+     * @return
+     */
     public long lapTime() {
         return lapTime;
     }
 
+    /**
+     * FOR TESTING
+     * @return
+     */
     public long avgTime() {
         return average(totalTimeSuccess, counterSuccess);
     }
 
+    /**
+     * FOR TESTING
+     * @return
+     */
     public String totalTimeInSeconds() {
         return toSec(totalTimeSuccess + totalTimeFailed);
     }
 
-
-    /* private methods */
-
+    /**
+     * FOR TESTING
+     * @return
+     */
     private boolean used() {
         return counterSuccess != 0 || counterFailed != 0;
     }
 
+    /**
+     * FOR TESTING
+     * @param width
+     * @return
+     */
     private String toString(int width) {
         return formatLine(
                 method,
@@ -199,10 +210,19 @@ public abstract class AvgTimer {
         );
     }
 
+    /**
+     * FOR TESTING
+     * @return
+     */
     private static Stream<AvgTimer> allTimers() {
         return allTimers.values().stream();
     }
 
+    /**
+     * FOR TESTING
+     * @param width
+     * @return
+     */
     private static String header1(int width) {
         return formatLine(
                 RESULT_TABLE_TITLE,
@@ -212,6 +232,11 @@ public abstract class AvgTimer {
         );
     }
 
+    /**
+     * FOR TESTING
+     * @param width
+     * @return
+     */
     private static String header2(int width) {
         return formatLine(
                 "",
@@ -220,6 +245,12 @@ public abstract class AvgTimer {
         );
     }
 
+    /**
+     * FOR TESTING
+     * @param time
+     * @param count
+     * @return
+     */
     private String formatResultAvg(long time, int count) {
         return String.format(
                 "%4s %5s %4s %s %6s %6s s",
@@ -232,38 +263,84 @@ public abstract class AvgTimer {
         );
     }
 
+    /**
+     * FOR TESTING
+     * @param value
+     * @return
+     */
     private String str(long value) {
         return value < 10_000 ? Long.toString(value) : (value/1000) + "'";
     }
 
-
+    /**
+     * FOR TESTING
+     * @return
+     */
     private static String columnHeaderAvg() {
         return " Min   Max  Avg     Count   Total";
     }
 
+    /**
+     * FOR TESTING
+     * @param time
+     * @param count
+     * @return
+     */
     private String formatResult(long time, int count) {
         return String.format("%4d %s %6d %6s s", average(time, count), unit(), count, toSec(time));
     }
 
+    /**
+     * FOR TESTING
+     * @return
+     */
     private static String columnFailureHeader() {
         return "Average  Count   Total";
     }
 
+    /**
+     * FOR TESTING
+     * @param label
+     * @param labelWidth
+     * @param column1
+     * @param column2
+     * @return
+     */
     private static String formatLine(String label, int labelWidth, String column1, String column2) {
         return String.format("%-" + labelWidth + "s | %-35s| %-24s", label, column1, column2);
     }
 
+    /**
+     * FOR TESTING
+     * @param total
+     * @param count
+     * @return
+     */
     private static long average(long total, int count) {
         return count == 0 ? 0 : total / count;
     }
 
+    /**
+     * FOR TESTING
+     * @return
+     */
     private long minTime() {
         return minTime == Long.MAX_VALUE ? -1 : minTime;
     }
+
     abstract long currentTime();
 
+    /**
+     * FOR TESTING
+     * @return
+     */
     abstract String unit();
 
+    /**
+     * FOR TESTING
+     * @param time
+     * @return
+     */
     abstract String toSec(long time);
 
 
@@ -315,7 +392,6 @@ public abstract class AvgTimer {
         @Override public void stop() { }
         @Override public void failIfStarted() { }
         @Override public void time(Runnable body) { body.run(); }
-        @Override public <T> T timeAndReturn(Supplier<T> body) { return body.get();  }
         @Override public long lapTime() { return 0; }
         @Override long currentTime() { return 0; }
         @Override String unit() { return "ms"; }

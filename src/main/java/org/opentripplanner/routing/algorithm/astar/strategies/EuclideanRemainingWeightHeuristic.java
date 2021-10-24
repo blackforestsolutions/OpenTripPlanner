@@ -51,9 +51,6 @@ public class EuclideanRemainingWeightHeuristic implements RemainingWeightHeurist
     }
 
     @Override
-    public void reset() {}
-
-    @Override
     public void doSomeWork() {}
 
 }

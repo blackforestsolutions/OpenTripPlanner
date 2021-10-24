@@ -25,47 +25,11 @@ public class NamedArea implements Serializable {
 
     private StreetTraversalPermission permission;
 
-    public String getName() {
-        return name.toString();
-    }
-
-    public I18NString getRawName() {
-        return name;
-    }
-
-    public void setName(I18NString name) {
-        this.name = name;
-    }
-
-    public Geometry getPolygon() {
-        return originalEdges;
-    }
-
-    public void setOriginalEdges(Geometry originalEdges) {
-        this.originalEdges = originalEdges;
-    }
-
     public double getBicycleSafetyMultiplier() {
         return bicycleSafetyMultiplier;
     }
 
     public void setBicycleSafetyMultiplier(double bicycleSafetyMultiplier) {
         this.bicycleSafetyMultiplier = bicycleSafetyMultiplier;
-    }
-
-    public StreetTraversalPermission getPermission() {
-        return permission;
-    }
-
-    public int getStreetClass() {
-        return streetClass;
-    }
-
-    public void setStreetClass(int streetClass) {
-        this.streetClass = streetClass;
-    }
-
-    public void setPermission(StreetTraversalPermission permission) {
-        this.permission = permission;
     }
 }

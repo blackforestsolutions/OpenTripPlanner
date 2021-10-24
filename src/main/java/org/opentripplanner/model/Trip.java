@@ -42,49 +42,12 @@ public final class Trip extends TransitEntity<FeedScopedId> {
     public Trip() {
     }
 
-    public Trip(Trip obj) {
-        this.id = obj.id;
-        this.route = obj.route;
-        this.operator = obj.operator;
-        this.serviceId = obj.serviceId;
-        this.tripShortName = obj.tripShortName;
-        this.tripHeadsign = obj.tripHeadsign;
-        this.routeShortName = obj.routeShortName;
-        this.directionId = obj.directionId;
-        this.blockId = obj.blockId;
-        this.shapeId = obj.shapeId;
-        this.wheelchairAccessible = obj.wheelchairAccessible;
-        this.tripBikesAllowed = obj.tripBikesAllowed;
-        this.bikesAllowed = obj.bikesAllowed;
-        this.fareId = obj.fareId;
-    }
-
     public FeedScopedId getId() {
         return id;
     }
 
     public void setId(FeedScopedId id) {
         this.id = id;
-    }
-
-    /**
-     * Operator running the trip. Returns operator of this trip, if it exist, or else the route operator.
-     */
-    public Operator getOperator() {
-        return operator != null ? operator : route.getOperator();
-    }
-
-    /**
-     * This method return the operator associated with the trip. If the Trip have no Operator set {@code null} is
-     * returned. Note! this method do not consider the {@link Route} that the trip is part of.
-     * @see #getOperator()
-     */
-    public Operator getTripOperator() {
-        return operator;
-    }
-
-    public void setTripOperator(Operator operator) {
-        this.operator = operator;
     }
 
     public Route getRoute() {
@@ -115,17 +78,6 @@ public final class Trip extends TransitEntity<FeedScopedId> {
         this.tripShortName = tripShortName;
     }
 
-    /**
-     * Internal code (non-public identifier) for the journey (e.g. train- or trip number from
-     * the planners' tool). This is kept to ensure compatibility with legacy planning systems.
-     * In NeTEx this maps to privateCode, there is no GTFS equivalent.
-     */
-    public String getInternalPlanningCode() { return internalPlanningCode; }
-
-    public void setInternalPlanningCode(String internalPlanningCode) {
-        this.internalPlanningCode = internalPlanningCode;
-    }
-
     public String getTripHeadsign() {
         return tripHeadsign;
     }
@@ -134,6 +86,10 @@ public final class Trip extends TransitEntity<FeedScopedId> {
         this.tripHeadsign = tripHeadsign;
     }
 
+    /**
+     * FOR TESTING
+     * @return
+     */
     public String getRouteShortName() {
         return routeShortName;
     }
@@ -170,6 +126,10 @@ public final class Trip extends TransitEntity<FeedScopedId> {
         this.wheelchairAccessible = wheelchairAccessible;
     }
 
+    /**
+     * FOR TESTING
+     * @return
+     */
     public int getWheelchairAccessible() {
         return wheelchairAccessible;
     }
@@ -185,6 +145,7 @@ public final class Trip extends TransitEntity<FeedScopedId> {
     }
 
     /**
+     * FOR TESTING
      * @return 0 = unknown / unspecified, 1 = bikes allowed, 2 = bikes NOT allowed
      */
     public int getBikesAllowed() {
@@ -202,6 +163,10 @@ public final class Trip extends TransitEntity<FeedScopedId> {
         return "<Trip " + getId() + ">";
     }
 
+    /**
+     * FOR TESTING
+     * @return
+     */
     public String getFareId() {
         return fareId;
     }

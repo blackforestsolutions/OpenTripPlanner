@@ -75,10 +75,6 @@ public class HeuristicSearchTask<T extends RaptorTripSchedule> {
         return direction;
     }
 
-    public HeuristicSearch<T> search() {
-        return search;
-    }
-
     public Heuristics result() {
         return search == null ? null : search.heuristics();
     }
@@ -90,6 +86,9 @@ public class HeuristicSearchTask<T extends RaptorTripSchedule> {
         return this;
     }
 
+    /**
+     * FOR TESTING
+     */
     public void forceRun() {
         enable();
         run();

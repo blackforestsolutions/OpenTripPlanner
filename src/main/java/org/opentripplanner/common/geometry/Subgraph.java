@@ -41,10 +41,6 @@ public class Subgraph {
         return (streetVertexSet.contains(vertex) || stopsVertexSet.contains(vertex));
     }
 
-    public boolean containsStreet(Vertex vertex){
-        return streetVertexSet.contains(vertex);
-    }
-
     public int streetSize(){
         return streetVertexSet.size();
     }

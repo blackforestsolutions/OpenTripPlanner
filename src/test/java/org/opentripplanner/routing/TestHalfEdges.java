@@ -4,8 +4,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.LineString;
 import org.locationtech.jts.linearref.LinearLocation;
 import org.opentripplanner.common.geometry.GeometryUtils;
@@ -59,14 +57,6 @@ public class TestHalfEdges {
     private TransitStopVertex station1;
 
     private TransitStopVertex station2;
-
-    public LineString createGeometry(Vertex a, Vertex b) {
-        GeometryFactory factory = new GeometryFactory();
-        Coordinate[] cs = new Coordinate[2];
-        cs[0] = a.getCoordinate();
-        cs[1] = b.getCoordinate();
-        return factory.createLineString(cs);
-    }
 
     @Rule
     public final ExpectedException exception = ExpectedException.none();

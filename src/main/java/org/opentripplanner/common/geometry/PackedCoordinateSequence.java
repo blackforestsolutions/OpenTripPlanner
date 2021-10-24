@@ -126,32 +126,6 @@ public abstract class PackedCoordinateSequence implements CoordinateSequence, Se
     public abstract double getOrdinate(int index, int ordinateIndex);
 
     /**
-     * Sets the first ordinate of a coordinate in this sequence.
-     * 
-     * @param index
-     *            the coordinate index
-     * @param value
-     *            the new ordinate value
-     */
-    public void setX(int index, double value) {
-        coordRef = null;
-        setOrdinate(index, 0, value);
-    }
-
-    /**
-     * Sets the second ordinate of a coordinate in this sequence.
-     * 
-     * @param index
-     *            the coordinate index
-     * @param value
-     *            the new ordinate value
-     */
-    public void setY(int index, double value) {
-        coordRef = null;
-        setOrdinate(index, 1, value);
-    }
-
-    /**
      * Returns a Coordinate representation of the specified coordinate, by always building a new
      * Coordinate object
      * 
@@ -200,37 +174,6 @@ public abstract class PackedCoordinateSequence implements CoordinateSequence, Se
         double[] coords;
 
         /**
-         * Builds a new packed coordinate sequence
-         * 
-         * @param coords
-         * @param dimensions
-         */
-        public Double(double[] coords, int dimensions) {
-            if (dimensions < 2) {
-                throw new IllegalArgumentException("Must have at least 2 dimensions");
-            }
-            if (coords.length % dimensions != 0) {
-                throw new IllegalArgumentException("Packed array does not contain "
-                        + "an integral number of coordinates");
-            }
-            this.dimension = dimensions;
-            this.coords = coords;
-        }
-
-        /**
-         * Builds a new packed coordinate sequence out of a float coordinate array
-         * 
-         * @param coordinates
-         */
-        public Double(float[] coordinates, int dimensions) {
-            this.coords = new double[coordinates.length];
-            this.dimension = dimensions;
-            for (int i = 0; i < coordinates.length; i++) {
-                this.coords[i] = coordinates[i];
-            }
-        }
-
-        /**
          * Builds a new packed coordinate sequence out of a coordinate array
          * 
          * @param coordinates
@@ -257,14 +200,6 @@ public abstract class PackedCoordinateSequence implements CoordinateSequence, Se
          */
         public Double(Coordinate[] coordinates) {
             this(coordinates, 3);
-        }
-
-        /**
-         * Builds a new empty packed coordinate sequence of a given size and dimension
-         */
-        public Double(int size, int dimension) {
-            this.dimension = dimension;
-            coords = new double[size * this.dimension];
         }
 
         /**
@@ -338,35 +273,6 @@ public abstract class PackedCoordinateSequence implements CoordinateSequence, Se
         float[] coords;
 
         /**
-         * Constructs a packed coordinate sequence from an array of {@code float}s
-         * 
-         * @param coords
-         * @param dimensions
-         */
-        public Float(float[] coords, int dimensions) {
-            if (dimensions < 2) {
-                throw new IllegalArgumentException("Must have at least 2 dimensions");
-            }
-            if (coords.length % dimensions != 0) {
-                throw new IllegalArgumentException("Packed array does not contain "
-                        + "an integral number of coordinates");
-            }
-            this.dimension = dimensions;
-            this.coords = coords;
-        }
-
-        /**
-         * Constructs a packed coordinate sequence from an array of ${@code double}s
-         */
-        public Float(double[] coordinates, int dimensions) {
-            this.coords = new float[coordinates.length];
-            this.dimension = dimensions;
-            for (int i = 0; i < coordinates.length; i++) {
-                this.coords[i] = (float) coordinates[i];
-            }
-        }
-
-        /**
          * Constructs a packed coordinate sequence out of a coordinate array
          * 
          * @param coordinates
@@ -384,14 +290,6 @@ public abstract class PackedCoordinateSequence implements CoordinateSequence, Se
                 if (this.dimension >= 3)
                     coords[i * this.dimension + 2] = (float) coordinates[i].z;
             }
-        }
-
-        /**
-         * Constructs an empty packed coordinate sequence of a given size and dimension
-         */
-        public Float(int size, int dimension) {
-            this.dimension = dimension;
-            coords = new float[size * this.dimension];
         }
 
         /**

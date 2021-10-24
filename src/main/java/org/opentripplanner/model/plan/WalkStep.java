@@ -121,10 +121,6 @@ public class WalkStep {
         absoluteDirection = AbsoluteDirection.values()[octant];
     }
 
-    public List<P2<Double>> getElevation() {
-        return elevation;
-    }
-
     public void addStreetNotes(Collection<StreetNote> streetNotes) {
         if(streetNotes == null) { return; }
         this.streetNotes.addAll(streetNotes);

@@ -22,17 +22,13 @@ import org.opentripplanner.graph_builder.issues.StopUnlinked;
 import org.opentripplanner.graph_builder.services.DefaultStreetEdgeFactory;
 import org.opentripplanner.graph_builder.services.StreetEdgeFactory;
 import org.opentripplanner.model.GenericLocation;
-import org.opentripplanner.openstreetmap.model.OSMWithTags;
 import org.opentripplanner.routing.api.request.RoutingRequest;
 import org.opentripplanner.routing.core.TraverseMode;
 import org.opentripplanner.routing.core.TraverseModeSet;
-import org.opentripplanner.routing.edgetype.AreaEdge;
-import org.opentripplanner.routing.edgetype.AreaEdgeList;
 import org.opentripplanner.routing.edgetype.StreetBikeParkLink;
 import org.opentripplanner.routing.edgetype.StreetBikeRentalLink;
 import org.opentripplanner.routing.edgetype.StreetEdge;
 import org.opentripplanner.routing.edgetype.StreetTransitLink;
-import org.opentripplanner.routing.edgetype.StreetTraversalPermission;
 import org.opentripplanner.routing.edgetype.TemporaryFreeEdge;
 import org.opentripplanner.routing.edgetype.TransitEntranceLink;
 import org.opentripplanner.routing.graph.Edge;
@@ -42,21 +38,17 @@ import org.opentripplanner.routing.impl.StreetVertexIndex;
 import org.opentripplanner.routing.location.TemporaryStreetLocation;
 import org.opentripplanner.routing.vertextype.BikeParkVertex;
 import org.opentripplanner.routing.vertextype.BikeRentalStationVertex;
-import org.opentripplanner.routing.vertextype.IntersectionVertex;
 import org.opentripplanner.routing.vertextype.SplitterVertex;
 import org.opentripplanner.routing.vertextype.StreetVertex;
 import org.opentripplanner.routing.vertextype.TemporarySplitterVertex;
 import org.opentripplanner.routing.vertextype.TemporaryVertex;
 import org.opentripplanner.routing.vertextype.TransitEntranceVertex;
 import org.opentripplanner.routing.vertextype.TransitStopVertex;
-import org.opentripplanner.util.I18NString;
-import org.opentripplanner.util.LocalizedString;
 import org.opentripplanner.util.NonLocalizedString;
 import org.opentripplanner.util.ProgressTracker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Function;
@@ -347,28 +339,6 @@ public class SimpleStreetSplitter {
         return edgeReachableFromGraph;
     }
 
-    // Link to all vertices in area/platform
-    private void linkTransitToAreaVertices(Vertex splitterVertex, AreaEdgeList area) {
-        List<Vertex> vertices = new ArrayList<>();
-
-        for (AreaEdge areaEdge : area.getEdges()) {
-            if (!vertices.contains(areaEdge.getToVertex())) vertices.add(areaEdge.getToVertex());
-            if (!vertices.contains(areaEdge.getFromVertex())) vertices.add(areaEdge.getFromVertex());
-        }
-
-        for (Vertex vertex : vertices) {
-            if (vertex instanceof  StreetVertex && !vertex.equals(splitterVertex)) {
-                LineString line = GEOMETRY_FACTORY.createLineString(new Coordinate[] { splitterVertex.getCoordinate(), vertex.getCoordinate()});
-                double length = SphericalDistanceLibrary.distance(splitterVertex.getCoordinate(),
-                        vertex.getCoordinate());
-                I18NString name = new LocalizedString("", new OSMWithTags());
-
-                edgeFactory.createAreaEdge((IntersectionVertex) splitterVertex, (IntersectionVertex) vertex, line, name, length,StreetTraversalPermission.PEDESTRIAN_AND_BICYCLE, false, area);
-                edgeFactory.createAreaEdge((IntersectionVertex) vertex, (IntersectionVertex) splitterVertex, line, name, length,StreetTraversalPermission.PEDESTRIAN_AND_BICYCLE, false, area);
-            }
-        }
-    }
-
     /** split the edge and link in the transit stop */
     private void link(Vertex tstop, StreetEdge edge, double xscale, RoutingRequest options) {
         // TODO: we've already built this line string, we should save it
@@ -407,12 +377,6 @@ public class SimpleStreetSplitter {
             // split the edge, get the split vertex
             SplitterVertex v0 = split(edge, ll, temporaryVertex != null, endVertex);
             makeLinkEdges(tstop, v0);
-
-            // If splitter vertex is part of area; link splittervertex to all other vertexes in area, this creates
-            // edges that were missed by WalkableAreaBuilder
-            if (edge instanceof AreaEdge && tstop instanceof TransitStopVertex && this.addExtraEdgesToAreas) {
-                linkTransitToAreaVertices(v0, ((AreaEdge) edge).getArea());
-            }
         }
     }
 

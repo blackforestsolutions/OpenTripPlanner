@@ -31,16 +31,6 @@ public final class FareAttribute extends TransitEntity<FeedScopedId> {
     public FareAttribute() {
     }
 
-    public FareAttribute(FareAttribute fa) {
-        this.id = fa.id;
-        this.price = fa.price;
-        this.currencyType = fa.currencyType;
-        this.paymentMethod = fa.paymentMethod;
-        this.transfers = fa.transfers;
-        this.transferDuration = fa.transferDuration;
-        this.journeyDuration = fa.journeyDuration;
-    }
-
     @Override
     public FeedScopedId getId() {
         return id;
@@ -87,10 +77,6 @@ public final class FareAttribute extends TransitEntity<FeedScopedId> {
         this.transfers = transfers;
     }
 
-    public void clearTransfers() {
-        this.transfers = MISSING_VALUE;
-    }
-
     public boolean isTransferDurationSet() {
         return transferDuration != MISSING_VALUE;
     }
@@ -103,10 +89,6 @@ public final class FareAttribute extends TransitEntity<FeedScopedId> {
         this.transferDuration = transferDuration;
     }
 
-    public void clearTransferDuration() {
-        this.transferDuration = MISSING_VALUE;
-    }
-
     public boolean isJourneyDurationSet() {
         return journeyDuration != MISSING_VALUE;
     }
@@ -117,10 +99,6 @@ public final class FareAttribute extends TransitEntity<FeedScopedId> {
 
     public void setJourneyDuration(int journeyDuration) {
         this.journeyDuration = journeyDuration;
-    }
-
-    public void clearJourneyDuration() {
-        this.journeyDuration = MISSING_VALUE;
     }
 
     public String toString() {

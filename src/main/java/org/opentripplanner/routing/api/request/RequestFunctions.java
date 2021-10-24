@@ -63,12 +63,6 @@ public class RequestFunctions {
     return new LinearFunction(constant, coefficient);
   }
 
-  public static String serialize(Object function) {
-    if(function == null) { return null; }
-    if(function instanceof LinearFunction) { return ((LinearFunction)function).serialize(); }
-    throw new IllegalArgumentException("Function type is not valid: " + function.getClass());
-  }
-
   private static class LinearFunction implements DoubleFunction<Double>, Serializable {
     // This class is package local to be unit testable.
 
@@ -95,10 +89,6 @@ public class RequestFunctions {
     @Override
     public String toString() {
       return "f(x) = " + a + " + " + b + " x";
-    }
-
-    String serialize() {
-      return a + " + " + b + " x";
     }
   }
 }

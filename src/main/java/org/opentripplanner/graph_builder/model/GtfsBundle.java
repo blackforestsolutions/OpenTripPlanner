@@ -31,20 +31,6 @@ public class GtfsBundle {
 
     private Boolean defaultBikesAllowed = true;
 
-    private boolean transfersTxtDefinesStationPaths = false;
-
-    /** 
-     * Create direct transfers between the constituent stops of each parent station.
-     * This is different from "linking stops to parent stations" below.
-     */
-    public boolean parentStationTransfers = false;
-
-    /** 
-     * Connect parent station vertices to their constituent stops to allow beginning and 
-     * ending paths (itineraries) at them. 
-     */
-    public boolean linkStopsToParentStations = false;
-
     private Map<String, String> agencyIdMappings = new HashMap<String, String>();
 
     public int subwayAccessTime;
@@ -65,10 +51,6 @@ public class GtfsBundle {
 
     public GtfsBundle(CompositeDataSource dataSource) {
         this.dataSource = dataSource;
-    }
-
-    public void setUrl(URL url) {
-        this.url = url;
     }
 
     public CsvInputSource getCsvInputSource() {
@@ -118,6 +100,11 @@ public class GtfsBundle {
         return feedId;
     }
 
+    /**
+     * FOR TESTING
+     *
+     * @param feedId
+     */
     public void setFeedId(GtfsFeedId feedId) {
         this.feedId = feedId;
     }
@@ -132,26 +119,12 @@ public class GtfsBundle {
         return defaultBikesAllowed;
     }
 
+    /**
+     * FOR TESTING
+     * @param defaultBikesAllowed
+     */
     public void setDefaultBikesAllowed(Boolean defaultBikesAllowed) {
         this.defaultBikesAllowed = defaultBikesAllowed;
-    }
-
-    /**
-     * Transfers.txt usually specifies where the transit operator prefers people to transfer, 
-     * due to schedule structure and other factors.
-     * 
-     * However, in systems like the NYC subway system, transfers.txt can partially substitute 
-     * for the missing pathways.txt file.  In this case, transfer edges will be created between
-     * stops where transfers are defined.
-     * 
-     * @return
-     */
-    public boolean doesTransfersTxtDefineStationPaths() {
-        return transfersTxtDefinesStationPaths;
-    }
-
-    public void setTransfersTxtDefinesStationPaths(boolean transfersTxtDefinesStationPaths) {
-        this.transfersTxtDefinesStationPaths = transfersTxtDefinesStationPaths;
     }
 
     public void checkInputs() {
@@ -177,9 +150,5 @@ public class GtfsBundle {
 
     public double getMaxStopToShapeSnapDistance() {
         return maxStopToShapeSnapDistance;
-    }
-
-    public void setMaxStopToShapeSnapDistance(double maxStopToShapeSnapDistance) {
-        this.maxStopToShapeSnapDistance = maxStopToShapeSnapDistance;
     }
 }

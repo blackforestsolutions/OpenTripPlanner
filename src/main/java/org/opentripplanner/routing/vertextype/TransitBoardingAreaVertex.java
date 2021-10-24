@@ -34,14 +34,6 @@ public class TransitBoardingAreaVertex extends Vertex {
     return boardingArea.getName();
   }
 
-  public boolean isWheelchairAccessible() {
-    return wheelchairAccessible;
-  }
-
-  public BoardingArea getBoardingArea() {
-    return this.boardingArea;
-  }
-
   @Override
   public StationElement getStationElement() {
     return this.boardingArea;

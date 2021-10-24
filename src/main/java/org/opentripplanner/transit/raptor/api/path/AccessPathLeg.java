@@ -33,6 +33,7 @@ public final class AccessPathLeg<T extends RaptorTripSchedule> implements PathLe
     }
 
     /**
+     * FOR TESTING
      * The stop index where the leg end, also called arrival stop index.
      */
     public int toStop() {

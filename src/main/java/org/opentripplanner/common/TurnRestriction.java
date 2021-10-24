@@ -22,7 +22,7 @@ public class TurnRestriction implements Serializable {
     }
     
     /**
-     * Convenience constructor.
+     * Convenience constructor for Unit Tests
      * 
      * @param from
      * @param to

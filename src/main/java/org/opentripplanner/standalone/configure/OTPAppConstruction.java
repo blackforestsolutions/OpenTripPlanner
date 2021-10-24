@@ -12,7 +12,6 @@ import org.opentripplanner.standalone.server.GrizzlyServer;
 import org.opentripplanner.standalone.server.OTPApplication;
 import org.opentripplanner.standalone.server.OTPServer;
 import org.opentripplanner.standalone.server.Router;
-import org.opentripplanner.util.OTPFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,7 +47,6 @@ public class OTPAppConstruction {
      */
     public OTPAppConstruction(CommandLineParameters commandLineParameters) {
         this.config = new OTPConfiguration(commandLineParameters);
-        initializeOtpFeatures();
     }
 
     /**
@@ -129,11 +127,6 @@ public class OTPAppConstruction {
             );
         }
         return graphBuilderDataSources;
-    }
-
-    private void initializeOtpFeatures() {
-        OTPFeature.enableFeatures(config.otpConfig().otpFeatures);
-        OTPFeature.logFeatureSetup();
     }
 
     private Application createApplication(Router router) {

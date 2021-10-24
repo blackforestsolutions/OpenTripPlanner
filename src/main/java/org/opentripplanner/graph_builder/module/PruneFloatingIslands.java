@@ -6,10 +6,7 @@ import org.opentripplanner.graph_builder.services.GraphBuilderModule;
 import org.opentripplanner.routing.graph.Graph;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * this module is part of the  {@link org.opentripplanner.graph_builder.services.GraphBuilderModule} process. it design to remove small isolated
@@ -41,19 +38,6 @@ public class PruneFloatingIslands implements GraphBuilderModule {
     private String islandLogFile;
 
     private StreetLinkerModule transitToStreetNetwork;
-
-    public List<String> provides() {
-        return Collections.emptyList();
-    }
-
-    public List<String> getPrerequisites() {
-        /**this module can run after the street module only but if
-         * the street linker did not run then it couldn't identifies island with stops.
-         * so if the need is to distinguish between island with stops or without stops
-         * as explained before this module should run after the streets and the linker modules.
-         */
-        return Arrays.asList("streets");
-    }
 
     @Override
     public void buildGraph(

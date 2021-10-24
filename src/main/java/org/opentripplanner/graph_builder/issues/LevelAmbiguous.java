@@ -24,9 +24,4 @@ public class LevelAmbiguous implements DataImportIssue {
     public String getMessage() {
         return String.format(FMT, layerName, osmWayId);
     }
-
-    @Override
-    public String getHTMLMessage() {
-        return String.format(HTMLFMT, osmWayId, layerName, osmWayId);
-    }
 }

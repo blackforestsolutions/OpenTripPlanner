@@ -1,16 +1,13 @@
 package org.opentripplanner.routing.trippattern;
 
-import com.google.common.hash.HashCode;
-import com.google.common.hash.HashFunction;
-import com.google.common.hash.Hasher;
 import org.opentripplanner.common.MavenVersion;
 import org.opentripplanner.model.BikeAccess;
 import org.opentripplanner.model.StopTime;
 import org.opentripplanner.model.Trip;
+import org.opentripplanner.routing.api.request.BannedStopSet;
 import org.opentripplanner.routing.api.request.RoutingRequest;
 import org.opentripplanner.routing.core.State;
 import org.opentripplanner.routing.core.TraverseMode;
-import org.opentripplanner.routing.api.request.BannedStopSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -293,73 +290,6 @@ public class TripTimes implements Serializable, Comparable<TripTimes>, Cloneable
         return getDepartureTime(stop) - (scheduledDepartureTimes[stop] + timeShift);
     }
 
-    public void setRecorded(int stop, boolean recorded) {
-        checkCreateTimesArrays();
-        isRecordedStop[stop] = recorded;
-    }
-
-    // TODO OTP2 - Unused, but will be used by Transmodel API
-    public boolean isRecordedStop(int stop) {
-        if (isRecordedStop == null) {
-            return false;
-        }
-        return isRecordedStop[stop];
-    }
-
-    //Is single stop cancelled
-    public void setCancelledStop(int stop, boolean isCancelled) {
-        checkCreateTimesArrays();
-        isCancelledStop[stop] = isCancelled;
-    }
-
-    // TODO OTP2 - Unused, but will be used by Transmodel API
-    public boolean isCancelledStop(int stop) {
-        if (isCancelledStop == null) {
-            return false;
-        }
-        return isCancelledStop[stop];
-    }
-
-    //Is prediction for single stop inaccurate
-    public void setPredictionInaccurate(int stop, boolean predictionInaccurate) {
-        checkCreateTimesArrays();
-        isPredictionInaccurate[stop] = predictionInaccurate;
-    }
-
-    // TODO OTP2 - Unused, but will be used by Transmodel API
-    public boolean isPredictionInaccurate(int stop) {
-        if (isPredictionInaccurate == null) {
-            return false;
-        }
-        return isPredictionInaccurate[stop];
-    }
-
-    public void setPickupType(int stop, int pickupType) {
-        checkCreateTimesArrays();
-        pickups[stop] = pickupType;
-    }
-
-    // TODO OTP2 - Unused, but will be used by Transmodel API
-    public int getPickupType(int stop) {
-        if (pickups == null) {
-            return -999;
-        }
-        return pickups[stop];
-    }
-
-    public void setDropoffType(int stop, int dropoffType) {
-        checkCreateTimesArrays();
-        dropoffs[stop] = dropoffType;
-    }
-
-    // TODO OTP2 - Unused, but will be used by Transmodel API
-    public int getDropoffType(int stop) {
-        if (dropoffs == null) {
-            return -999;
-        }
-        return dropoffs[stop];
-    }
-
     /**
      * @return true if this TripTimes represents an unmodified, scheduled trip from a published
      *         timetable or false if it is a updated, cancelled, or otherwise modified one. This
@@ -368,14 +298,6 @@ public class TripTimes implements Serializable, Comparable<TripTimes>, Cloneable
      */
     public boolean isScheduled() {
         return departureTimes == null && arrivalTimes == null;
-    }
-
-    /**
-     * @return true if this TripTimes is canceled
-     */
-    public boolean isCanceled() {
-        final boolean isCanceled = realTimeState == RealTimeState.CANCELED;
-        return isCanceled;
     }
 
     /**
@@ -533,43 +455,8 @@ public class TripTimes implements Serializable, Comparable<TripTimes>, Cloneable
         return ret;
     }
 
-   /**
-    * Returns a time-shifted copy of this TripTimes in which the vehicle passes the given stop
-    * index (not stop sequence number) at the given time. We only have a mechanism to shift the
-    * scheduled stoptimes, not the real-time stoptimes. Therefore, this only works on trips
-    * without updates for now (frequency trips don't have updates).
-    */
-    public TripTimes timeShift (final int stop, final int time, final boolean depart) {
-        if (arrivalTimes != null || departureTimes != null) return null;
-        final TripTimes shifted = this.clone();
-        // Adjust 0-based times to match desired stoptime.
-        final int shift = time - (depart ? getDepartureTime(stop) : getArrivalTime(stop));
-        shifted.timeShift += shift; // existing shift should usually (always?) be 0 on freqs
-        return shifted;
-    }
-
     /** Just to create uniform getter-syntax across the whole public interface of TripTimes. */
     public int getStopSequence(final int stop) {
         return stopSequences[stop];
-    }
-
-    /** @return whether or not stopIndex is considered a timepoint in this TripTimes. */
-    public boolean isTimepoint(final int stopIndex) {
-        return timepoints.get(stopIndex);
-    }
-
-    /**
-     * Hash the scheduled arrival/departure times. Used in creating stable IDs for trips across GTFS feed versions.
-     * Use hops rather than stops because:
-     * a) arrival at stop zero and departure from last stop are irrelevant
-     * b) this hash function needs to stay stable when users switch from 0.10.x to 1.0
-     */
-    public HashCode semanticHash(final HashFunction hashFunction) {
-        final Hasher hasher = hashFunction.newHasher();
-        for (int hop = 0; hop < getNumStops() - 1; hop++) {
-            hasher.putInt(getScheduledDepartureTime(hop));
-            hasher.putInt(getScheduledArrivalTime(hop + 1));
-        }
-        return hasher.hash();
     }
 }

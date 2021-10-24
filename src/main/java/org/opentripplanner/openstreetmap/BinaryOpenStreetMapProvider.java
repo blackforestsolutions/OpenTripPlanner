@@ -9,7 +9,6 @@ import org.opentripplanner.util.ProgressTracker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,18 +21,16 @@ public class BinaryOpenStreetMapProvider {
     private static final Logger LOG = LoggerFactory.getLogger(BinaryOpenStreetMapProvider.class);
 
     private final DataSource source;
-    private final boolean cacheDataImMem;
     private byte[] cachedBytes = null;
 
 
     /** For tests */
-    public BinaryOpenStreetMapProvider(File file, boolean cacheDataImMem) {
-        this(new FileDataSource(file, FileType.OSM), cacheDataImMem);
+    public BinaryOpenStreetMapProvider(File file) {
+        this(new FileDataSource(file, FileType.OSM));
     }
 
-    public BinaryOpenStreetMapProvider(DataSource source, boolean cacheDataImMem) {
+    public BinaryOpenStreetMapProvider(DataSource source) {
         this.source = source;
-        this.cacheDataImMem = cacheDataImMem;
     }
 
     public void readOSM(OSMDatabase osmdb) {
@@ -69,12 +66,6 @@ public class BinaryOpenStreetMapProvider {
     }
 
     private InputStream createInputStream(OsmParserPhase phase) {
-        if(cacheDataImMem) {
-            if(cachedBytes == null) {
-                cachedBytes = source.asBytes();
-            }
-            return track(phase, cachedBytes.length, new ByteArrayInputStream(cachedBytes));
-        }
         return track(phase, source.size(), source.asInputStream());
     }
 

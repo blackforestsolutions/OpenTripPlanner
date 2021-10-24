@@ -1,6 +1,5 @@
 package org.opentripplanner.routing.impl;
 
-import org.opentripplanner.ext.siri.updater.SiriSXUpdater;
 import org.opentripplanner.model.FeedScopedId;
 import org.opentripplanner.routing.alertpatch.TransitAlert;
 import org.opentripplanner.routing.graph.Graph;
@@ -18,12 +17,6 @@ public class DelegatingTransitAlertServiceImpl implements TransitAlertService {
   public DelegatingTransitAlertServiceImpl(Graph graph) {
     if (graph.updaterManager != null) {
       graph.updaterManager.getUpdaterList().stream()
-          .filter(SiriSXUpdater.class::isInstance)
-          .map(SiriSXUpdater.class::cast)
-          .map(SiriSXUpdater::getTransitAlertService)
-          .forEach(transitAlertServices::add);
-
-      graph.updaterManager.getUpdaterList().stream()
           .filter(GtfsRealtimeAlertsUpdater.class::isInstance)
           .map(GtfsRealtimeAlertsUpdater.class::cast)
           .map(GtfsRealtimeAlertsUpdater::getTransitAlertService)
@@ -36,24 +29,6 @@ public class DelegatingTransitAlertServiceImpl implements TransitAlertService {
       Collection<TransitAlert> alerts
   ) {
     throw new UnsupportedOperationException("Not supported");
-  }
-
-  @Override
-  public Collection<TransitAlert> getAllAlerts() {
-    return transitAlertServices
-        .stream()
-        .map(TransitAlertService::getAllAlerts)
-        .flatMap(Collection::stream)
-        .collect(Collectors.toList());
-  }
-
-  @Override
-  public TransitAlert getAlertById(String id) {
-    return transitAlertServices
-        .stream()
-        .map(transitAlertService -> transitAlertService.getAlertById(id))
-        .findAny()
-        .orElse(null);
   }
 
   @Override
@@ -110,17 +85,6 @@ public class DelegatingTransitAlertServiceImpl implements TransitAlertService {
     return transitAlertServices
         .stream()
         .map(transitAlertService -> transitAlertService.getStopAndTripAlerts(stop, trip))
-        .flatMap(Collection::stream)
-        .collect(Collectors.toList());
-  }
-
-  @Override
-  public Collection<TransitAlert> getTripPatternAlerts(
-      FeedScopedId tripPattern
-  ) {
-    return transitAlertServices
-        .stream()
-        .map(transitAlertService -> transitAlertService.getTripPatternAlerts(tripPattern))
         .flatMap(Collection::stream)
         .collect(Collectors.toList());
   }

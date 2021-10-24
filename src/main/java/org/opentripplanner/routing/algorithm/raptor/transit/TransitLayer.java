@@ -57,6 +57,12 @@ public class TransitLayer {
     this.transitDataZoneId = transitDataZoneId;
   }
 
+  /**
+   * FOR TESTING
+   *
+   * @param stop
+   * @return
+   */
   public int getIndexByStop(Stop stop) {
     return stopIndex.indexByStop.get(stop);
   }

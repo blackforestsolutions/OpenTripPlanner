@@ -61,15 +61,14 @@ public class Fare {
         return fare.get(type);
     }
 
+
+    /**
+     * FOR TESTING
+     * @param type
+     * @return
+     */
     public List<FareComponent> getDetails(FareType type) {
         return Arrays.asList(details.get(type));
-    }
-
-    public void addCost(int surcharge) {
-        for (Money cost : fare.values()) {
-            int cents = cost.getCents();
-            cost.setCents(cents + surcharge);
-        }
     }
 
     public String toString() {

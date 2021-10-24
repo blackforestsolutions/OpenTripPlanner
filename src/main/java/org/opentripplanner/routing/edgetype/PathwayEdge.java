@@ -82,10 +82,6 @@ public class PathwayEdge extends Edge {
         return this.getName();
     }
 
-    public void setWheelchairAccessible(boolean wheelchairAccessible) {
-        this.wheelchairAccessible = wheelchairAccessible;
-    }
-
     public State traverse(State s0) {
         /* TODO: Consider mode, so that passing through multiple fare gates is not possible */
         int time = traversalTime;

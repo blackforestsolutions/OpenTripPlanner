@@ -17,9 +17,6 @@ public class TimePeriod {
         this.endTime = end;
     }
 
-    public TimePeriod() {
-    }
-
     @JsonSerialize
     public long startTime;
 

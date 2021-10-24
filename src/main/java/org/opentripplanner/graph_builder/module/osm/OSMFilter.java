@@ -188,6 +188,13 @@ public class OSMFilter {
         return permissions;
     }
 
+    /**
+     * FOR TESTING
+     * @param way
+     * @param def
+     * @param graph
+     * @return
+     */
     public static StreetTraversalPermission getPermissionsForWay(OSMWay way,
             StreetTraversalPermission def, Graph graph) {
         return getPermissionsForWay(way, def, graph, false, false,

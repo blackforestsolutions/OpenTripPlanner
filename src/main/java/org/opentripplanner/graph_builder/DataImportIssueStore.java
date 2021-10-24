@@ -43,6 +43,10 @@ public class DataImportIssueStore {
     );
   }
 
+  /**
+   * FOR TESTING
+   * @return
+   */
   public List<DataImportIssue> getIssues() {
     return this.issues;
   }

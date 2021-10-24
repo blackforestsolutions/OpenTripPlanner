@@ -85,16 +85,6 @@ public class StreetNotesService implements Serializable {
     }
 
     /**
-     * Add a new note source. The list is not transient so any source added before the graph is
-     * saved will be serialized!
-     * 
-     * @param source
-     */
-    public void addNotesSource(StreetNotesSource source) {
-        sources.add(source);
-    }
-
-    /**
      * Return the set of notes applicable for this state / backedge pair.
      * 
      * @param state

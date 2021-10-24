@@ -43,8 +43,4 @@ public final class TransitStopArrival<T extends RaptorTripSchedule>
     public T trip() {
         return trip;
     }
-
-    public int boardStop() {
-        return previousStop();
-    }
 }

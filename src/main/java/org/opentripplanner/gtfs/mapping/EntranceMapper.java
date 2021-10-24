@@ -1,9 +1,7 @@
 package org.opentripplanner.gtfs.mapping;
 
 import org.opentripplanner.model.Entrance;
-import org.opentripplanner.util.MapUtils;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,10 +9,6 @@ import java.util.Map;
 class EntranceMapper {
 
     private Map<org.onebusaway.gtfs.model.Stop, Entrance> mappedEntrances = new HashMap<>();
-
-    Collection<Entrance> map(Collection<org.onebusaway.gtfs.model.Stop> allEntrances) {
-        return MapUtils.mapToList(allEntrances, this::map);
-    }
 
     /** Map from GTFS to OTP model, {@code null} safe. */
     Entrance map(org.onebusaway.gtfs.model.Stop orginal) {

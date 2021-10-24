@@ -5,9 +5,6 @@ import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.opentripplanner.common.geometry.GeometryUtils;
 import org.opentripplanner.common.geometry.SphericalDistanceLibrary;
-import org.opentripplanner.model.FeedScopedId;
-import org.opentripplanner.model.TransitMode;
-import org.opentripplanner.routing.RoutingService;
 import org.opentripplanner.routing.graph.Graph;
 import org.opentripplanner.routing.impl.StreetVertexIndex;
 import org.opentripplanner.routing.vertextype.TransitStopVertex;
@@ -51,15 +48,5 @@ public class DirectGraphFinder implements GraphFinder {
       }
     }
     return stopsFound;
-  }
-
-  @Override
-  public List<PlaceAtDistance> findClosestPlaces(
-      double lat, double lon, double maxDistance, int maxResults, List<TransitMode> filterByModes,
-      List<PlaceType> filterByPlaceTypes, List<FeedScopedId> filterByStops,
-      List<FeedScopedId> filterByRoutes, List<String> filterByBikeRentalStations,
-      List<String> filterByBikeParks, List<String> filterByCarParks, RoutingService routingService
-  ) {
-    throw new UnsupportedOperationException("Not implemented");
   }
 }

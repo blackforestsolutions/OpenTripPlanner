@@ -42,10 +42,6 @@ public class BikeParkVertex extends Vertex {
         this.spacesAvailable = spaces;
     }
 
-    public String getId() {
-        return id;
-    }
-
     public void setId(String id) {
         this.id = id;
     }

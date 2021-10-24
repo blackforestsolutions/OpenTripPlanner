@@ -4,37 +4,19 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Sets;
 import gnu.trove.set.TIntSet;
 import gnu.trove.set.hash.TIntHashSet;
 import org.locationtech.jts.geom.Envelope;
 import org.opentripplanner.common.geometry.CompactElevationProfile;
 import org.opentripplanner.common.geometry.HashGridSpatialIndex;
-import org.opentripplanner.ext.flex.FlexIndex;
-import org.opentripplanner.model.Agency;
-import org.opentripplanner.model.FeedInfo;
-import org.opentripplanner.model.FeedScopedId;
-import org.opentripplanner.model.MultiModalStation;
-import org.opentripplanner.model.Operator;
-import org.opentripplanner.model.Route;
-import org.opentripplanner.model.Station;
-import org.opentripplanner.model.Stop;
-import org.opentripplanner.model.StopLocation;
-import org.opentripplanner.model.TimetableSnapshot;
-import org.opentripplanner.model.Trip;
-import org.opentripplanner.model.TripPattern;
+import org.opentripplanner.model.*;
 import org.opentripplanner.model.calendar.CalendarService;
 import org.opentripplanner.model.calendar.ServiceDate;
 import org.opentripplanner.routing.vertextype.TransitStopVertex;
-import org.opentripplanner.util.OTPFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class GraphIndex {
 
@@ -55,7 +37,6 @@ public class GraphIndex {
     private final Map<Station, MultiModalStation> multiModalStationForStations = Maps.newHashMap();
     private final HashGridSpatialIndex<TransitStopVertex> stopSpatialIndex = new HashGridSpatialIndex<>();
     private final Map<ServiceDate, TIntSet> serviceCodesRunningForDate = new HashMap<>();
-    private FlexIndex flexIndex = null;
 
     public GraphIndex(Graph graph) {
         LOG.info("GraphIndex init...");
@@ -104,16 +85,6 @@ public class GraphIndex {
         }
 
         initalizeServiceCodesForDate(graph);
-
-        if (OTPFeature.FlexRouting.isOn()) {
-            flexIndex = new FlexIndex(graph);
-            for (Route route : flexIndex.routeById.values()) {
-                routeForId.put(route.getId(), route);
-            }
-            for (Trip trip : flexIndex.tripById.values()) {
-                tripForId.put(trip.getId(), trip);
-            }
-        }
 
         LOG.info("GraphIndex init complete.");
     }
@@ -165,23 +136,6 @@ public class GraphIndex {
         return routeForId.get(id);
     }
 
-    /**
-     * TODO OTP2 - This is NOT THREAD-SAFE and is used in the real-time updaters, we need to fix
-     *           - this when doing the issue #3030.
-     */
-    public void addRoutes(Route route) {
-        routeForId.put(route.getId(), route);
-    }
-
-    /** Dynamically generate the set of Routes passing though a Stop on demand. */
-    public Set<Route> getRoutesForStop(Stop stop) {
-        Set<Route> routes = Sets.newHashSet();
-        for (TripPattern p : getPatternsForStop(stop)) {
-            routes.add(p.route);
-        }
-        return routes;
-    }
-
     public Collection<TripPattern> getPatternsForStop(StopLocation stop) {
         return patternsForStopId.get(stop);
     }
@@ -205,19 +159,8 @@ public class GraphIndex {
         return tripPatterns;
     }
 
-    /**
-     * Get a list of all operators spanning across all feeds.
-     */
-    public Collection<Operator> getAllOperators() {
-        return getOperatorForId().values();
-    }
-
     public Map<FeedScopedId, Operator> getOperatorForId() {
         return operatorForId;
-    }
-
-    public Map<String, FeedInfo> getFeedInfoForId() {
-        return feedInfoForId;
     }
 
     public Collection<Stop> getAllStops() {
@@ -240,16 +183,8 @@ public class GraphIndex {
         return patternForTrip;
     }
 
-    public Multimap<String, TripPattern> getPatternsForFeedId() {
-        return patternsForFeedId;
-    }
-
     public Multimap<Route, TripPattern> getPatternsForRoute() {
         return patternsForRoute;
-    }
-
-    public Map<Station, MultiModalStation> getMultiModalStationForStations() {
-        return multiModalStationForStations;
     }
 
     public HashGridSpatialIndex<TransitStopVertex> getStopSpatialIndex() {
@@ -258,9 +193,5 @@ public class GraphIndex {
 
     public Map<ServiceDate, TIntSet> getServiceCodesRunningForDate() {
         return serviceCodesRunningForDate;
-    }
-
-    public FlexIndex getFlexIndex() {
-        return flexIndex;
     }
 }

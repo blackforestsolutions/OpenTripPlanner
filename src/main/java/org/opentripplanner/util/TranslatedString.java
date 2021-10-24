@@ -1,14 +1,10 @@
 package org.opentripplanner.util;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * This is for translated strings for which translations are read from OSM or GTFS alerts.
@@ -62,20 +58,6 @@ public class TranslatedString implements I18NString, Serializable {
             intern.put(translations, ret);
             return ret;
         }
-    }
-
-    /**
-     * @return The available languages
-     */
-    public Collection<String> getLanguages() {
-        return translations.keySet();
-    }
-
-    /**
-     * @return The available translations
-     */
-    public List<Entry<String,String>> getTranslations() {
-        return new ArrayList<Entry<String, String>>(translations.entrySet());
     }
 
     /**

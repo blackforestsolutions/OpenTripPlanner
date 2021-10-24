@@ -1,7 +1,5 @@
 package org.opentripplanner.routing.spt;
 
-import com.google.common.collect.HashMultiset;
-import com.google.common.collect.Multiset;
 import org.opentripplanner.routing.api.request.RoutingRequest;
 import org.opentripplanner.routing.core.State;
 import org.opentripplanner.routing.graph.Vertex;
@@ -39,30 +37,10 @@ public class ShortestPathTree {
         stateSets = new IdentityHashMap<Vertex, List<State>>();
     }
 
-    /** @return a list of GraphPaths, sometimes empty but never null. */
-    public List<GraphPath> getPaths(Vertex dest, boolean optimize) {
-        List<? extends State> stateList = getStates(dest);
-        if (stateList == null)
-            return Collections.emptyList();
-        List<GraphPath> ret = new LinkedList<GraphPath>();
-        for (State s : stateList) {
-            if (s.isFinal()) {
-                ret.add(new GraphPath(s, optimize));
-            }
-        }
-        return ret;
-    }
-
-    /** @return a default set of back-optimized paths to the target vertex. */
-    public List<GraphPath> getPaths() {
-        List<GraphPath> graphPaths = new ArrayList<>();
-        for (Vertex vertex : options.getRoutingContext().toVertices) {
-            graphPaths.addAll(getPaths(vertex, true));
-        }
-        return graphPaths;
-    }
-
-    /** @return a single optimal, optionally back-optimized path to the given vertex. */
+    /**
+     * FOR UNIT TESTING
+     * @return a single optimal, optionally back-optimized path to the given vertex.
+     * */
     public GraphPath getPath(Vertex dest, boolean optimize) {
         State s = getState(dest);
         if (s == null) {
@@ -70,39 +48,6 @@ public class ShortestPathTree {
         } else {
             return new GraphPath(s, optimize);
         }
-    }
-
-    /** @return the routing context for the search that produced this tree */
-    public RoutingRequest getOptions() {
-        return options;
-    }
-    
-    /** Print out a summary of the number of states and vertices. */
-    public void dump() {
-        Multiset<Integer> histogram = HashMultiset.create();
-        int statesCount = 0;
-        int maxSize = 0;
-        for (Map.Entry<Vertex, List<State>> kv : stateSets.entrySet()) {
-            List<State> states = kv.getValue();
-            int size = states.size();
-            histogram.add(size);
-            statesCount += size;
-            if (size > maxSize) {
-                maxSize = size;
-            }
-        }
-        LOG.info("SPT: vertices: " + stateSets.size() + " states: total: "
-                + statesCount + " per vertex max: " + maxSize + " avg: "
-                + (statesCount * 1.0 / stateSets.size()));
-        List<Integer> nStates = new ArrayList<Integer>(histogram.elementSet());
-        Collections.sort(nStates);
-        for (Integer nState : nStates) {
-            LOG.info(nState + " states: " + histogram.count(nState) + " vertices.");
-        }
-    }
-
-    public Set<Vertex> getVertices() {
-        return stateSets.keySet();
     }
 
     /**
@@ -146,6 +91,7 @@ public class ShortestPathTree {
     }
 
     /**
+     * FOR UNIT TESTING
      * Returns the 'best' state for the given Vertex, where 'best' depends on the implementation.
      *
      * @param dest the vertex of interest
@@ -165,23 +111,6 @@ public class ShortestPathTree {
         return ret;
     }
 
-    /**
-     * Returns a collection of 'interesting' states for the given Vertex. Depending on the
-     * implementation, this could contain a single optimal state, a set of Pareto-optimal states, or
-     * even states that are not known to be optimal but are judged interesting by some other
-     * criteria.
-     *
-     * @param dest the vertex of interest
-     * @return a collection of 'interesting' states at that vertex
-     */
-    public List<State> getStates(Vertex dest) {
-        return stateSets.get(dest);
-    }
-
-    /** @return number of vertices referenced in this SPT */
-    public int getVertexCount() {
-        return stateSets.keySet().size();
-    }
 
     /**
      * The visit method should be called upon extracting a State from a priority queue. It

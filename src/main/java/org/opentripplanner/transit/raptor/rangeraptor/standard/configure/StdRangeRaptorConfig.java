@@ -223,19 +223,6 @@ public class StdRangeRaptorConfig<T extends RaptorTripSchedule> {
         return new SimpleArrivedAtDestinationCheck(ctx.egressStops(), bestTimes());
     }
 
-    /**
-     * This assert should only be called when creating a worker is the next step
-     */
-    private void assertOnlyOneWorkerIsCreated() {
-        if (workerCreated) {
-            throw new IllegalStateException(
-                    "Create a new config for each worker. Do not reuse the config instance, " +
-                            "this may lead to unpredictable behavior."
-            );
-        }
-        workerCreated = true;
-    }
-
     private void assertSetValueIsNull(String name, Object setValue, Object newValue) {
         if (setValue != null) {
             throw new IllegalStateException(

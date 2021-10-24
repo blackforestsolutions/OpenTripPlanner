@@ -49,4 +49,6 @@ public class RemoveTransitIfStreetOnlyIsBetterFilterTest {
         // Then:
         assertEquals(toStr(List.of(bicycle, walk, i1)), toStr(result));
     }
+
+
 }

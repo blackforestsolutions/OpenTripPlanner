@@ -1,6 +1,5 @@
 package org.opentripplanner.routing.alertpatch;
 
-import org.opentripplanner.routing.core.State;
 import org.opentripplanner.util.I18NString;
 
 import java.io.Serializable;
@@ -26,8 +25,6 @@ public class TransitAlert implements Serializable {
     //      However, GTFS URLs are one-per-language in a single object, and SIRI URLs are N objects with no translation.
     public I18NString alertUrl;
 
-    private List<AlertUrl> alertUrlList = new ArrayList<>();
-
     //null means unknown
     public String alertType;
 
@@ -42,24 +39,8 @@ public class TransitAlert implements Serializable {
 
     private final Collection<StopCondition> stopConditions = new ArrayList<>();
 
-    public String getId() {
-        return id;
-    }
-
     public void setId(String id) {
         this.id = id;
-    }
-
-    public List<AlertUrl> getAlertUrlList() {
-        return alertUrlList;
-    }
-
-    public void setAlertUrlList(List<AlertUrl> alertUrlList) {
-        this.alertUrlList = alertUrlList;
-    }
-
-    public boolean displayDuring(State state) {
-        return displayDuring(state.getStartTimeSeconds(), state.getTimeSeconds());
     }
 
     public boolean displayDuring(long startTimeSeconds, long endTimeSeconds) {
@@ -87,10 +68,6 @@ public class TransitAlert implements Serializable {
 
     public Collection<StopCondition> getStopConditions() {
         return stopConditions;
-    }
-
-    public String getFeedId() {
-        return feedId;
     }
 
     public void setFeedId(String feedId) {

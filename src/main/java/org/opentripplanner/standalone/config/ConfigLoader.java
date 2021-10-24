@@ -53,15 +53,6 @@ public class ConfigLoader {
     }
 
     /**
-     * Create a config loader that load config from the given input json document.
-     * Use it with {@link #loadBuildConfig()} or one of the other load methods to
-     * return a configuration for the given input json string.
-     */
-    public static ConfigLoader fromString(String json) {
-        return new ConfigLoader(null, json);
-    }
-
-    /**
      * Generic method to parse the given json and return a JsonNode tree. The {@code source} is
      * used to generate a proper error message in case the string is not a proper JSON document.
      */

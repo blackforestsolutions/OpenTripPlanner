@@ -14,12 +14,9 @@ import org.opentripplanner.model.Pathway;
 import org.opentripplanner.model.ShapePoint;
 import org.opentripplanner.model.Station;
 import org.opentripplanner.model.Stop;
-import org.opentripplanner.model.StopTime;
 import org.opentripplanner.model.Transfer;
-import org.opentripplanner.model.Trip;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -124,49 +121,10 @@ public class OtpTransitServiceImplTest {
     }
 
     @Test
-    public void testGetAllStopTimes() {
-        List<StopTime> stopTimes = new ArrayList<>();
-        for (Trip trip : subject.getAllTrips()) {
-            stopTimes.addAll(subject.getStopTimesForTrip(trip));
-        }
-
-        assertEquals(80, stopTimes.size());
-        assertEquals("StopTime(seq=1 stop=Z:A trip=agency:1.1 times=00:00:00-00:00:00)",
-                first(stopTimes).toString());
-    }
-
-    @Test
-    public void testGetAllTrips() {
-        Collection<Trip> trips = subject.getAllTrips();
-
-        assertEquals(33, trips.size());
-        assertEquals("<Trip agency:1.1>", first(trips).toString());
-    }
-
-    @Test
-    public void testGetStopForId() {
-        Stop stop = subject.getStopForId(new FeedScopedId("Z", "P"));
-        assertEquals("<Stop Z:P>", stop.toString());
-    }
-
-    @Test
-    public void testGetStopsForStation() {
-        List<Stop> stops = new ArrayList<>(subject.getStationForId(STATION_ID).getChildStops());
-        assertEquals("[<Stop Z:A>]", stops.toString());
-    }
-
-    @Test
     public void testGetShapePointsForShapeId() {
         List<ShapePoint> shapePoints = subject.getShapePointsForShapeId(new FeedScopedId("Z", "5"));
         assertEquals("[#1 (41,-72), #2 (41,-72), #3 (40,-72), #4 (41,-73), #5 (41,-74)]",
                 shapePoints.stream().map(OtpTransitServiceImplTest::toString).collect(toList()).toString());
-    }
-
-    @Test
-    public void testGetStopTimesForTrip() {
-        List<StopTime> stopTimes = subject.getStopTimesForTrip(first(subject.getAllTrips()));
-        assertEquals("[<Stop Z:A>, <Stop Z:B>, <Stop Z:C>]",
-                stopTimes.stream().map(StopTime::getStop).collect(toList()).toString());
     }
 
     @Test

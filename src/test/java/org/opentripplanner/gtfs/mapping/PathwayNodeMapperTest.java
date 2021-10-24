@@ -5,9 +5,6 @@ import org.onebusaway.gtfs.model.AgencyAndId;
 import org.onebusaway.gtfs.model.Stop;
 import org.opentripplanner.model.WheelChairBoarding;
 
-import java.util.Collection;
-import java.util.Collections;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -59,13 +56,6 @@ public class PathwayNodeMapperTest {
   }
 
   private PathwayNodeMapper subject = new PathwayNodeMapper();
-
-  @Test
-  public void testMapCollection() throws Exception {
-    assertNull(null, subject.map((Collection<Stop>) null));
-    assertTrue(subject.map(Collections.emptyList()).isEmpty());
-    assertEquals(1, subject.map(Collections.singleton(STOP)).size());
-  }
 
   @Test
   public void testMap() throws Exception {

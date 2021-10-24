@@ -1,7 +1,5 @@
 package org.opentripplanner.standalone.server;
 
-import org.geotools.referencing.factory.DeferredAuthorityFactory;
-import org.geotools.util.WeakCollectionCleaner;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.opentripplanner.routing.RoutingService;
 import org.opentripplanner.standalone.config.CommandLineParameters;
@@ -26,16 +24,6 @@ public class OTPServer {
         LOG.info("Wiring up and configuring server.");
         this.params = params;
         this.router = router;
-    }
-
-    /**
-     * Hook to cleanup various stuff of some used libraries (org.geotools), which depend on the
-     * external client to call them for cleaning-up.
-     */
-    private static void cleanupWebapp() {
-        LOG.info("Web application shutdown: cleaning various stuff");
-        WeakCollectionCleaner.DEFAULT.exit();
-        DeferredAuthorityFactory.exit();
     }
 
     public Router getRouter() {

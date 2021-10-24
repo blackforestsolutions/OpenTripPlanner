@@ -72,6 +72,9 @@ public class RaptorConfig<T extends RaptorTripSchedule> {
         return threadPool;
     }
 
+    /**
+     * FOR TESTING
+     */
     public void shutdown() {
         if (threadPool != null) {
             threadPool.shutdown();

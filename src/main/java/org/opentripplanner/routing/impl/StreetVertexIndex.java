@@ -9,18 +9,14 @@ import org.locationtech.jts.index.strtree.STRtree;
 import org.opentripplanner.common.geometry.GeometryUtils;
 import org.opentripplanner.common.geometry.HashGridSpatialIndex;
 import org.opentripplanner.common.geometry.SphericalDistanceLibrary;
-import org.opentripplanner.model.GenericLocation;
 import org.opentripplanner.common.model.P2;
 import org.opentripplanner.graph_builder.DataImportIssueStore;
 import org.opentripplanner.graph_builder.linking.SimpleStreetSplitter;
+import org.opentripplanner.model.GenericLocation;
 import org.opentripplanner.routing.api.request.RoutingRequest;
-import org.opentripplanner.routing.api.response.InputField;
-import org.opentripplanner.routing.api.response.RoutingError;
-import org.opentripplanner.routing.api.response.RoutingErrorCode;
 import org.opentripplanner.routing.edgetype.StreetEdge;
 import org.opentripplanner.routing.edgetype.TemporaryFreeEdge;
 import org.opentripplanner.routing.edgetype.TemporaryPartialStreetEdge;
-import org.opentripplanner.routing.error.RoutingValidationException;
 import org.opentripplanner.routing.graph.Edge;
 import org.opentripplanner.routing.graph.Graph;
 import org.opentripplanner.routing.graph.Vertex;
@@ -29,12 +25,7 @@ import org.opentripplanner.routing.vertextype.StreetVertex;
 import org.opentripplanner.routing.vertextype.TransitStopVertex;
 import org.opentripplanner.util.I18NString;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Indexes all edges and transit vertices of the graph spatially. Has a variety of query methods
@@ -100,6 +91,7 @@ public class StreetVertexIndex {
     }
 
     /**
+     * FOR TESTING
      * Creates a TemporaryStreetLocation on the given street (set of PlainStreetEdges). How far
      * along is controlled by the location parameter, which represents a distance along the edge
      * between 0 (the from vertex) and 1 (the to vertex).
@@ -113,8 +105,7 @@ public class StreetVertexIndex {
      *
      * @return the new TemporaryStreetLocation
      */
-    public static TemporaryStreetLocation createTemporaryStreetLocation(Graph graph, String label,
-            I18NString name, Iterable<StreetEdge> edges, Coordinate nearestPoint, boolean endVertex) {
+    public static TemporaryStreetLocation createTemporaryStreetLocation(Graph graph, String label, I18NString name, Iterable<StreetEdge> edges, Coordinate nearestPoint, boolean endVertex) {
         boolean wheelchairAccessible = false;
 
         TemporaryStreetLocation location = new TemporaryStreetLocation(label, nearestPoint, name, endVertex);
@@ -158,6 +149,15 @@ public class StreetVertexIndex {
 
     }
 
+
+    /**
+     * FOR TESTING
+     * @param base
+     * @param name
+     * @param nearestPoint
+     * @param street
+     * @param endVertex
+     */
     private static void createHalfLocation(TemporaryStreetLocation base, I18NString name,
                 Coordinate nearestPoint, StreetEdge street, boolean endVertex) {
         StreetVertex tov = (StreetVertex) street.getToVertex();
@@ -187,6 +187,12 @@ public class StreetVertexIndex {
         }
     }
 
+    /**
+     * FOR TESTING
+     * @param e
+     * @param nearestPoint
+     * @return
+     */
     private static P2<LineString> getGeometry(StreetEdge e, Coordinate nearestPoint) {
         LineString geometry = e.getGeometry();
         return GeometryUtils.splitGeometryAtPoint(geometry, nearestPoint);
@@ -259,23 +265,6 @@ public class StreetVertexIndex {
     }
 
     /**
-     * Return the edges whose geometry intersect with the specified envelope. Warning: edges w/o
-     * geometry will not be indexed.
-     */
-    @SuppressWarnings("unchecked")
-    public Collection<Edge> getEdgesForEnvelope(Envelope envelope) {
-        List<Edge> edges = edgeTree.query(envelope);
-        for (Iterator<Edge> ie = edges.iterator(); ie.hasNext();) {
-            Edge e = ie.next();
-            Envelope eenv = e.getGeometry().getEnvelopeInternal();
-            //Envelope eenv = e.getEnvelope();
-            if (!envelope.intersects(eenv))
-                ie.remove();
-        }
-        return edges;
-    }
-
-    /**
      * @return The transit stops within an envelope.
      */
     @SuppressWarnings("unchecked")
@@ -287,34 +276,6 @@ public class StreetVertexIndex {
                 its.remove();
         }
         return stopVertices;
-    }
-
-    /**
-     * @param coordinate Location to search intersection at. Look in a MAX_CORNER_DISTANCE_METERS radius.
-     * @return The nearest intersection, null if none found.
-     */
-    public StreetVertex getIntersectionAt(Coordinate coordinate) {
-        double dLon = SphericalDistanceLibrary.metersToLonDegrees(MAX_CORNER_DISTANCE_METERS,
-                coordinate.y);
-        double dLat = SphericalDistanceLibrary.metersToDegrees(MAX_CORNER_DISTANCE_METERS);
-        Envelope envelope = new Envelope(coordinate);
-        envelope.expandBy(dLon, dLat);
-        List<Vertex> nearby = getVerticesForEnvelope(envelope);
-        StreetVertex nearest = null;
-        double bestDistanceMeter = Double.POSITIVE_INFINITY;
-        for (Vertex v : nearby) {
-            if (v instanceof StreetVertex) {
-                v.getLabel().startsWith("osm:");
-                double distanceMeter = SphericalDistanceLibrary.fastDistance(coordinate, v.getCoordinate());
-                if (distanceMeter < MAX_CORNER_DISTANCE_METERS) {
-                    if (distanceMeter < bestDistanceMeter) {
-                        bestDistanceMeter = distanceMeter;
-                        nearest = (StreetVertex) v;
-                    }
-                }
-            }
-        }
-        return nearest;
     }
 
     /**
@@ -352,6 +313,7 @@ public class StreetVertexIndex {
     }
 
     /**
+     * FOR TESTING
      * Finds the appropriate vertex for this location.
      * @param endVertex: whether this is a start vertex (if it's false) or end vertex (if it's true)
      */

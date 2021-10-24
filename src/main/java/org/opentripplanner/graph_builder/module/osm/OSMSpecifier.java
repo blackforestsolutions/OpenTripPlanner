@@ -129,6 +129,11 @@ public class OSMSpecifier {
         }
     }
 
+    /**
+     * FOR TESTING
+     * @param key
+     * @param value
+     */
     public void addTag(String key, String value) {
         kvpairs.add(new P2<String>(key, value));
     }

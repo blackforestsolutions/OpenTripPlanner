@@ -19,7 +19,6 @@ import static org.opentripplanner.datastore.FileType.CONFIG;
 import static org.opentripplanner.datastore.FileType.DEM;
 import static org.opentripplanner.datastore.FileType.GRAPH;
 import static org.opentripplanner.datastore.FileType.GTFS;
-import static org.opentripplanner.datastore.FileType.NETEX;
 import static org.opentripplanner.datastore.FileType.OSM;
 import static org.opentripplanner.datastore.FileType.OTP_STATUS;
 import static org.opentripplanner.datastore.FileType.REPORT;
@@ -37,7 +36,6 @@ public class FileDataSourceRepository implements LocalDataSourceRepository {
 
     private final File baseDir;
     private final Pattern gtfsLocalFilePattern;
-    private final Pattern netexLocalFilePattern;
     private final Pattern osmLocalFilePattern;
     private final Pattern demLocalFilePattern;
 
@@ -45,13 +43,11 @@ public class FileDataSourceRepository implements LocalDataSourceRepository {
     public FileDataSourceRepository(
         File baseDir,
         Pattern gtfsLocalFilePattern,
-        Pattern netexLocalFilePattern,
         Pattern osmLocalFilePattern,
         Pattern demLocalFilePattern
     ) {
         this.baseDir = baseDir;
         this.gtfsLocalFilePattern = gtfsLocalFilePattern;
-        this.netexLocalFilePattern = netexLocalFilePattern;
         this.osmLocalFilePattern = osmLocalFilePattern;
         this.demLocalFilePattern = demLocalFilePattern;
     }
@@ -151,7 +147,6 @@ public class FileDataSourceRepository implements LocalDataSourceRepository {
     private FileType resolveFileType(File file) {
         String name = file.getName();
         if (isTransitFile(file, gtfsLocalFilePattern)) { return GTFS; }
-        if (isTransitFile(file, netexLocalFilePattern)) { return NETEX; }
         if (osmLocalFilePattern.matcher(name).find()) { return OSM; }
         // Digital elevation model (elevation raster)
         if (demLocalFilePattern.matcher(name).find()) { return DEM; }

@@ -92,10 +92,6 @@
                 <filtering>true</filtering>
             </resource>
             <resource>
-                <directory>src/ext/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-            <resource>
                 <directory>src/client</directory>
                 <targetPath>client</targetPath>
                 <filtering>false</filtering>
@@ -104,9 +100,6 @@
         <testResources>
             <testResource>
                 <directory>src/test/resources</directory>
-            </testResource>
-            <testResource>
-                <directory>src/ext-test/resources</directory>
             </testResource>
             <testResource>
                 <!-- Shell scripts to start up OTP, need to be filtered to insert the JAR file name. -->
@@ -264,7 +257,6 @@
                         <configuration>
                             <sources>
                                 <source>src/main/java</source>
-                                <source>src/ext/java</source>
                             </sources>
                         </configuration>
                     </execution>
@@ -277,24 +269,8 @@
                         <configuration>
                             <sources>
                                 <source>src/test/java</source>
-                                <source>src/ext-test/java</source>
                             </sources>
                         </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.5</version>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <!-- We sign in the verify phase, which means it will happen for install and deploy but not package. -->
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -548,42 +524,6 @@
                     <artifactId>jackson-databind</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-
-        <!--
-            Netex XML document - JAXB generated Java model.
-            This is generated using the official Netex schema(v1.0) and support the entire model,
-            not just the Nordic/Norwegian profile witch is currently supported by OTP.
-         -->
-        <dependency>
-            <groupId>org.entur</groupId>
-            <artifactId>netex-java-model</artifactId>
-            <version>1.0.8</version>
-        </dependency>
-
-        <!-- SIRI -->
-        <dependency>
-            <groupId>org.entur</groupId>
-            <artifactId>siri-java-model</artifactId>
-            <version>0.12</version>
-        </dependency>
-
-        <!--
-            The jaxb-api provides annotations like XmlElement indicating how classes should be (de)serialized.
-            The jaxb-runtime pulls in the jaxb-api of the same version transitively. But we specify both api and
-            runtime dependencies anyway here at the top level to prevent transitive dependencies from pulling in
-            mismatched versions. This is overriding an older version of jaxb-api pulled in by the netex-java-model.
-        -->
-        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.3.1</version>
-        </dependency>
-        <!-- JAXB API Implementation no longer supplied with Java 11+ -->
-        <dependency>
-            <groupId>org.glassfish.jaxb</groupId>
-            <artifactId>jaxb-runtime</artifactId>
-            <version>2.3.1</version>
         </dependency>
 
         <!-- TESTING -->

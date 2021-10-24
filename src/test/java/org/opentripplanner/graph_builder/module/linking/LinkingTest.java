@@ -1,37 +1,29 @@
 package org.opentripplanner.graph_builder.module.linking;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
-import gnu.trove.set.TIntSet;
+import org.junit.Test;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.LineString;
-import org.junit.Test;
 import org.opentripplanner.common.geometry.GeometryUtils;
 import org.opentripplanner.common.geometry.SphericalDistanceLibrary;
 import org.opentripplanner.common.model.P2;
 import org.opentripplanner.routing.edgetype.StreetEdge;
 import org.opentripplanner.routing.edgetype.StreetTransitLink;
 import org.opentripplanner.routing.edgetype.StreetTraversalPermission;
-import org.opentripplanner.routing.graph.Edge;
 import org.opentripplanner.routing.graph.Graph;
 import org.opentripplanner.routing.graph.Vertex;
 import org.opentripplanner.routing.vertextype.IntersectionVertex;
 import org.opentripplanner.routing.vertextype.SplitterVertex;
-import org.opentripplanner.routing.vertextype.TransitStopVertex;
 import org.opentripplanner.routing.vertextype.StreetVertex;
+import org.opentripplanner.routing.vertextype.TransitStopVertex;
 
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
-import static org.opentripplanner.common.geometry.SphericalDistanceLibrary.fastDistance;
 import static org.opentripplanner.graph_builder.module.FakeGraph.*;
 
 public class LinkingTest {
@@ -39,13 +31,13 @@ public class LinkingTest {
     /**
      * Ensure that splitting edges yields edges that are identical in length for forward and back edges.
      * StreetEdges have lengths expressed internally in mm, and we want to be sure that not only do they
-     * sum to the same values but also that they 
+     * sum to the same values but also that they
      */
     @Test
     public void testSplitting () {
         GeometryFactory gf= GeometryUtils.getGeometryFactory();
         double x = -122.123;
-        double y = 37.363; 
+        double y = 37.363;
         for (double delta = 0; delta <= 2; delta += 0.005) {
 
             StreetVertex v0 = new IntersectionVertex(null, "zero", x, y);
@@ -79,7 +71,7 @@ public class LinkingTest {
      * Test that all the stops are linked identically
      * to the street network on two builds of similar graphs
      * with additional stops in one.
-     * 
+     *
      * We do this by building the graphs and then comparing the stop tree caches.
      */
     @Test

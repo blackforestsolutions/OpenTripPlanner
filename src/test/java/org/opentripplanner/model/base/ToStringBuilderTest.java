@@ -146,18 +146,6 @@ public class ToStringBuilderTest {
   }
 
   @Test
-  public void addCoordinate() {
-    assertEquals(
-        "ToStringBuilderTest{lat: 60.98766, lon: 11.98, r: 0.0}",
-        subject()
-            .addCoordinate("lat", 60.9876599999999d)
-            .addCoordinate("lon", 11.98d)
-            .addCoordinate("r", 0d)
-            .toString()
-    );
-  }
-
-  @Test
   public void addDuration() {
     assertEquals("ToStringBuilderTest{d: 35s}", subject().addDurationSec("d", 35).toString());
     assertEquals(

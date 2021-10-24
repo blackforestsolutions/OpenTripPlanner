@@ -11,10 +11,6 @@ public class BinHeap<T> {
     private int size; 
     private int capacity;
     
-    public BinHeap() {
-    	this(1000);
-    }
-    
     @SuppressWarnings("unchecked")
     public BinHeap(int capacity) {
         if (capacity < 10) capacity = 10;
@@ -39,34 +35,23 @@ public class BinHeap<T> {
     	else 
     		throw new IllegalStateException("An empty queue does not have a minimum key.");
    	}
-    
-    public T peek_min() {
-    	if (size > 0)
-    		return elem[1];
-    	else 
-    		return null;
-    }
-    
-    public void insert_or_dec_key(T e, double p) {
-    	throw new UnsupportedOperationException("BinHeap has no decrease key operation.");
-    }
 
     public void rekey(T e, double p) {
-        // Perform "inefficient" but straightforward linear search 
-    	// for an element then change its key by sifting up or down
+        // Perform "inefficient" but straightforward linear search
+        // for an element then change its key by sifting up or down
         int i = 0;
-    	for (T t : elem) {
-    		if (t == e) 
-    			break;
-			i++;
-    	}
-    	if (i > size) {
-        	//System.out.printf("did not find element %s\n", e);
-    		return; 
-    	}
-    	//System.out.printf("found element %s with key %f at %d\n", e, prio[i], i);
-    	if (p > prio[i]) { 
-    		// sift up (as in extract)
+        for (T t : elem) {
+            if (t == e)
+                break;
+            i++;
+        }
+        if (i > size) {
+            //System.out.printf("did not find element %s\n", e);
+            return;
+        }
+        //System.out.printf("found element %s with key %f at %d\n", e, prio[i], i);
+        if (p > prio[i]) {
+            // sift up (as in extract)
             while (i*2 <= size) {
                 int child = i * 2;
                 if (child != size && prio[child+1] < prio[child])
@@ -79,8 +64,8 @@ public class BinHeap<T> {
             }
             elem[i] = e;
             prio[i] = p;
-    	} else { 
-    		// sift down (as in insert)
+        } else {
+            // sift down (as in insert)
             while (prio[i/2] > p) {
                 elem[i] = elem[i/2];
                 prio[i] = prio[i/2];
@@ -88,21 +73,16 @@ public class BinHeap<T> {
             }
             elem[i] = e;
             prio[i] = p;
-    	}
+        }
     }
 
-    public void dump() {
-    	for (int i=0; i<=capacity; i++) {
-    		String topMarker = (i > size) ? "(UNUSED)" : ""; 
-        	System.out.printf("%d\t%f\t%s\t%s\n", i, prio[i], elem[i], topMarker);
-    	}
-    	System.out.printf("-----------------------\n");
-    }
-    
+    /**
+     * FOR TESTING
+     */
     public void reset() {
-    	// empties the queue in one operation
-    	size=0;
-    } 
+        // empties the queue in one operation
+        size=0;
+    }
 
     public void insert(T e, double p) {
         int i;

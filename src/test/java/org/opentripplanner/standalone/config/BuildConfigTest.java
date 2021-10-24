@@ -11,11 +11,11 @@ public class BuildConfigTest {
     @Test
     public void testParsePeriodDate() {
         // Given
-        JsonNode node  = jsonNodeForTest("{ 'parentStopLinking' : true }");
+        JsonNode node  = jsonNodeForTest("{ 'staticParkAndRide' : true }");
 
         BuildConfig subject = new BuildConfig(node, "Test", false);
 
         // Then
-        assertTrue(subject.parentStopLinking);
+        assertTrue(subject.staticParkAndRide);
     }
 }

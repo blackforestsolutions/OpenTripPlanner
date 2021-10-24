@@ -3,19 +3,12 @@ package org.opentripplanner.openstreetmap.model;
 import gnu.trove.list.TLongList;
 import gnu.trove.list.array.TLongArrayList;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class OSMWay extends OSMWithTags {
 
     private TLongList nodes = new TLongArrayList();
 
     public void addNodeRef(OSMNodeRef nodeRef) {
         nodes.add(nodeRef.getRef());
-    }
-
-    public void addNodeRef(long nodeRef) {
-        nodes.add(nodeRef);
     }
 
     public void addNodeRef(long nodeRef, int index) {

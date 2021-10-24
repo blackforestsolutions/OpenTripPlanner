@@ -13,7 +13,6 @@ import org.opentripplanner.standalone.server.GrizzlyServer;
 import org.opentripplanner.standalone.server.Router;
 import org.opentripplanner.util.OtpAppException;
 import org.opentripplanner.util.ThrowableUtils;
-import org.opentripplanner.visualizer.GraphVisualizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -147,12 +146,6 @@ public class OTPMain {
 
         Router router = new Router(graph, app.config().routerConfig());
         router.startup();
-
-        /* Start visualizer if requested. */
-        if (params.visualize) {
-            router.graphVisualizer = new GraphVisualizer(router);
-            router.graphVisualizer.run();
-        }
 
         /* Start web server if requested. */
         // We could start the server first so it can report build/load progress to a load balancer.

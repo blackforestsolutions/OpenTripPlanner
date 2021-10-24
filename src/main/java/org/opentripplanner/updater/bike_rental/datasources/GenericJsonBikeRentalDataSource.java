@@ -170,10 +170,6 @@ abstract class GenericJsonBikeRentalDataSource implements BikeRentalDataSource {
     public synchronized List<BikeRentalStation> getStations() {
         return stations;
     }
-
-    public String getUrl() {
-        return url;
-    }
     
     public void setUrl(String url) {
     	this.url = url;

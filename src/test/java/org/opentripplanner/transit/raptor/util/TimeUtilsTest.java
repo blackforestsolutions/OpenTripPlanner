@@ -49,7 +49,6 @@ public class TimeUtilsTest {
         assertEquals("00:00:09", TimeUtils.timeToStrLong(T_00_00_09));
         assertEquals("13:33:57", TimeUtils.timeToStrLong(T_13_33_57, NOT_SET));
         assertEquals("", TimeUtils.timeToStrLong(NOT_SET, NOT_SET));
-        assertEquals("09:36:07", TimeUtils.timeToStrLong(CAL));
         assertEquals("-13:33:57", TimeUtils.timeToStrLong(-T_13_33_57));
         assertEquals("-00:00:09", TimeUtils.timeToStrLong(-T_00_00_09));
     }
@@ -100,18 +99,6 @@ public class TimeUtilsTest {
         finally {
             Locale.setDefault(defaultLocale);
         }
-    }
-
-    @Test
-    public void midnightOf() {
-        // When
-        Calendar midnight = TimeUtils.midnightOf(CAL);
-
-        // Then
-        assertEquals(0, midnight.get(Calendar.HOUR_OF_DAY));
-        assertEquals(0, midnight.get(Calendar.MINUTE));
-        assertEquals(0, midnight.get(Calendar.SECOND));
-        assertEquals(0, midnight.get(Calendar.MILLISECOND));
     }
 
     private static int time(int hour, int min, int sec) {

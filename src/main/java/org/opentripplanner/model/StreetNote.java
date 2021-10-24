@@ -17,6 +17,10 @@ public class StreetNote implements Serializable {
     this.note = note;
   }
 
+  /**
+   * FOR TESTING
+   * @param note
+   */
   public StreetNote(String note) {
     this.note = new NonLocalizedString(note);
   }

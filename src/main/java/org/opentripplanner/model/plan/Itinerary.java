@@ -9,7 +9,6 @@ import org.opentripplanner.transit.raptor.util.PathStringBuilder;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -136,29 +135,6 @@ public class Itinerary {
         return lastLeg().endTime;
     }
 
-
-    /**
-     * This is the amount of time used to travel. {@code waitingTime} is NOT
-     * included.
-     */
-    public int effectiveDurationSeconds() {
-        return transitTimeSeconds + nonTransitTimeSeconds;
-    }
-
-    /**
-     * Total distance in meters.
-     */
-    public double distanceMeters() {
-        return legs.stream().mapToDouble(it -> it.distanceMeters).sum();
-    }
-
-    /**
-     * Return {@code true} if all legs are WALKING.
-     */
-    public boolean isWalkingAllTheWay() {
-        return walkOnly;
-    }
-
     /**
      * Return {@code true} if all legs are WALKING.
      */
@@ -177,11 +153,6 @@ public class Itinerary {
 
     public Leg lastLeg() {
         return legs.get(legs.size()-1);
-    }
-
-    /** Get the first transit leg if one exist */
-    public Optional<Leg> firstTransitLeg() {
-        return legs.stream().filter(Leg::isTransitLeg).findFirst();
     }
 
     /**

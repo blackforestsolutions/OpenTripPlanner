@@ -4,7 +4,6 @@ import org.opentripplanner.util.model.EncodedPolylineBean;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
 
  /**
  * One leg of a trip -- that is, a temporally continuous piece of the journey that takes place on a
@@ -194,21 +193,4 @@ public class ApiLeg {
     public String alightRule;
 
     public Boolean rentedBike;
-
-    /**
-     * The leg's duration in seconds
-     */
-    public double getDuration() {
-        return endTime.getTimeInMillis()/1000.0 - startTime.getTimeInMillis()/1000.0;
-    }
-
-    public void setTimeZone(TimeZone timeZone) {
-        Calendar calendar = Calendar.getInstance(timeZone);
-        calendar.setTime(startTime.getTime());
-        startTime = calendar;
-        calendar = Calendar.getInstance(timeZone);
-        calendar.setTime(endTime.getTime());
-        endTime = calendar;
-        agencyTimeZoneOffset = timeZone.getOffset(startTime.getTimeInMillis());
-    }
  }

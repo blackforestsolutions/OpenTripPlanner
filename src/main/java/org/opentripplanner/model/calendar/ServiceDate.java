@@ -188,6 +188,7 @@ public final class ServiceDate implements Serializable, Comparable<ServiceDate> 
     }
 
     /**
+     * FOR TESTING
      * @return a string in "YYYYMMDD" format
      */
     public String asCompactString() {
@@ -202,7 +203,7 @@ public final class ServiceDate implements Serializable, Comparable<ServiceDate> 
     }
 
     /**
-     *
+     * FOR TESTING
      * @return the service date following the current service date
      */
     public ServiceDate next() {
@@ -228,16 +229,6 @@ public final class ServiceDate implements Serializable, Comparable<ServiceDate> 
         Calendar c = getAsCalendar(UTC_TIME_ZONE);
         c.add(Calendar.DAY_OF_YEAR, numberOfDays);
         return new ServiceDate(c);
-    }
-
-    /**
-     * @param serviceDate
-     * @return the number of days between this service date and the specified
-     *         argument service date
-     */
-    public long difference(ServiceDate serviceDate) {
-        return (serviceDate.getAsDate(UTC_TIME_ZONE).getTime() - getAsDate(UTC_TIME_ZONE).getTime())
-                / (24 * 60 * 60 * 1000);
     }
 
     /**

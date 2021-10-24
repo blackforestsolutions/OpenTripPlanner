@@ -8,10 +8,6 @@ public class ElevationPoint implements Comparable<ElevationPoint> {
         this.ele = ele;
     }
 
-    public ElevationPoint fromBack(double length) {
-        return new ElevationPoint(length - distanceAlongShape, ele);
-    }
-
     @Override
     public int compareTo(ElevationPoint arg0) {
         return (int) Math.signum(distanceAlongShape - arg0.distanceAlongShape);

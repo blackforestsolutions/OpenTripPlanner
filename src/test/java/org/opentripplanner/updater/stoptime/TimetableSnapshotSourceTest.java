@@ -13,7 +13,6 @@ import org.opentripplanner.ConstantsForTests;
 import org.opentripplanner.graph_builder.module.geometry.GeometryAndBlockProcessor;
 import org.opentripplanner.gtfs.GtfsContext;
 import org.opentripplanner.model.FeedScopedId;
-import org.opentripplanner.model.Stop;
 import org.opentripplanner.model.Timetable;
 import org.opentripplanner.model.TimetableSnapshot;
 import org.opentripplanner.model.Trip;
@@ -29,7 +28,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
@@ -268,7 +266,7 @@ public class TimetableSnapshotSourceTest {
 
         // THEN
         // Find new pattern in graph starting from stop A
-        Stop stopA = graph.index.getStopForId(new FeedScopedId(feedId, "A"));
+        graph.index.getStopForId(new FeedScopedId(feedId, "A"));
         // Get trip pattern of last (most recently added) outgoing edge
         // FIXME create a new test to see that add-trip realtime updates work
         TripPattern tripPattern = null;
@@ -412,13 +410,11 @@ public class TimetableSnapshotSourceTest {
             final int originalTripIndexScheduled = originalTimetableScheduled.getTripIndex(modifiedTripId);
             assertTrue("Original trip should be found in scheduled time table", originalTripIndexScheduled > -1);
             final TripTimes originalTripTimesScheduled = originalTimetableScheduled.getTripTimes(originalTripIndexScheduled);
-            assertFalse("Original trip times should not be canceled in scheduled time table", originalTripTimesScheduled.isCanceled());
             assertEquals(RealTimeState.SCHEDULED, originalTripTimesScheduled.getRealTimeState());
 
             final int originalTripIndexForToday = originalTimetableForToday.getTripIndex(modifiedTripId);
             assertTrue("Original trip should be found in time table for service date", originalTripIndexForToday > -1);
             final TripTimes originalTripTimesForToday = originalTimetableForToday.getTripTimes(originalTripIndexForToday);
-            assertTrue("Original trip times should be canceled in time table for service date", originalTripTimesForToday.isCanceled());
             assertEquals(RealTimeState.CANCELED, originalTripTimesForToday.getRealTimeState());
         }
 

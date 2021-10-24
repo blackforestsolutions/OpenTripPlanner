@@ -151,17 +151,9 @@ public class ServiceDateTest {
     public void shift() {
         ServiceDate subject = new ServiceDate(2020, 3, 12);
         assertEquals("2020-03-11", subject.previous().asISO8601());
-        assertEquals("2020-03-13", subject.next().asISO8601());
         assertEquals("2020-02-29", subject.shift(-12).asISO8601());
         assertEquals("2020-04-01", subject.shift(20).asISO8601());
         assertEquals("2021-03-12", subject.shift(365).asISO8601());
-    }
-
-    @Test
-    public void asCompactString() {
-        assertEquals("99991231", ServiceDate.MAX_DATE.asCompactString());
-        assertEquals("00000101", ServiceDate.MIN_DATE.asCompactString());
-        assertEquals("20200312", new ServiceDate(2020, 3, 12).asCompactString());
     }
 
     @Test
